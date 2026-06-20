@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAA-C03 Domain 1: Design Resilient Architectures</title>
+  <style>
+    body {
+      font-family: Georgia, serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #1a1a1a;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px 40px;
+    }
+
+    h1 {
+      font-size: 22px;
+      border-bottom: 3px solid #232f3e;
+      padding-bottom: 10px;
+      color: #232f3e;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      font-size: 16px;
+      background-color: #232f3e;
+      color: #ffffff;
+      padding: 6px 12px;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      border-radius: 3px;
+    }
+
+    h3 {
+      font-size: 14px;
+      color: #232f3e;
+      margin-top: 16px;
+      margin-bottom: 6px;
+      border-left: 4px solid #ff9900;
+      padding-left: 8px;
+    }
+
+    h4 {
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 12px;
+      margin-bottom: 4px;
+    }
+
+    ul, ol {
+      padding-left: 20px;
+      margin: 6px 0;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 12px;
+    }
+
+    th {
+      background-color: #232f3e;
+      color: white;
+      padding: 6px 10px;
+      text-align: left;
+    }
+
+    td {
+      padding: 5px 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f7f7f7;
+    }
+
+    .question-block {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-left: 4px solid #ff9900;
+      padding: 14px 16px;
+      margin: 16px 0;
+      border-radius: 3px;
+      page-break-inside: avoid;
+    }
+
+    .question-text {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .options {
+      padding-left: 16px;
+      margin: 8px 0;
+    }
+
+    .options li {
+      margin-bottom: 4px;
+    }
+
+    .answer-label {
+      font-weight: bold;
+      color: #232f3e;
+      margin-top: 12px;
+    }
+
+    .answer-detail {
+      margin-top: 6px;
+      padding-left: 12px;
+      font-size: 12px;
+    }
+
+    .answer-detail li {
+      margin-bottom: 4px;
+    }
+
+    .correct {
+      color: #1a7340;
+      font-weight: bold;
+    }
+
+    .wrong {
+      color: #8b0000;
+    }
+
+    code {
+      background: #f0f0f0;
+      padding: 1px 4px;
+      border-radius: 2px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* Bilingual styles */
+    .zh {
+      display: block;
+      color: #777;
+      font-size: 0.88em;
+      font-style: italic;
+      margin-top: 2px;
+      padding-left: 6px;
+      border-left: 2px solid #ff9900;
+      line-height: 1.5;
+    }
+
+    h1 .zh, h2 .zh, h3 .zh, h4 .zh {
+      font-size: 0.82em;
+      font-weight: normal;
+      font-style: normal;
+      color: #ffcc80;
+      border: none;
+      padding-left: 0;
+      margin-top: 3px;
+    }
+
+    h3 .zh { color: #888; }
+    h4 .zh { color: #888; }
+
+    .subtitle .zh {
+      border: none;
+      padding: 0;
+      font-style: normal;
+      color: #888;
+    }
+
+    td .zh, th .zh {
+      border: none;
+      padding: 0;
+      color: #999;
+      font-style: italic;
+    }
+
+    .question-text .zh {
+      font-weight: normal;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #232f3e;
+      text-decoration: none;
+      font-size: 12px;
+      border: 1px solid #232f3e;
+      padding: 4px 10px;
+      border-radius: 3px;
+    }
+    .back-link:hover { background: #232f3e; color: white; }
+
+    @media print {
+      body { padding: 15px 20px; }
+      h2 { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .question-block { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="back-link" href="index.html">&larr; Back to Index 返回目錄</a>
+
+  <h1>SAA-C03 &mdash; Domain 1: Design Resilient Architectures
+    <span class="zh">領域 1：設計具彈性的架構</span>
+  </h1>
+  <div class="subtitle">AWS Certified Solutions Architect &ndash; Associate &nbsp;|&nbsp; Deep-Dive Study Guide &nbsp;|&nbsp; 26% of Exam
+    <span class="zh">AWS 認證解決方案架構師 – 助理 &nbsp;|&nbsp; 深度學習指南 &nbsp;|&nbsp; 占考試 26%</span>
+  </div>
+
+  <!-- SECTION 1 -->
+  <h2>1. Domain Overview <span class="zh">領域概覽</span></h2>
+  <p>Domain 1 tests your ability to select AWS services and configurations that keep applications running through failures, traffic spikes, and disasters. The exam focuses on <strong>which combination of services achieves a specific resilience requirement</strong> &mdash; not just that HA exists, but knowing when Multi-AZ vs. Multi-Region vs. Auto Scaling is the right tool, and at what cost.</p>
+  <p class="zh">領域 1 測試您選擇 AWS 服務和設定的能力，以確保應用程式在故障、流量激增和災難情況下持續運作。考試重點在於<strong>哪種服務組合能達到特定的彈性需求</strong>——不只是知道高可用性的存在，而是要了解何時應使用多可用區域、多區域或 Auto Scaling，以及各自的成本考量。</p>
+
+  <!-- SECTION 2 -->
+  <h2>2. Key AWS Services <span class="zh">主要 AWS 服務</span></h2>
+
+  <h3>Compute <span class="zh">運算</span></h3>
+
+  <h4>EC2</h4>
+  <ul>
+    <li>Backbone of most resilience architectures on the exam
+      <span class="zh">考試中大多數彈性架構的核心服務</span>
+    </li>
+    <li>Key exam configs: placement groups (Cluster vs. Spread vs. Partition), instance store vs. EBS, and Spot interruption handling
+      <span class="zh">關鍵考試設定：置放群組（叢集 vs. 分散 vs. 分割）、執行個體存放區 vs. EBS，以及 Spot 中斷處理</span>
+    </li>
+    <li>Spread placement group = max <strong>7 instances per AZ</strong> per group &mdash; exam loves this limit
+      <span class="zh">分散置放群組 = 每個群組每個可用區域最多 <strong>7 個執行個體</strong>——考試常考此限制</span>
+    </li>
+  </ul>
+
+  <h4>Auto Scaling Groups (ASG) <span class="zh">Auto Scaling 群組</span></h4>
+  <ul>
+    <li>Automatically replaces unhealthy instances; scales in/out based on policies
+      <span class="zh">自動取代狀況不佳的執行個體；根據政策水平擴展或縮減</span>
+    </li>
+    <li>Use with <strong>ELB health checks</strong> (not just EC2 health checks) to replace instances that fail at the app layer, not just the OS layer
+      <span class="zh">搭配 <strong>ELB 運作狀態檢查</strong>（而非僅 EC2 運作狀態檢查），以取代應用程式層故障的執行個體，而非僅限於作業系統層</span>
+    </li>
+    <li>Key number: default cooldown period = <strong>300 seconds</strong>
+      <span class="zh">關鍵數字：預設冷卻期間 = <strong>300 秒</strong></span>
+    </li>
+  </ul>
+
+  <h4>EC2 Instance Store <span class="zh">EC2 執行個體存放區</span></h4>
+  <ul>
+    <li>Ephemeral &mdash; data lost on stop/terminate/hardware failure
+      <span class="zh">暫時性存放區——執行個體停止、終止或硬體故障時資料將遺失</span>
+    </li>
+    <li>Exam trap: high IOPS workload &rarr; instance store looks right, but if durability is required, it&rsquo;s wrong
+      <span class="zh">考試陷阱：高 IOPS 工作負載 → 執行個體存放區看似正確，但若需要持久性則為錯誤答案</span>
+    </li>
+  </ul>
+
+  <h3>Load Balancing <span class="zh">負載平衡</span></h3>
+
+  <h4>Application Load Balancer (ALB) <span class="zh">應用程式負載平衡器</span></h4>
+  <ul>
+    <li>Layer 7; routes by path, host, headers, query strings
+      <span class="zh">第 7 層；依路徑、主機、標頭、查詢字串路由</span>
+    </li>
+    <li>Use for HTTP/HTTPS microservices, containerized apps, WebSocket
+      <span class="zh">適用於 HTTP/HTTPS 微服務、容器化應用程式、WebSocket</span>
+    </li>
+  </ul>
+
+  <h4>Network Load Balancer (NLB) <span class="zh">網路負載平衡器</span></h4>
+  <ul>
+    <li>Layer 4; ultra-low latency, handles millions of requests/second
+      <span class="zh">第 4 層；超低延遲，可處理每秒數百萬個請求</span>
+    </li>
+    <li>Use when: static IP required, TCP/UDP traffic, extreme performance needed
+      <span class="zh">適用場景：需要靜態 IP、TCP/UDP 流量、需要極高效能</span>
+    </li>
+    <li>Only ELB type that supports Elastic IP assignment
+      <span class="zh">唯一支援彈性 IP 指派的 ELB 類型</span>
+    </li>
+  </ul>
+
+  <h4>Gateway Load Balancer (GWLB) <span class="zh">閘道負載平衡器</span></h4>
+  <ul>
+    <li>Used specifically for inline network appliances (firewalls, IDS/IPS)
+      <span class="zh">專門用於串聯式網路設備（防火牆、入侵偵測/防護系統）</span>
+    </li>
+    <li>Exam: &ldquo;third-party virtual appliance&rdquo; &rarr; GWLB, not ALB/NLB
+      <span class="zh">考試：「第三方虛擬設備」→ GWLB，非 ALB/NLB</span>
+    </li>
+  </ul>
+
+  <h4>Classic Load Balancer <span class="zh">傳統負載平衡器</span></h4>
+  <ul>
+    <li>Legacy &mdash; only appears on exam when the answer is &ldquo;migrate away from it&rdquo;
+      <span class="zh">舊版——考試中只有在答案是「遷移離開」時才會出現</span>
+    </li>
+  </ul>
+
+  <h3>Database Resilience <span class="zh">資料庫彈性</span></h3>
+
+  <h4>RDS Multi-AZ <span class="zh">RDS 多可用區域</span></h4>
+  <ul>
+    <li>Synchronous replication to standby in another AZ
+      <span class="zh">同步複寫至另一個可用區域的備用執行個體</span>
+    </li>
+    <li>Standby is <strong>NOT readable</strong> &mdash; it&rsquo;s only for failover
+      <span class="zh">備用執行個體<strong>無法讀取</strong>——僅用於容錯移轉</span>
+    </li>
+    <li>Failover takes 1&ndash;2 minutes; DNS endpoint automatically redirects
+      <span class="zh">容錯移轉需要 1–2 分鐘；DNS 端點自動重新導向</span>
+    </li>
+    <li>Exam trap: &ldquo;read performance&rdquo; &rarr; Multi-AZ is wrong, Read Replica is right
+      <span class="zh">考試陷阱：「讀取效能」→ 多可用區域為錯誤，唯讀複本才正確</span>
+    </li>
+  </ul>
+
+  <h4>RDS Read Replicas <span class="zh">RDS 唯讀複本</span></h4>
+  <ul>
+    <li>Asynchronous replication; replicas ARE readable
+      <span class="zh">非同步複寫；複本可供讀取</span>
+    </li>
+    <li>Can be promoted to standalone DB (used in DR scenarios)
+      <span class="zh">可升級為獨立資料庫（用於災難復原場景）</span>
+    </li>
+    <li>Can be in a different region (cross-region read replica)
+      <span class="zh">可位於不同區域（跨區域唯讀複本）</span>
+    </li>
+  </ul>
+
+  <h4>Aurora</h4>
+  <ul>
+    <li>6 copies of data across 3 AZs automatically
+      <span class="zh">自動在 3 個可用區域儲存 6 份資料副本</span>
+    </li>
+    <li>Up to 15 read replicas; failover to replica in ~30 seconds (vs. RDS ~60&ndash;120s)
+      <span class="zh">最多 15 個唯讀複本；容錯移轉至複本約需 30 秒（相較 RDS 約 60–120 秒）</span>
+    </li>
+    <li>Aurora Global Database: replication to secondary region in &lt;1 second; RPO ~1s, RTO &lt;1 min
+      <span class="zh">Aurora 全球資料庫：複寫至次要區域時間 &lt;1 秒；RPO 約 1 秒，RTO &lt;1 分鐘</span>
+    </li>
+    <li>Exam: &ldquo;fastest RDS failover&rdquo; &rarr; Aurora; &ldquo;global low-latency reads&rdquo; &rarr; Aurora Global
+      <span class="zh">考試：「最快 RDS 容錯移轉」→ Aurora；「全球低延遲讀取」→ Aurora 全球資料庫</span>
+    </li>
+  </ul>
+
+  <h4>DynamoDB</h4>
+  <ul>
+    <li>Multi-AZ by default (within a region)
+      <span class="zh">預設多可用區域（在單一區域內）</span>
+    </li>
+    <li>Global Tables: multi-region, multi-active replication (active-active, not active-passive)
+      <span class="zh">全球資料表：多區域、多主動複寫（主動-主動，非主動-被動）</span>
+    </li>
+    <li>On-demand mode = resilience against unpredictable traffic spikes without capacity planning
+      <span class="zh">隨需模式 = 無需容量規劃，即可因應無法預測的流量激增</span>
+    </li>
+  </ul>
+
+  <h3>Storage <span class="zh">儲存</span></h3>
+
+  <h4>S3</h4>
+  <ul>
+    <li>11 nines durability, replicated across minimum 3 AZs (except S3 One Zone-IA)
+      <span class="zh">11 個 9 的持久性，至少跨 3 個可用區域複寫（S3 單一可用區域-IA 除外）</span>
+    </li>
+    <li>Versioning + MFA Delete = protection against accidental deletion
+      <span class="zh">版本控制 + MFA 刪除 = 防止意外刪除的保護措施</span>
+    </li>
+    <li>Cross-Region Replication (CRR): requires versioning enabled on both buckets; does <strong>NOT</strong> retroactively replicate existing objects
+      <span class="zh">跨區域複寫（CRR）：需在兩個儲存貯體啟用版本控制；<strong>不會</strong>追溯複寫現有物件</span>
+    </li>
+    <li>S3 One Zone-IA: exam trap &mdash; &ldquo;cost-optimize infrequently accessed data&rdquo; &rarr; S3-IA; &ldquo;can tolerate AZ loss&rdquo; is required for One Zone-IA
+      <span class="zh">S3 單一可用區域-IA：考試陷阱——「成本最佳化不常存取的資料」→ S3-IA；選用單一可用區域-IA 的前提是「可承受可用區域損失」</span>
+    </li>
+  </ul>
+
+  <h4>EBS <span class="zh">彈性區塊存放區</span></h4>
+  <ul>
+    <li>Tied to a single AZ &mdash; cannot directly attach to an instance in another AZ
+      <span class="zh">繫結至單一可用區域——無法直接連接至另一個可用區域的執行個體</span>
+    </li>
+    <li>Snapshots go to S3 (durable, cross-AZ); can be copied cross-region
+      <span class="zh">快照儲存至 S3（持久、跨可用區域）；可跨區域複製</span>
+    </li>
+    <li>io2 Block Express: highest durability (99.999%) and IOPS
+      <span class="zh">io2 Block Express：最高持久性（99.999%）和 IOPS</span>
+    </li>
+  </ul>
+
+  <h4>EFS <span class="zh">彈性檔案系統</span></h4>
+  <ul>
+    <li>Multi-AZ by default (Regional); automatically accessible from multiple AZs
+      <span class="zh">預設多可用區域（區域性）；可從多個可用區域自動存取</span>
+    </li>
+    <li>EFS One Zone: single AZ, cheaper, less resilient &mdash; exam trap for cost questions
+      <span class="zh">EFS 單一可用區域：單一可用區域、成本較低、彈性較差——成本問題的考試陷阱</span>
+    </li>
+  </ul>
+
+  <h3>Networking <span class="zh">網路</span></h3>
+
+  <h4>Elastic IP (EIP) <span class="zh">彈性 IP</span></h4>
+  <ul>
+    <li>Static public IP that can be remapped to another instance during failover
+      <span class="zh">可在容錯移轉期間重新對應至另一個執行個體的靜態公有 IP</span>
+    </li>
+    <li>Exam: manual failover pattern = EIP reassignment; automated = Route 53 health checks
+      <span class="zh">考試：手動容錯移轉模式 = EIP 重新指派；自動化 = Route 53 運作狀態檢查</span>
+    </li>
+  </ul>
+
+  <h4>Route 53</h4>
+  <ul>
+    <li><strong>Failover</strong>: active-passive; routes to secondary when primary health check fails
+      <span class="zh"><strong>容錯移轉</strong>：主動-被動；當主要端點運作狀態檢查失敗時路由至次要端點</span>
+    </li>
+    <li><strong>Latency</strong>: routes to lowest-latency region
+      <span class="zh"><strong>延遲</strong>：路由至延遲最低的區域</span>
+    </li>
+    <li><strong>Weighted</strong>: gradual traffic shifting (used in blue/green deployments)
+      <span class="zh"><strong>加權</strong>：漸進式流量轉移（用於藍/綠部署）</span>
+    </li>
+    <li><strong>Multivalue Answer</strong>: returns multiple healthy IPs (client-side load balancing &mdash; NOT a replacement for ELB)
+      <span class="zh"><strong>多值答案</strong>：傳回多個健康 IP（用戶端負載平衡——非 ELB 的替代方案）</span>
+    </li>
+    <li>Health checks can monitor endpoints, other health checks (calculated), and CloudWatch alarms
+      <span class="zh">運作狀態檢查可監控端點、其他運作狀態檢查（計算型）及 CloudWatch 警示</span>
+    </li>
+  </ul>
+
+  <h4>VPC <span class="zh">虛擬私有雲端</span></h4>
+  <ul>
+    <li>Subnets are AZ-scoped &mdash; always deploy across at least 2 AZs for HA
+      <span class="zh">子網路限定於可用區域——高可用性需跨至少 2 個可用區域部署</span>
+    </li>
+    <li>Internet Gateway is itself HA (AWS-managed)
+      <span class="zh">網際網路閘道本身具有高可用性（由 AWS 管理）</span>
+    </li>
+  </ul>
+
+  <!-- SECTION 3 -->
+  <div class="page-break"></div>
+  <h2>3. Architecture Patterns <span class="zh">架構模式</span></h2>
+
+  <h3>Pattern 1: Multi-AZ Web Application (Classic HA)
+    <span class="zh">模式 1：多可用區域 Web 應用程式（傳統高可用性）</span>
+  </h3>
+  <p><strong>Services:</strong> Route 53 &rarr; ALB &rarr; ASG (EC2 across 2+ AZs) &rarr; RDS Multi-AZ</p>
+  <p class="zh"><strong>服務：</strong>Route 53 → ALB（應用程式負載平衡器）→ ASG（跨 2 個以上可用區域的 EC2）→ RDS 多可用區域</p>
+  <p><strong>Why it works:</strong> ALB distributes across AZs; ASG replaces failed instances; RDS Multi-AZ handles DB failover automatically.</p>
+  <p class="zh"><strong>為何有效：</strong>ALB 跨可用區域分配流量；ASG 取代故障執行個體；RDS 多可用區域自動處理資料庫容錯移轉。</p>
+  <p><strong>Exam signal:</strong> &ldquo;highly available&rdquo;, &ldquo;survive AZ failure&rdquo;, &ldquo;no single point of failure&rdquo; &rarr; this pattern.</p>
+  <p class="zh"><strong>考試信號：</strong>「高可用性」、「承受可用區域故障」、「無單點故障」→ 此架構模式。</p>
+
+  <h3>Pattern 2: Multi-Region Active-Passive DR
+    <span class="zh">模式 2：多區域主動-被動災難復原</span>
+  </h3>
+  <p><strong>Services:</strong> Route 53 Failover routing &rarr; Primary Region + Secondary Region</p>
+  <p class="zh"><strong>服務：</strong>Route 53 容錯移轉路由 → 主要區域 + 次要區域</p>
+  <table>
+    <tr>
+      <th>Strategy <span class="zh">策略</span></th>
+      <th>RTO</th>
+      <th>RPO</th>
+      <th>Cost <span class="zh">成本</span></th>
+    </tr>
+    <tr>
+      <td>Backup &amp; Restore <span class="zh">備份與還原</span></td>
+      <td>Hours <span class="zh">數小時</span></td>
+      <td>Hours <span class="zh">數小時</span></td>
+      <td>Lowest <span class="zh">最低</span></td>
+    </tr>
+    <tr>
+      <td>Pilot Light <span class="zh">引燃</span></td>
+      <td>10s of minutes <span class="zh">數十分鐘</span></td>
+      <td>Minutes <span class="zh">數分鐘</span></td>
+      <td>Low <span class="zh">低</span></td>
+    </tr>
+    <tr>
+      <td>Warm Standby <span class="zh">暖備援</span></td>
+      <td>Minutes <span class="zh">數分鐘</span></td>
+      <td>Seconds&ndash;minutes <span class="zh">數秒至數分鐘</span></td>
+      <td>Medium <span class="zh">中等</span></td>
+    </tr>
+    <tr>
+      <td>Multi-site Active-Active <span class="zh">多站台主動-主動</span></td>
+      <td>Near-zero <span class="zh">接近零</span></td>
+      <td>Near-zero <span class="zh">接近零</span></td>
+      <td>Highest <span class="zh">最高</span></td>
+    </tr>
+  </table>
+
+  <h3>Pattern 3: Decoupled Architecture with SQS
+    <span class="zh">模式 3：使用 SQS 的解耦架構</span>
+  </h3>
+  <p><strong>Services:</strong> Producer &rarr; SQS &rarr; Consumer ASG</p>
+  <p class="zh"><strong>服務：</strong>生產者 → SQS（簡單佇列服務）→ 消費者 ASG</p>
+  <p><strong>Why it works:</strong> Queue absorbs traffic spikes; consumers scale independently; if consumers fail, messages stay in queue (not lost).</p>
+  <p class="zh"><strong>為何有效：</strong>佇列吸收流量激增；消費者獨立擴展；消費者故障時，訊息保留在佇列中（不遺失）。</p>
+  <p><strong>Exam signal:</strong> &ldquo;component failure should not cause data loss&rdquo;, &ldquo;spiky workload&rdquo;, &ldquo;decouple producer from consumer&rdquo; &rarr; SQS.</p>
+  <p class="zh"><strong>考試信號：</strong>「元件故障不應導致資料遺失」、「尖峰工作負載」、「解耦生產者與消費者」→ SQS。</p>
+  <ul>
+    <li>Standard queue: at-least-once delivery, best-effort ordering
+      <span class="zh">標準佇列：至少一次交付、盡力排序</span>
+    </li>
+    <li>FIFO queue: exactly-once processing, strict ordering, 3,000 msg/s with batching
+      <span class="zh">FIFO 佇列：恰好一次處理、嚴格排序，批次處理可達 3,000 則訊息/秒</span>
+    </li>
+    <li>Visibility timeout default: 30 seconds &nbsp;|&nbsp; Max retention: 14 days
+      <span class="zh">可見性逾時預設值：30 秒 | 最長保留期間：14 天</span>
+    </li>
+  </ul>
+
+  <h3>Pattern 4: S3 Static Site with CloudFront
+    <span class="zh">模式 4：搭配 CloudFront 的 S3 靜態網站</span>
+  </h3>
+  <p><strong>Services:</strong> S3 (static hosting) + CloudFront + Route 53</p>
+  <p class="zh"><strong>服務：</strong>S3（靜態託管）+ CloudFront + Route 53</p>
+  <p><strong>Exam signal:</strong> &ldquo;highly available static website with lowest operational overhead&rdquo; &rarr; S3 + CloudFront.</p>
+  <p class="zh"><strong>考試信號：</strong>「具最低營運負荷的高可用性靜態網站」→ S3 + CloudFront。</p>
+
+  <h3>Pattern 5: Aurora Global Database for Global Resilience
+    <span class="zh">模式 5：Aurora 全球資料庫提供全球彈性</span>
+  </h3>
+  <p><strong>Services:</strong> Aurora Primary Region &rarr; Aurora Global Database &rarr; Secondary Region(s)</p>
+  <p class="zh"><strong>服務：</strong>Aurora 主要區域 → Aurora 全球資料庫 → 次要區域</p>
+  <p><strong>Exam signal:</strong> &ldquo;global users with low read latency&rdquo; OR &ldquo;RPO of seconds, RTO under 1 minute for cross-region DR&rdquo; &rarr; Aurora Global.</p>
+  <p class="zh"><strong>考試信號：</strong>「全球使用者需要低讀取延遲」或「跨區域 DR 的 RPO 為秒級、RTO 在 1 分鐘內」→ Aurora 全球資料庫。</p>
+
+  <!-- SECTION 4 -->
+  <h2>4. Service Comparisons <span class="zh">服務比較</span></h2>
+
+  <h4>RDS Multi-AZ vs. RDS Read Replica
+    <span class="zh">RDS 多可用區域 vs. RDS 唯讀複本</span>
+  </h4>
+  <ul>
+    <li>Multi-AZ = automatic failover, standby not readable
+      <span class="zh">多可用區域 = 自動容錯移轉，備用執行個體無法讀取</span>
+    </li>
+    <li>Read Replica = improves read performance, manual failover to standalone
+      <span class="zh">唯讀複本 = 提升讀取效能，手動容錯移轉至獨立執行個體</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;high availability&rdquo; &rarr; Multi-AZ; &ldquo;read performance&rdquo; &rarr; Read Replica; both needed &rarr; use both
+      <span class="zh"><strong>考試規則：</strong>「高可用性」→ 多可用區域；「讀取效能」→ 唯讀複本；兩者皆需 → 同時使用</span>
+    </li>
+  </ul>
+
+  <h4>SQS Standard vs. FIFO
+    <span class="zh">SQS 標準佇列 vs. FIFO 佇列</span>
+  </h4>
+  <ul>
+    <li>Standard = higher throughput, possible duplicates, no order guarantee
+      <span class="zh">標準 = 更高輸送量、可能重複、無順序保證</span>
+    </li>
+    <li>FIFO = ordered, exactly-once, lower throughput (3,000/s with batching)
+      <span class="zh">FIFO = 有序、恰好一次、較低輸送量（批次處理 3,000/秒）</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;order matters&rdquo; or &ldquo;exactly once&rdquo; &rarr; FIFO; otherwise Standard
+      <span class="zh"><strong>考試規則：</strong>「順序重要」或「恰好一次」→ FIFO；否則使用標準</span>
+    </li>
+  </ul>
+
+  <h4>ALB vs. NLB</h4>
+  <ul>
+    <li>ALB = Layer 7, content-based routing, flexible
+      <span class="zh">ALB = 第 7 層、內容型路由、彈性高</span>
+    </li>
+    <li>NLB = Layer 4, static IP, extreme performance
+      <span class="zh">NLB = 第 4 層、靜態 IP、極高效能</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;static IP required&rdquo; or &ldquo;millions of requests/second&rdquo; &rarr; NLB; HTTP traffic &rarr; ALB
+      <span class="zh"><strong>考試規則：</strong>「需要靜態 IP」或「每秒數百萬個請求」→ NLB；HTTP 流量 → ALB</span>
+    </li>
+  </ul>
+
+  <h4>S3 Standard vs. S3 One Zone-IA
+    <span class="zh">S3 標準 vs. S3 單一可用區域-IA</span>
+  </h4>
+  <ul>
+    <li>Standard = 3+ AZ replication, full durability
+      <span class="zh">標準 = 跨 3 個以上可用區域複寫、完整持久性</span>
+    </li>
+    <li>One Zone-IA = single AZ, 20% cheaper, data lost if AZ fails
+      <span class="zh">單一可用區域-IA = 單一可用區域、便宜 20%、可用區域故障時資料遺失</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;reproducible data&rdquo; &rarr; One Zone-IA acceptable; &ldquo;cannot be recreated&rdquo; &rarr; never One Zone-IA
+      <span class="zh"><strong>考試規則：</strong>「可重新產生的資料」→ 單一可用區域-IA 可接受；「無法重新建立」→ 絕不使用單一可用區域-IA</span>
+    </li>
+  </ul>
+
+  <h4>Aurora vs. RDS</h4>
+  <ul>
+    <li>Aurora = faster failover (~30s), more replicas (15), Global Database option
+      <span class="zh">Aurora = 更快容錯移轉（約 30 秒）、更多複本（15 個）、全球資料庫選項</span>
+    </li>
+    <li>RDS = broader engine support (Oracle, SQL Server)
+      <span class="zh">RDS = 更廣泛的資料庫引擎支援（Oracle、SQL Server）</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;fastest failover&rdquo; or &ldquo;cross-region low RPO&rdquo; &rarr; Aurora; &ldquo;Oracle/SQL Server&rdquo; &rarr; RDS
+      <span class="zh"><strong>考試規則：</strong>「最快容錯移轉」或「跨區域低 RPO」→ Aurora；「Oracle/SQL Server」→ RDS</span>
+    </li>
+  </ul>
+
+  <h4>Route 53 Failover vs. Multivalue Answer
+    <span class="zh">Route 53 容錯移轉 vs. 多值答案</span>
+  </h4>
+  <ul>
+    <li>Failover = active-passive, requires health checks, clean DR pattern
+      <span class="zh">容錯移轉 = 主動-被動、需要運作狀態檢查、乾淨的 DR 模式</span>
+    </li>
+    <li>Multivalue = returns up to 8 healthy IPs; NOT a load balancer replacement
+      <span class="zh">多值答案 = 最多傳回 8 個健康 IP；非負載平衡器的替代方案</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;active-passive failover&rdquo; &rarr; Failover routing; don&rsquo;t confuse Multivalue with ELB
+      <span class="zh"><strong>考試規則：</strong>「主動-被動容錯移轉」→ 容錯移轉路由；勿將多值答案與 ELB 混淆</span>
+    </li>
+  </ul>
+
+  <!-- SECTION 5 -->
+  <div class="page-break"></div>
+  <h2>5. Exam Traps &amp; Gotchas <span class="zh">考試陷阱與注意事項</span></h2>
+  <ol>
+    <li><strong>RDS Multi-AZ standby is not a read replica.</strong> Multi-AZ alone doesn&rsquo;t help with read scaling. You need read replicas too.
+      <span class="zh"><strong>RDS 多可用區域備用執行個體不是唯讀複本。</strong>單獨使用多可用區域對讀取擴展無幫助，還需要唯讀複本。</span>
+    </li>
+    <li><strong>EBS snapshots don&rsquo;t move EBS volumes cross-AZ.</strong> Create a snapshot, then create a new volume in the target AZ. EBS itself stays AZ-locked.
+      <span class="zh"><strong>EBS 快照不會跨可用區域移動 EBS 磁碟區。</strong>需建立快照，再於目標可用區域建立新磁碟區。EBS 本身仍鎖定於可用區域。</span>
+    </li>
+    <li><strong>S3 CRR does not replicate existing objects.</strong> Only objects created after replication is enabled. For existing objects &rarr; S3 Batch Replication.
+      <span class="zh"><strong>S3 CRR 不複寫現有物件。</strong>僅複寫啟用複寫後建立的物件。現有物件需使用 S3 批次複寫。</span>
+    </li>
+    <li><strong>EC2 health checks vs. ELB health checks in ASG.</strong> Default EC2 health checks only replace terminated/stopped instances. If the app crashes but the instance stays running, configure ELB health checks.
+      <span class="zh"><strong>ASG 中的 EC2 運作狀態檢查 vs. ELB 運作狀態檢查。</strong>預設 EC2 運作狀態檢查僅取代已終止/停止的執行個體。若應用程式當機但執行個體仍在運作，需設定 ELB 運作狀態檢查。</span>
+    </li>
+    <li><strong>Spot Instances and resilience.</strong> Spot is interruptible. &ldquo;Cost-optimize a fault-tolerant batch job&rdquo; &rarr; Spot is fine. &ldquo;Never go down&rdquo; &rarr; never pure Spot.
+      <span class="zh"><strong>Spot 執行個體與彈性。</strong>Spot 可被中斷。「成本最佳化容錯批次作業」→ 適合 Spot。「永不停機」→ 絕不使用純 Spot。</span>
+    </li>
+    <li><strong>Route 53 Multivalue is not a load balancer.</strong> Returns multiple IPs; client chooses randomly. No awareness of server load.
+      <span class="zh"><strong>Route 53 多值答案不是負載平衡器。</strong>傳回多個 IP；用戶端隨機選擇。不感知伺服器負載。</span>
+    </li>
+    <li><strong>Aurora Serverless v1 vs. v2.</strong> v1 has cold start latency (scales to zero). v2 scales faster, no cold start. &ldquo;Sporadic traffic&rdquo; &rarr; Serverless v2.
+      <span class="zh"><strong>Aurora Serverless v1 vs. v2。</strong>v1 有冷啟動延遲（可縮減至零）。v2 擴展更快、無冷啟動。「零星流量」→ Serverless v2。</span>
+    </li>
+    <li><strong>EFS One Zone vs. EFS Regional.</strong> EFS Regional is multi-AZ by default. EFS One Zone loses data if the AZ fails &mdash; only use for non-critical data.
+      <span class="zh"><strong>EFS 單一可用區域 vs. EFS 區域性。</strong>EFS 區域性預設為多可用區域。EFS 單一可用區域在可用區域故障時會遺失資料——僅用於非關鍵資料。</span>
+    </li>
+  </ol>
+
+  <!-- SECTION 6 -->
+  <h2>6. Key Numbers to Remember <span class="zh">重要數字記憶</span></h2>
+  <table>
+    <tr>
+      <th>Service / Feature <span class="zh">服務 / 功能</span></th>
+      <th>Value <span class="zh">數值</span></th>
+    </tr>
+    <tr><td>RDS Multi-AZ failover time <span class="zh">RDS 多可用區域容錯移轉時間</span></td><td>1&ndash;2 minutes <span class="zh">1–2 分鐘</span></td></tr>
+    <tr><td>Aurora failover time <span class="zh">Aurora 容錯移轉時間</span></td><td>~30 seconds <span class="zh">約 30 秒</span></td></tr>
+    <tr><td>Aurora Global DB replication lag <span class="zh">Aurora 全球資料庫複寫延遲</span></td><td>&lt;1 second <span class="zh">&lt;1 秒</span></td></tr>
+    <tr><td>Aurora Global DB RTO <span class="zh">Aurora 全球資料庫 RTO</span></td><td>&lt;1 minute <span class="zh">&lt;1 分鐘</span></td></tr>
+    <tr><td>Aurora read replicas (max) <span class="zh">Aurora 唯讀複本（最大數）</span></td><td>15</td></tr>
+    <tr><td>RDS read replicas (max, MySQL/PostgreSQL) <span class="zh">RDS 唯讀複本（最大數）</span></td><td>5</td></tr>
+    <tr><td>S3 durability <span class="zh">S3 持久性</span></td><td>11 nines (99.999999999%)</td></tr>
+    <tr><td>SQS max retention <span class="zh">SQS 最長保留期間</span></td><td>14 days <span class="zh">14 天</span></td></tr>
+    <tr><td>SQS visibility timeout (default) <span class="zh">SQS 可見性逾時（預設）</span></td><td>30 seconds <span class="zh">30 秒</span></td></tr>
+    <tr><td>SQS FIFO throughput (with batching) <span class="zh">SQS FIFO 輸送量（批次）</span></td><td>3,000 msg/s <span class="zh">3,000 則/秒</span></td></tr>
+    <tr><td>ASG default cooldown <span class="zh">ASG 預設冷卻期間</span></td><td>300 seconds <span class="zh">300 秒</span></td></tr>
+    <tr><td>EC2 Spread placement group max per AZ <span class="zh">EC2 分散置放群組每可用區域上限</span></td><td>7 instances <span class="zh">7 個執行個體</span></td></tr>
+    <tr><td>Route 53 Multivalue Answer max IPs returned <span class="zh">Route 53 多值答案最大傳回 IP 數</span></td><td>8</td></tr>
+    <tr><td>EBS io2 durability <span class="zh">EBS io2 持久性</span></td><td>99.999%</td></tr>
+  </table>
+
+  <!-- SECTION 7 -->
+  <div class="page-break"></div>
+  <h2>7. Practice Questions <span class="zh">練習題</span></h2>
+
+  <div class="question-block">
+    <div class="question-text">Question 1 &mdash; A company runs a three-tier web application on EC2. The database tier uses a single RDS MySQL instance. The application must remain available if a database instance fails, and the read workload is increasing as the user base grows. What should a solutions architect recommend?
+      <span class="zh">問題 1——某公司在 EC2 上執行三層 Web 應用程式。資料庫層使用單一 RDS MySQL 執行個體。若資料庫執行個體故障，應用程式必須維持可用，且隨著使用者增加，讀取工作負載也在增加。解決方案架構師應建議什麼？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Enable RDS Multi-AZ and create a read replica in the same AZ
+        <span class="zh">啟用 RDS 多可用區域並在同一可用區域建立唯讀複本</span>
+      </li>
+      <li>Enable RDS Multi-AZ and create one or more read replicas
+        <span class="zh">啟用 RDS 多可用區域並建立一個或多個唯讀複本</span>
+      </li>
+      <li>Create a read replica and configure the application to use it for all queries
+        <span class="zh">建立唯讀複本並設定應用程式對所有查詢使用它</span>
+      </li>
+      <li>Enable automatic backups and increase the RDS instance size
+        <span class="zh">啟用自動備份並增加 RDS 執行個體大小</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
+    <ul class="answer-detail">
+      <li class="correct">B is correct: Multi-AZ provides automatic failover (HA), and read replicas offload read traffic. These solve different problems and are used together.
+        <span class="zh">B 正確：多可用區域提供自動容錯移轉（高可用性），唯讀複本分擔讀取流量。這兩者解決不同問題，應同時使用。</span>
+      </li>
+      <li class="wrong">A is wrong: Creating the read replica in the same AZ defeats the purpose &mdash; it&rsquo;s unavailable if that AZ fails.
+        <span class="zh">A 錯誤：在同一可用區域建立唯讀複本失去意義——該可用區域故障時仍不可用。</span>
+      </li>
+      <li class="wrong">C is wrong: A read replica alone doesn&rsquo;t provide automatic failover. It requires manual promotion.
+        <span class="zh">C 錯誤：單獨使用唯讀複本不提供自動容錯移轉，需要手動升級。</span>
+      </li>
+      <li class="wrong">D is wrong: Automatic backups don&rsquo;t provide HA; scaling up doesn&rsquo;t prevent failure.
+        <span class="zh">D 錯誤：自動備份不提供高可用性；垂直擴展無法防止故障。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 2 &mdash; A company needs to process orders from an e-commerce platform. During peak events, the order rate increases 10x. The processing service takes 30 seconds per order. The company cannot afford to lose any orders, even if the processing service goes down temporarily. What architecture should a solutions architect recommend?
+      <span class="zh">問題 2——某公司需要處理電商平台的訂單。在尖峰活動期間，訂單速率增加 10 倍。處理服務每筆訂單需要 30 秒。即使處理服務暫時停機，公司也無法承受任何訂單遺失。解決方案架構師應建議什麼架構？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Use an ALB to distribute orders to an Auto Scaling Group of processing EC2 instances
+        <span class="zh">使用 ALB 將訂單分配至處理 EC2 執行個體的 Auto Scaling 群組</span>
+      </li>
+      <li>Write orders directly to an RDS database and have the processing service poll the database
+        <span class="zh">將訂單直接寫入 RDS 資料庫，讓處理服務輪詢資料庫</span>
+      </li>
+      <li>Put orders into an SQS queue and have a consumer ASG process them
+        <span class="zh">將訂單放入 SQS 佇列，並讓消費者 ASG 處理</span>
+      </li>
+      <li>Use Kinesis Data Streams to ingest orders and process them in real time
+        <span class="zh">使用 Kinesis Data Streams 擷取訂單並即時處理</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
+    <ul class="answer-detail">
+      <li class="correct">C is correct: SQS decouples ingestion from processing. Messages persist up to 14 days even if consumers fail. ASG scales based on queue depth.
+        <span class="zh">C 正確：SQS 解耦擷取與處理。即使消費者故障，訊息也可保留最多 14 天。ASG 根據佇列深度擴展。</span>
+      </li>
+      <li class="wrong">A is wrong: If processing instances fail, in-flight requests are lost &mdash; no buffer.
+        <span class="zh">A 錯誤：若處理執行個體故障，進行中的請求將遺失——沒有緩衝區。</span>
+      </li>
+      <li class="wrong">B is wrong: Tight coupling, write contention, doesn&rsquo;t buffer spikes cleanly.
+        <span class="zh">B 錯誤：緊耦合、寫入競爭，無法乾淨地緩衝尖峰。</span>
+      </li>
+      <li class="wrong">D is wrong: Kinesis is for real-time streaming/analytics. If consumer is down, data may expire (default 24 hours).
+        <span class="zh">D 錯誤：Kinesis 用於即時串流/分析。消費者停機時，資料可能過期（預設 24 小時）。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 3 &mdash; A company hosts a web application in us-east-1. They want to set up disaster recovery in us-west-2 with an RTO of under 1 minute and an RPO of under 5 seconds. The database is MySQL. What should the solutions architect recommend?
+      <span class="zh">問題 3——某公司在 us-east-1 託管 Web 應用程式。他們想在 us-west-2 建立災難復原，RTO 需在 1 分鐘內，RPO 需在 5 秒內。資料庫為 MySQL。解決方案架構師應建議什麼？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Use RDS MySQL with a cross-region read replica; promote it manually on failover
+        <span class="zh">使用 RDS MySQL 搭配跨區域唯讀複本；容錯移轉時手動升級</span>
+      </li>
+      <li>Use Aurora MySQL with Aurora Global Database; promote the secondary region on failover
+        <span class="zh">使用 Aurora MySQL 搭配 Aurora 全球資料庫；容錯移轉時升級次要區域</span>
+      </li>
+      <li>Use RDS MySQL Multi-AZ; enable automated backups to S3 with cross-region replication
+        <span class="zh">使用 RDS MySQL 多可用區域；啟用自動備份至 S3 並搭配跨區域複寫</span>
+      </li>
+      <li>Use DynamoDB Global Tables with a Lambda-backed read/write API
+        <span class="zh">使用 DynamoDB 全球資料表搭配 Lambda 支援的讀寫 API</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
+    <ul class="answer-detail">
+      <li class="correct">B is correct: Aurora Global Database replicates with &lt;1 second lag (RPO ~1s) and can be promoted in &lt;1 minute. Exactly meets requirements.
+        <span class="zh">B 正確：Aurora 全球資料庫複寫延遲 &lt;1 秒（RPO 約 1 秒），可在 &lt;1 分鐘內升級。完全符合需求。</span>
+      </li>
+      <li class="wrong">A is wrong: RDS cross-region replica uses asynchronous replication with no guaranteed lag. Promotion takes several minutes.
+        <span class="zh">A 錯誤：RDS 跨區域複本使用非同步複寫，無法保證延遲。升級需要數分鐘。</span>
+      </li>
+      <li class="wrong">C is wrong: Multi-AZ operates within a single region only.
+        <span class="zh">C 錯誤：多可用區域僅在單一區域內運作。</span>
+      </li>
+      <li class="wrong">D is wrong: DynamoDB Global Tables is for NoSQL. The database is MySQL &mdash; changing engine is not in scope.
+        <span class="zh">D 錯誤：DynamoDB 全球資料表用於 NoSQL。資料庫為 MySQL——變更資料庫引擎不在範圍內。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 4 &mdash; A solutions architect is designing a static website for a global audience. The site must be highly available, load quickly worldwide, and be resilient to traffic spikes. The company wants minimal operational overhead. Which solution meets these requirements?
+      <span class="zh">問題 4——解決方案架構師正在為全球受眾設計靜態網站。網站必須具有高可用性、在全球快速載入，並能承受流量激增。公司希望將營運負荷降至最低。哪個方案符合這些需求？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Deploy EC2 instances in multiple regions behind Route 53 latency-based routing
+        <span class="zh">在多個區域部署 EC2 執行個體，搭配 Route 53 延遲型路由</span>
+      </li>
+      <li>Host the website on S3 with static website hosting enabled and distribute via CloudFront
+        <span class="zh">在 S3 上啟用靜態網站託管，並透過 CloudFront 分發</span>
+      </li>
+      <li>Use an ALB with an Auto Scaling Group across multiple AZs in a single region
+        <span class="zh">在單一區域的多個可用區域使用 ALB 搭配 Auto Scaling 群組</span>
+      </li>
+      <li>Deploy the website on Elastic Beanstalk with multi-region failover
+        <span class="zh">在 Elastic Beanstalk 上部署網站並搭配多區域容錯移轉</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
+    <ul class="answer-detail">
+      <li class="correct">B is correct: S3 is inherently multi-AZ durable. CloudFront caches at edge locations globally. No servers to manage.
+        <span class="zh">B 正確：S3 本身具有多可用區域持久性。CloudFront 在全球邊緣位置快取。無需管理伺服器。</span>
+      </li>
+      <li class="wrong">A is wrong: EC2 in multiple regions introduces significant operational overhead.
+        <span class="zh">A 錯誤：多個區域的 EC2 引入大量營運負荷。</span>
+      </li>
+      <li class="wrong">C is wrong: Single-region ALB + ASG fails entirely if the region goes down.
+        <span class="zh">C 錯誤：單一區域 ALB + ASG 在區域停機時完全失效。</span>
+      </li>
+      <li class="wrong">D is wrong: Elastic Beanstalk still requires compute management and isn&rsquo;t optimal for static content.
+        <span class="zh">D 錯誤：Elastic Beanstalk 仍需要運算管理，且不適合靜態內容。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 5 &mdash; A company&rsquo;s application uses an Auto Scaling Group behind an ALB. The health check is set to EC2 type. During a recent incident, the application process on an EC2 instance crashed, but the instance remained running. The ALB routed traffic to the crashed instance, causing errors. What should be done to prevent this?
+      <span class="zh">問題 5——某公司的應用程式在 ALB 後方使用 Auto Scaling 群組。運作狀態檢查設定為 EC2 類型。最近一次事故中，EC2 執行個體上的應用程式程序當機，但執行個體仍在運作。ALB 將流量路由至當機的執行個體，導致錯誤。應如何防止此情況？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Enable detailed CloudWatch monitoring on the ASG
+        <span class="zh">在 ASG 上啟用詳細的 CloudWatch 監控</span>
+      </li>
+      <li>Change the ASG health check type to ELB
+        <span class="zh">將 ASG 運作狀態檢查類型變更為 ELB</span>
+      </li>
+      <li>Set the ASG cooldown period to 60 seconds
+        <span class="zh">將 ASG 冷卻期間設定為 60 秒</span>
+      </li>
+      <li>Configure the ALB to use connection draining
+        <span class="zh">設定 ALB 使用連線耗盡</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
+    <ul class="answer-detail">
+      <li class="correct">B is correct: ELB health checks test the application endpoint. When the app crashes but the instance stays up, ELB detects the unhealthy response and the ASG replaces the instance.
+        <span class="zh">B 正確：ELB 運作狀態檢查測試應用程式端點。當應用程式當機但執行個體仍在運作時，ELB 偵測到不健康的回應，ASG 便取代該執行個體。</span>
+      </li>
+      <li class="wrong">A is wrong: CloudWatch monitoring provides metrics visibility but doesn&rsquo;t trigger instance replacement.
+        <span class="zh">A 錯誤：CloudWatch 監控提供指標可見性，但不會觸發執行個體取代。</span>
+      </li>
+      <li class="wrong">C is wrong: Cooldown controls scaling frequency, not health check behavior.
+        <span class="zh">C 錯誤：冷卻控制擴展頻率，而非運作狀態檢查行為。</span>
+      </li>
+      <li class="wrong">D is wrong: Connection draining handles in-flight requests during scale-in, but doesn&rsquo;t detect or remove unhealthy instances.
+        <span class="zh">D 錯誤：連線耗盡處理縮減期間的進行中請求，但不偵測或移除狀況不佳的執行個體。</span>
+      </li>
+    </ul>
+  </div>
+
+</body>
+</html>
