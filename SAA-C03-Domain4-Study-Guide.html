@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAA-C03 Domain 4: Design Cost-Optimized Architectures</title>
+  <style>
+    body { font-family: Georgia, serif; font-size: 13px; line-height: 1.6; color: #1a1a1a; max-width: 900px; margin: 0 auto; padding: 30px 40px; }
+    h1 { font-size: 22px; border-bottom: 3px solid #232f3e; padding-bottom: 10px; color: #232f3e; margin-bottom: 6px; }
+    .subtitle { font-size: 13px; color: #555; margin-bottom: 30px; }
+    h2 { font-size: 16px; background-color: #232f3e; color: #ffffff; padding: 6px 12px; margin-top: 30px; margin-bottom: 10px; border-radius: 3px; }
+    h3 { font-size: 14px; color: #232f3e; margin-top: 16px; margin-bottom: 6px; border-left: 4px solid #ff9900; padding-left: 8px; }
+    h4 { font-size: 13px; font-weight: bold; margin-top: 12px; margin-bottom: 4px; }
+    ul, ol { padding-left: 20px; margin: 6px 0; }
+    li { margin-bottom: 4px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; }
+    th { background-color: #232f3e; color: white; padding: 6px 10px; text-align: left; }
+    td { padding: 5px 10px; border-bottom: 1px solid #ddd; }
+    tr:nth-child(even) td { background-color: #f7f7f7; }
+    .question-block { background: #f9f9f9; border: 1px solid #ddd; border-left: 4px solid #ff9900; padding: 14px 16px; margin: 16px 0; border-radius: 3px; page-break-inside: avoid; }
+    .question-text { font-weight: bold; margin-bottom: 10px; }
+    .options { padding-left: 16px; margin: 8px 0; }
+    .options li { margin-bottom: 4px; }
+    .answer-label { font-weight: bold; color: #232f3e; margin-top: 12px; }
+    .answer-detail { margin-top: 6px; padding-left: 12px; font-size: 12px; }
+    .answer-detail li { margin-bottom: 4px; }
+    .correct { color: #1a7340; font-weight: bold; }
+    .wrong { color: #8b0000; }
+    .page-break { page-break-before: always; }
+    .zh { display: block; color: #777; font-size: 0.88em; font-style: italic; margin-top: 2px; padding-left: 6px; border-left: 2px solid #ff9900; line-height: 1.5; }
+    h1 .zh, h2 .zh { font-size: 0.82em; font-weight: normal; font-style: normal; color: #ffcc80; border: none; padding-left: 0; margin-top: 3px; }
+    h3 .zh, h4 .zh { font-size: 0.82em; font-weight: normal; font-style: normal; color: #888; border: none; padding-left: 0; margin-top: 3px; }
+    .subtitle .zh { border: none; padding: 0; font-style: normal; color: #888; }
+    td .zh, th .zh { border: none; padding: 0; color: #999; font-style: italic; }
+    .question-text .zh { font-weight: normal; color: #666; margin-top: 4px; }
+    .back-link { display: inline-block; margin-bottom: 20px; color: #232f3e; text-decoration: none; font-size: 12px; border: 1px solid #232f3e; padding: 4px 10px; border-radius: 3px; }
+    .back-link:hover { background: #232f3e; color: white; }
+    @media print { body { padding: 15px 20px; } h2 { -webkit-print-color-adjust: exact; print-color-adjust: exact; } th { -webkit-print-color-adjust: exact; print-color-adjust: exact; } .question-block { page-break-inside: avoid; } }
+  </style>
+</head>
+<body>
+
+  <a class="back-link" href="index.html">&larr; Back to Index 返回目錄</a>
+
+  <h1>SAA-C03 &mdash; Domain 4: Design Cost-Optimized Architectures
+    <span class="zh">領域 4：設計成本最佳化架構</span>
+  </h1>
+  <div class="subtitle">AWS Certified Solutions Architect &ndash; Associate &nbsp;|&nbsp; Deep-Dive Study Guide &nbsp;|&nbsp; 20% of Exam
+    <span class="zh">AWS 認證解決方案架構師 – 助理 &nbsp;|&nbsp; 深度學習指南 &nbsp;|&nbsp; 占考試 20%</span>
+  </div>
+
+  <h2>1. Domain Overview <span class="zh">領域概覽</span></h2>
+  <p>Domain 4 tests your ability to identify the most cost-effective AWS services and configurations without sacrificing reliability or performance. The exam focuses on <strong>matching the right pricing model to the workload pattern</strong> &mdash; choosing between Reserved, Spot, and Savings Plans for compute; selecting the correct S3 storage class; eliminating unnecessary data transfer charges; and knowing when serverless is cheaper than always-on infrastructure.</p>
+  <p class="zh">領域 4 測試您在不犧牲可靠性或效能的情況下識別最具成本效益 AWS 服務和設定的能力。考試重點在於<strong>為工作負載模式配對正確的定價模型</strong>——在預留、Spot 和節省方案之間為運算做選擇；選擇正確的 S3 儲存類別；消除不必要的資料傳輸費用；以及了解何時無伺服器比永久運行的基礎設施更便宜。</p>
+
+  <h2>2. Key AWS Services <span class="zh">主要 AWS 服務</span></h2>
+
+  <h3>EC2 Pricing Models <span class="zh">EC2 定價模型</span></h3>
+
+  <h4>On-Demand <span class="zh">隨需</span></h4>
+  <ul>
+    <li>Pay per second (Linux) or per hour (Windows); no commitment; highest unit cost
+      <span class="zh">按秒計費（Linux）或按小時計費（Windows）；無承諾；最高單位成本</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;unpredictable workload that cannot be interrupted&rdquo; &rarr; On-Demand
+      <span class="zh"><strong>考試規則：</strong>「無法預測且不能中斷的工作負載」→ 隨需</span>
+    </li>
+  </ul>
+
+  <h4>Reserved Instances (RI) <span class="zh">預留執行個體</span></h4>
+  <ul>
+    <li>1-year or 3-year commitment; up to 72% discount vs. On-Demand
+      <span class="zh">1 年或 3 年承諾；相較隨需最高 72% 折扣</span>
+    </li>
+    <li><strong>Standard RI:</strong> highest discount; cannot change instance family, OS, or tenancy
+      <span class="zh"><strong>標準預留執行個體：</strong>最高折扣；無法變更執行個體系列、作業系統或租用</span>
+    </li>
+    <li><strong>Convertible RI:</strong> ~54% discount; can exchange for different instance family, OS, or tenancy
+      <span class="zh"><strong>可轉換預留執行個體：</strong>約 54% 折扣；可兌換為不同執行個體系列、作業系統或租用</span>
+    </li>
+    <li>Payment options: All Upfront &gt; Partial Upfront &gt; No Upfront (deeper discount with more upfront)
+      <span class="zh">付款選項：全部預付 &gt; 部分預付 &gt; 不預付（預付越多折扣越深）</span>
+    </li>
+    <li>RIs apply to any matching instance in the account &mdash; not tied to a specific instance ID
+      <span class="zh">預留執行個體套用至帳號中任何相符的執行個體——不繫結至特定執行個體 ID</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;steady-state, predictable 24/7 workload&rdquo; &rarr; Reserved Instances; &ldquo;need flexibility to change instance type&rdquo; &rarr; Convertible RI
+      <span class="zh"><strong>考試規則：</strong>「穩定狀態、可預測的 24/7 工作負載」→ 預留執行個體；「需要彈性變更執行個體類型」→ 可轉換預留執行個體</span>
+    </li>
+  </ul>
+
+  <h4>Savings Plans <span class="zh">節省方案</span></h4>
+  <ul>
+    <li>Commitment to a consistent dollar amount per hour for 1 or 3 years
+      <span class="zh">承諾 1 年或 3 年的一致每小時美元金額</span>
+    </li>
+    <li><strong>Compute Savings Plans:</strong> up to 66% discount; most flexible &mdash; any instance family, size, region, OS, tenancy; also covers Lambda and Fargate
+      <span class="zh"><strong>運算節省方案：</strong>最高 66% 折扣；最彈性——任何執行個體系列、大小、區域、作業系統、租用；也涵蓋 Lambda 和 Fargate</span>
+    </li>
+    <li><strong>EC2 Instance Savings Plans:</strong> up to 72% discount; locked to specific instance family in a specific region; flexible on size/OS within that family
+      <span class="zh"><strong>EC2 執行個體節省方案：</strong>最高 72% 折扣；鎖定特定區域中的特定執行個體系列；在該系列內大小/作業系統具彈性</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;predictable spend, want flexibility across instance types and regions&rdquo; &rarr; Compute Savings Plans; &ldquo;specific instance family locked in&rdquo; &rarr; EC2 Instance Savings Plans or Standard RI
+      <span class="zh"><strong>考試規則：</strong>「可預測支出、希望跨執行個體類型和區域具彈性」→ 運算節省方案；「特定執行個體系列已鎖定」→ EC2 執行個體節省方案或標準預留執行個體</span>
+    </li>
+  </ul>
+
+  <h4>Spot Instances <span class="zh">Spot 執行個體</span></h4>
+  <ul>
+    <li>Bid for spare AWS capacity; up to 90% discount; can be interrupted with <strong>2-minute warning</strong>
+      <span class="zh">競標 AWS 備用容量；最高 90% 折扣；可被中斷並有 <strong>2 分鐘警告</strong></span>
+    </li>
+    <li><strong>Spot Fleets:</strong> mix of Spot + On-Demand; allocation strategies: lowestPrice, diversified, capacityOptimized
+      <span class="zh"><strong>Spot 叢集：</strong>Spot + 隨需的混合；配置策略：最低價格、多樣化、容量最佳化</span>
+    </li>
+    <li>Use for: batch processing, big data, CI/CD, fault-tolerant stateless workloads, ML training
+      <span class="zh">適用於：批次處理、大數據、CI/CD、容錯無狀態工作負載、ML 訓練</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;fault-tolerant, flexible, interruptible workload&rdquo; &rarr; Spot; &ldquo;can&rsquo;t tolerate interruption&rdquo; &rarr; never pure Spot
+      <span class="zh"><strong>考試規則：</strong>「容錯、彈性、可中斷的工作負載」→ Spot；「無法承受中斷」→ 絕不使用純 Spot</span>
+    </li>
+  </ul>
+
+  <h4>Dedicated Hosts <span class="zh">專用主機</span></h4>
+  <ul>
+    <li>Physical EC2 server dedicated to you; control over instance placement
+      <span class="zh">專用於您的實體 EC2 伺服器；控制執行個體置放</span>
+    </li>
+    <li>Use for: BYOL software with per-socket or per-core licensing (SQL Server, Oracle, Windows Server)
+      <span class="zh">適用於：具有按插槽或按核心授權的自帶授權（BYOL）軟體（SQL Server、Oracle、Windows Server）</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;software licensing tied to physical cores/sockets&rdquo; &rarr; Dedicated Host
+      <span class="zh"><strong>考試規則：</strong>「軟體授權與實體核心/插槽掛鉤」→ 專用主機</span>
+    </li>
+  </ul>
+
+  <h4>Dedicated Instances <span class="zh">專用執行個體</span></h4>
+  <ul>
+    <li>Instances on single-tenant hardware; no control over physical placement; cheaper than Dedicated Hosts
+      <span class="zh">在單租戶硬體上的執行個體；無法控制實體置放；比專用主機便宜</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;compliance requiring no shared hardware, no BYOL needed&rdquo; &rarr; Dedicated Instances
+      <span class="zh"><strong>考試規則：</strong>「合規要求無共用硬體、不需要 BYOL」→ 專用執行個體</span>
+    </li>
+  </ul>
+
+  <h3>S3 Storage Classes <span class="zh">S3 儲存類別</span></h3>
+  <table>
+    <tr>
+      <th>Storage Class <span class="zh">儲存類別</span></th>
+      <th>Retrieval Speed <span class="zh">擷取速度</span></th>
+      <th>Min Duration <span class="zh">最短儲存期</span></th>
+      <th>Availability <span class="zh">可用性</span></th>
+      <th>Use Case <span class="zh">使用案例</span></th>
+    </tr>
+    <tr><td>S3 Standard <span class="zh">S3 標準</span></td><td>Milliseconds <span class="zh">毫秒</span></td><td>None <span class="zh">無</span></td><td>99.99%</td><td>Frequently accessed data <span class="zh">頻繁存取資料</span></td></tr>
+    <tr><td>S3 Standard-IA <span class="zh">S3 標準-IA</span></td><td>Milliseconds <span class="zh">毫秒</span></td><td>30 days <span class="zh">30 天</span></td><td>99.9%</td><td>Infrequent access, rapid retrieval <span class="zh">不頻繁存取、快速擷取</span></td></tr>
+    <tr><td>S3 One Zone-IA <span class="zh">S3 單一可用區域-IA</span></td><td>Milliseconds <span class="zh">毫秒</span></td><td>30 days <span class="zh">30 天</span></td><td>99.5%</td><td>Infrequent access, reproducible data <span class="zh">不頻繁存取、可重新產生的資料</span></td></tr>
+    <tr><td>S3 Glacier Instant Retrieval <span class="zh">S3 Glacier 即時擷取</span></td><td>Milliseconds <span class="zh">毫秒</span></td><td>90 days <span class="zh">90 天</span></td><td>99.9%</td><td>Archive with immediate access (quarterly) <span class="zh">立即存取的封存（每季）</span></td></tr>
+    <tr><td>S3 Glacier Flexible Retrieval <span class="zh">S3 Glacier 彈性擷取</span></td><td>Minutes&ndash;hours <span class="zh">數分鐘至數小時</span></td><td>90 days <span class="zh">90 天</span></td><td>99.99%</td><td>Archive, flexible retrieval <span class="zh">封存、彈性擷取</span></td></tr>
+    <tr><td>S3 Glacier Deep Archive <span class="zh">S3 Glacier 深度封存</span></td><td>12&ndash;48 hours <span class="zh">12–48 小時</span></td><td>180 days <span class="zh">180 天</span></td><td>99.99%</td><td>Long-term compliance archive <span class="zh">長期合規封存</span></td></tr>
+    <tr><td>S3 Intelligent-Tiering <span class="zh">S3 智慧型分層</span></td><td>Milliseconds <span class="zh">毫秒</span></td><td>None <span class="zh">無</span></td><td>99.9%</td><td>Unknown or changing access patterns <span class="zh">未知或變動的存取模式</span></td></tr>
+  </table>
+  <ul>
+    <li><strong>Glacier Flexible Retrieval tiers:</strong> Expedited (1&ndash;5 min), Standard (3&ndash;5 hrs), Bulk (5&ndash;12 hrs)
+      <span class="zh"><strong>Glacier 彈性擷取層：</strong>快速（1–5 分鐘）、標準（3–5 小時）、大量（5–12 小時）</span>
+    </li>
+    <li><strong>Glacier Deep Archive:</strong> Standard (12 hrs), Bulk (48 hrs)
+      <span class="zh"><strong>Glacier 深度封存：</strong>標準（12 小時）、大量（48 小時）</span>
+    </li>
+    <li><strong>S3 Intelligent-Tiering:</strong> auto-moves objects between tiers; charges small monitoring fee per object; no retrieval fees; not cost-effective for large numbers of tiny objects (&lt;128 KB)
+      <span class="zh"><strong>S3 智慧型分層：</strong>自動在層之間移動物件；每個物件收取少量監控費用；無擷取費用；對於大量微小物件（&lt;128 KB）不具成本效益</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;unknown access pattern&rdquo; &rarr; Intelligent-Tiering; &ldquo;quarterly access, immediate retrieval&rdquo; &rarr; Glacier Instant Retrieval; &ldquo;7-year compliance archive&rdquo; &rarr; Glacier Deep Archive
+      <span class="zh"><strong>考試規則：</strong>「未知存取模式」→ 智慧型分層；「每季存取、立即擷取」→ Glacier 即時擷取；「7 年合規封存」→ Glacier 深度封存</span>
+    </li>
+  </ul>
+
+  <h4>S3 Lifecycle Policies <span class="zh">S3 生命週期政策</span></h4>
+  <ul>
+    <li><strong>Transition actions:</strong> move objects to cheaper storage class after N days
+      <span class="zh"><strong>轉換動作：</strong>N 天後將物件移至較便宜的儲存類別</span>
+    </li>
+    <li><strong>Expiration actions:</strong> permanently delete objects after N days
+      <span class="zh"><strong>到期動作：</strong>N 天後永久刪除物件</span>
+    </li>
+    <li>Early deletion fees apply: deleting before minimum storage duration still charges the full minimum
+      <span class="zh">提前刪除費用適用：在最短儲存期前刪除仍會收取完整最低費用</span>
+    </li>
+    <li>Classic pattern: Standard (0d) &rarr; Standard-IA (30d) &rarr; Glacier Flexible (90d) &rarr; Deep Archive (180d) &rarr; Delete (365d+)
+      <span class="zh">典型模式：標準（第 0 天）→ 標準-IA（第 30 天）→ Glacier 彈性（第 90 天）→ 深度封存（第 180 天）→ 刪除（第 365 天以上）</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;logs accessed frequently for 30 days, rarely after&rdquo; &rarr; lifecycle: Standard &rarr; Standard-IA at 30d &rarr; Glacier at 90d
+      <span class="zh"><strong>考試規則：</strong>「日誌前 30 天頻繁存取，之後很少」→ 生命週期：標準 → 第 30 天轉換至標準-IA → 第 90 天轉換至 Glacier</span>
+    </li>
+  </ul>
+
+  <h3>Compute Cost Optimization <span class="zh">運算成本最佳化</span></h3>
+
+  <h4>Auto Scaling for Cost <span class="zh">用於成本的 Auto Scaling</span></h4>
+  <ul>
+    <li>Scale in during low-demand to terminate unneeded instances
+      <span class="zh">低需求期間縮減以終止不需要的執行個體</span>
+    </li>
+    <li><strong>Scheduled scaling:</strong> predictable traffic patterns (scale down nights/weekends)
+      <span class="zh"><strong>排程擴展：</strong>可預測的流量模式（夜間/週末縮減）</span>
+    </li>
+    <li><strong>Target tracking:</strong> maintain specific metric (50% CPU) &mdash; scales in when utilization drops
+      <span class="zh"><strong>目標追蹤：</strong>維持特定指標（50% CPU）——使用率下降時縮減</span>
+    </li>
+    <li>Mixed instance policies: combine On-Demand base capacity with Spot for cost savings
+      <span class="zh">混合執行個體政策：結合隨需基礎容量和 Spot 以節省成本</span>
+    </li>
+  </ul>
+
+  <h4>Lambda (Serverless) <span class="zh">Lambda（無伺服器）</span></h4>
+  <ul>
+    <li>Pay per invocation ($0.20/million) and duration (per GB-second); zero cost when idle
+      <span class="zh">按叫用計費（$0.20/百萬次）和持續時間（每 GB 秒）；閒置時零成本</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;workload runs infrequently or in short bursts&rdquo; &rarr; Lambda often cheaper than 24/7 EC2
+      <span class="zh"><strong>考試規則：</strong>「工作負載不頻繁執行或短暫爆量」→ Lambda 通常比 24/7 EC2 便宜</span>
+    </li>
+  </ul>
+
+  <h4>Fargate</h4>
+  <ul>
+    <li>Pay per vCPU and memory per second; no EC2 to manage or pay for when idle
+      <span class="zh">按每秒 vCPU 和記憶體計費；閒置時無需管理或為 EC2 付費</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;containers with variable demand, minimize operational overhead&rdquo; &rarr; Fargate
+      <span class="zh"><strong>考試規則：</strong>「需求變動的容器、最小化營運負荷」→ Fargate</span>
+    </li>
+  </ul>
+
+  <h4>AWS Compute Optimizer <span class="zh">AWS 運算最佳化器</span></h4>
+  <ul>
+    <li>ML-based rightsizing for EC2, EBS, Lambda, ECS on Fargate; requires 14 days minimum CloudWatch history
+      <span class="zh">EC2、EBS、Lambda、Fargate 上 ECS 的 ML 型資源調整；需要最少 14 天的 CloudWatch 歷程記錄</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;identify over-provisioned EC2 instances with specific recommendations&rdquo; &rarr; Compute Optimizer
+      <span class="zh"><strong>考試規則：</strong>「識別具有特定建議的過度佈建 EC2 執行個體」→ 運算最佳化器</span>
+    </li>
+  </ul>
+
+  <h3>Storage Cost Optimization <span class="zh">儲存成本最佳化</span></h3>
+
+  <h4>EBS <span class="zh">彈性區塊存放區</span></h4>
+  <ul>
+    <li>Delete unattached EBS volumes (volumes persist after instance termination by default)
+      <span class="zh">刪除未連接的 EBS 磁碟區（磁碟區預設在執行個體終止後仍會保留）</span>
+    </li>
+    <li>Switch gp2 &rarr; gp3: ~20% cheaper and higher baseline IOPS
+      <span class="zh">從 gp2 切換至 gp3：便宜約 20%，且基準 IOPS 更高</span>
+    </li>
+    <li>Snapshots are incremental; delete old ones to reduce storage costs
+      <span class="zh">快照是增量的；刪除舊快照以降低儲存成本</span>
+    </li>
+  </ul>
+
+  <h4>EFS <span class="zh">彈性檔案系統</span></h4>
+  <ul>
+    <li>EFS Lifecycle Management: automatically moves infrequently accessed files to EFS IA (~92% cheaper than EFS Standard)
+      <span class="zh">EFS 生命週期管理：自動將不頻繁存取的檔案移至 EFS IA（比 EFS 標準便宜約 92%）</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;shared file system with mixed access patterns&rdquo; &rarr; enable EFS Lifecycle Management
+      <span class="zh"><strong>考試規則：</strong>「具有混合存取模式的共用檔案系統」→ 啟用 EFS 生命週期管理</span>
+    </li>
+  </ul>
+
+  <h3>Database Cost Optimization <span class="zh">資料庫成本最佳化</span></h3>
+
+  <h4>RDS</h4>
+  <ul>
+    <li>Reserved DB Instances: up to 69% discount for steady-state databases (1 or 3 year)
+      <span class="zh">預留資料庫執行個體：穩定狀態資料庫可享最高 69% 折扣（1 年或 3 年）</span>
+    </li>
+    <li>Stop RDS instances during off-hours (dev/test): auto-restarts after 7 days
+      <span class="zh">在非工作時間停止 RDS 執行個體（開發/測試）：7 天後自動重新啟動</span>
+    </li>
+  </ul>
+
+  <h4>Aurora</h4>
+  <ul>
+    <li><strong>Aurora Serverless v1:</strong> scales to zero &mdash; truly zero cost when idle; for dev/test or very infrequent workloads
+      <span class="zh"><strong>Aurora Serverless v1：</strong>縮減至零——閒置時真正零成本；用於開發/測試或非常不頻繁的工作負載</span>
+    </li>
+    <li><strong>Aurora Serverless v2:</strong> scales to near-zero in fine-grained increments; for variable production workloads
+      <span class="zh"><strong>Aurora Serverless v2：</strong>以細粒度增量縮減至接近零；用於變動的生產工作負載</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;dev database used occasionally&rdquo; &rarr; Aurora Serverless v1; &ldquo;variable but non-zero production traffic&rdquo; &rarr; Aurora Serverless v2
+      <span class="zh"><strong>考試規則：</strong>「偶爾使用的開發資料庫」→ Aurora Serverless v1；「變動但非零的生產流量」→ Aurora Serverless v2</span>
+    </li>
+  </ul>
+
+  <h4>DynamoDB</h4>
+  <ul>
+    <li><strong>On-demand:</strong> pay per request; no capacity planning; higher per-request cost; good for unpredictable traffic
+      <span class="zh"><strong>隨需：</strong>按請求計費；無需容量規劃；每請求成本較高；適合無法預測的流量</span>
+    </li>
+    <li><strong>Provisioned + auto scaling:</strong> lower per-unit cost; requires forecasting; use for stable traffic
+      <span class="zh"><strong>佈建 + Auto Scaling：</strong>較低的每單位成本；需要預測；用於穩定流量</span>
+    </li>
+    <li><strong>DynamoDB Reserved Capacity:</strong> 1 or 3 year commitment on provisioned capacity; up to 76% discount
+      <span class="zh"><strong>DynamoDB 預留容量：</strong>佈建容量的 1 年或 3 年承諾；最高 76% 折扣</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;unknown or spiky DynamoDB traffic&rdquo; &rarr; on-demand; &ldquo;stable predictable traffic&rdquo; &rarr; provisioned + reserved
+      <span class="zh"><strong>考試規則：</strong>「未知或尖峰 DynamoDB 流量」→ 隨需；「穩定可預測流量」→ 佈建 + 預留</span>
+    </li>
+  </ul>
+
+  <h3>Networking Cost Optimization <span class="zh">網路成本最佳化</span></h3>
+
+  <h4>Data Transfer Pricing <span class="zh">資料傳輸定價</span></h4>
+  <table>
+    <tr>
+      <th>Transfer Type <span class="zh">傳輸類型</span></th>
+      <th>Cost <span class="zh">費用</span></th>
+    </tr>
+    <tr><td>Data IN to AWS (from internet) <span class="zh">資料傳入 AWS（來自網際網路）</span></td><td>Free <span class="zh">免費</span></td></tr>
+    <tr><td>Data within same AZ <span class="zh">同一可用區域內的資料</span></td><td>Free <span class="zh">免費</span></td></tr>
+    <tr><td>Data between AZs (same region) <span class="zh">可用區域間資料（同一區域）</span></td><td>~$0.01/GB each direction <span class="zh">約 $0.01/GB 每個方向</span></td></tr>
+    <tr><td>Data between regions <span class="zh">區域間資料</span></td><td>Varies by region pair <span class="zh">依區域配對而異</span></td></tr>
+    <tr><td>Data OUT to internet <span class="zh">資料傳出至網際網路</span></td><td>~$0.09/GB (first 10 TB/month) <span class="zh">約 $0.09/GB（前 10 TB/月）</span></td></tr>
+    <tr><td>S3 Gateway Endpoint <span class="zh">S3 閘道端點</span></td><td>Free <span class="zh">免費</span></td></tr>
+  </table>
+
+  <h4>VPC Endpoints (cost impact) <span class="zh">VPC 端點（成本影響）</span></h4>
+  <ul>
+    <li><strong>Gateway Endpoints</strong> for S3 and DynamoDB: free; eliminates NAT Gateway data processing charges for that traffic
+      <span class="zh">S3 和 DynamoDB 的<strong>閘道端點</strong>：免費；消除該流量的 NAT 閘道資料處理費用</span>
+    </li>
+    <li>NAT Gateway: ~$0.045/hour + $0.045/GB data processed
+      <span class="zh">NAT 閘道：約 $0.045/小時 + $0.045/GB 資料處理費</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;high NAT Gateway costs, EC2 in private subnet accessing S3&rdquo; &rarr; add S3 Gateway Endpoint (free)
+      <span class="zh"><strong>考試規則：</strong>「NAT 閘道費用高、私有子網路中的 EC2 存取 S3」→ 新增 S3 閘道端點（免費）</span>
+    </li>
+  </ul>
+
+  <h4>CloudFront (cost impact) <span class="zh">CloudFront（成本影響）</span></h4>
+  <ul>
+    <li>CloudFront data transfer OUT pricing is lower than direct EC2/S3 data transfer OUT
+      <span class="zh">CloudFront 資料傳出定價低於直接 EC2/S3 資料傳出</span>
+    </li>
+    <li>Caching reduces origin requests &rarr; lower compute and data transfer costs at origin
+      <span class="zh">快取減少來源請求 → 降低來源的運算和資料傳輸成本</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;reduce data transfer costs for globally distributed content&rdquo; &rarr; CloudFront reduces both latency and cost
+      <span class="zh"><strong>考試規則：</strong>「降低全球分散式內容的資料傳輸成本」→ CloudFront 同時降低延遲和成本</span>
+    </li>
+  </ul>
+
+  <h4>Minimize Cross-AZ Traffic <span class="zh">最小化跨可用區域流量</span></h4>
+  <ul>
+    <li>Colocate resources in the same AZ (read replicas, ElastiCache nodes near the app tier)
+      <span class="zh">在同一可用區域共置資源（唯讀複本、靠近應用程式層的 ElastiCache 節點）</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;reduce data transfer costs within a region&rdquo; &rarr; minimize cross-AZ traffic by colocating resources
+      <span class="zh"><strong>考試規則：</strong>「降低區域內的資料傳輸成本」→ 透過共置資源最小化跨可用區域流量</span>
+    </li>
+  </ul>
+
+  <h3>Cost Monitoring &amp; Governance <span class="zh">成本監控與治理</span></h3>
+
+  <h4>AWS Cost Explorer <span class="zh">AWS Cost Explorer（成本探索器）</span></h4>
+  <ul>
+    <li>Visualize and analyze historical costs; 12 months history + 12 months forecast
+      <span class="zh">視覺化和分析歷史成本；12 個月歷程記錄 + 12 個月預測</span>
+    </li>
+    <li>Rightsizing recommendations for underutilized EC2 instances
+      <span class="zh">未充分利用的 EC2 執行個體的資源調整建議</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;analyze past spending trends and forecast future costs&rdquo; &rarr; Cost Explorer
+      <span class="zh"><strong>考試規則：</strong>「分析過去的支出趨勢和預測未來成本」→ Cost Explorer</span>
+    </li>
+  </ul>
+
+  <h4>AWS Budgets <span class="zh">AWS 預算</span></h4>
+  <ul>
+    <li>Set cost, usage, RI utilization, Savings Plan coverage budgets with email/SNS alerts
+      <span class="zh">設定成本、使用量、預留執行個體利用率、節省方案涵蓋率預算，搭配電子郵件/SNS 警示</span>
+    </li>
+    <li>Can trigger automated actions (e.g., apply SCP when budget exceeded)
+      <span class="zh">可觸發自動化動作（例如，超出預算時套用 SCP）</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;alert the team when monthly spend exceeds $X&rdquo; &rarr; AWS Budgets
+      <span class="zh"><strong>考試規則：</strong>「每月支出超過 $X 時警示團隊」→ AWS 預算</span>
+    </li>
+  </ul>
+
+  <h4>AWS Cost and Usage Report (CUR) <span class="zh">AWS 成本和使用量報告</span></h4>
+  <ul>
+    <li>Most granular billing data; line-item detail for every service and resource
+      <span class="zh">最細粒度的帳單資料；每個服務和資源的明細項目詳情</span>
+    </li>
+    <li>Exports to S3; query with Athena or load into Redshift
+      <span class="zh">匯出至 S3；使用 Athena 查詢或載入 Redshift</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;detailed cost allocation for chargeback across teams&rdquo; &rarr; CUR
+      <span class="zh"><strong>考試規則：</strong>「跨團隊費用分攤的詳細成本分配」→ 成本和使用量報告</span>
+    </li>
+  </ul>
+
+  <h4>AWS Trusted Advisor <span class="zh">AWS 受信任的顧問</span></h4>
+  <ul>
+    <li>Automated best practice checks: idle EC2, unassociated EIPs, underutilized RDS, idle load balancers
+      <span class="zh">自動化最佳實務檢查：閒置 EC2、未關聯的 EIP、使用率不足的 RDS、閒置負載平衡器</span>
+    </li>
+    <li>Full checks require Business or Enterprise support plan
+      <span class="zh">完整檢查需要商業或企業支援方案</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;quickly identify idle or underutilized resources&rdquo; &rarr; Trusted Advisor
+      <span class="zh"><strong>考試規則：</strong>「快速識別閒置或使用率不足的資源」→ Trusted Advisor</span>
+    </li>
+  </ul>
+
+  <h4>AWS Compute Optimizer <span class="zh">AWS 運算最佳化器</span></h4>
+  <ul>
+    <li>ML-based rightsizing for EC2, EBS, Lambda, ECS; requires 14+ days of CloudWatch metrics
+      <span class="zh">EC2、EBS、Lambda、ECS 的 ML 型資源調整；需要 14 天以上的 CloudWatch 指標</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;specific rightsizing recommendations for EC2 instance types&rdquo; &rarr; Compute Optimizer (more detailed than Trusted Advisor)
+      <span class="zh"><strong>考試規則：</strong>「EC2 執行個體類型的特定資源調整建議」→ 運算最佳化器（比 Trusted Advisor 更詳細）</span>
+    </li>
+  </ul>
+
+  <div class="page-break"></div>
+  <h2>3. Architecture Patterns <span class="zh">架構模式</span></h2>
+
+  <h3>Pattern 1: Cost-Optimized Web Tier with Mixed Instances
+    <span class="zh">模式 1：使用混合執行個體的成本最佳化 Web 層</span>
+  </h3>
+  <p><strong>Services:</strong> ALB &rarr; ASG (On-Demand base + Spot for burst) + Reserved EC2 for baseline</p>
+  <p class="zh"><strong>服務：</strong>ALB → ASG（隨需基礎 + Spot 用於爆量）+ 預留 EC2 用於基準</p>
+  <p><strong>Why it works:</strong> Reserved Instances cover the always-on baseline at deep discount. Spot covers burst traffic at 70&ndash;90% off. On-Demand handles any Spot interruption gap. Total cost dramatically lower than all On-Demand.</p>
+  <p class="zh"><strong>為何有效：</strong>預留執行個體以深度折扣涵蓋永久運行的基準。Spot 以 70–90% 折扣涵蓋爆量流量。隨需處理任何 Spot 中斷缺口。總成本遠低於全部使用隨需。</p>
+  <p><strong>Exam signal:</strong> &ldquo;web application with variable traffic, minimize cost&rdquo; &rarr; ASG with On-Demand base + Spot for burst, Reserved for baseline.</p>
+  <p class="zh"><strong>考試信號：</strong>「具變動流量的 Web 應用程式、最小化成本」→ ASG 搭配隨需基礎 + Spot 用於爆量，預留用於基準。</p>
+
+  <h3>Pattern 2: S3 Cost Optimization with Lifecycle
+    <span class="zh">模式 2：使用生命週期的 S3 成本最佳化</span>
+  </h3>
+  <p><strong>Services:</strong> S3 Standard &rarr; Lifecycle Policy &rarr; Standard-IA &rarr; Glacier Flexible &rarr; Deep Archive &rarr; Expiration</p>
+  <p class="zh"><strong>服務：</strong>S3 標準 → 生命週期政策 → 標準-IA → Glacier 彈性 → 深度封存 → 到期</p>
+  <p><strong>Why it works:</strong> Objects automatically move to cheaper tiers as they age. Active data stays in Standard; aging data transitions automatically with no application changes needed.</p>
+  <p class="zh"><strong>為何有效：</strong>物件隨著老化自動移至較便宜的層。活躍資料保留在標準層；老化資料自動轉換，無需任何應用程式變更。</p>
+  <p><strong>Exam signal:</strong> &ldquo;large volume of log files accessed frequently for 30 days, rarely after&rdquo; &rarr; lifecycle: Standard &rarr; Standard-IA at 30d &rarr; Glacier at 90d.</p>
+  <p class="zh"><strong>考試信號：</strong>「大量日誌檔案前 30 天頻繁存取，之後很少」→ 生命週期：標準 → 第 30 天轉換至標準-IA → 第 90 天轉換至 Glacier。</p>
+
+  <h3>Pattern 3: Serverless to Eliminate Idle Cost
+    <span class="zh">模式 3：無伺服器以消除閒置成本</span>
+  </h3>
+  <p><strong>Services:</strong> API Gateway &rarr; Lambda &rarr; DynamoDB on-demand</p>
+  <p class="zh"><strong>服務：</strong>API Gateway → Lambda → DynamoDB 隨需</p>
+  <p><strong>Why it works:</strong> No resources running (and billing) when there are no requests. Pay only for actual invocations. Perfect for irregular traffic or low-volume APIs.</p>
+  <p class="zh"><strong>為何有效：</strong>無請求時沒有資源執行（也不計費）。只為實際叫用付費。完美適用於不規則流量或低流量 API。</p>
+  <p><strong>Exam signal:</strong> &ldquo;API used a few hours per day&rdquo;, &ldquo;development environment&rdquo;, &ldquo;bursty infrequent workload&rdquo; &rarr; serverless instead of always-on EC2 + RDS.</p>
+  <p class="zh"><strong>考試信號：</strong>「每天使用幾小時的 API」、「開發環境」、「突發且不頻繁的工作負載」→ 無伺服器而非永久運行的 EC2 + RDS。</p>
+
+  <h3>Pattern 4: Reduce NAT Gateway Costs
+    <span class="zh">模式 4：降低 NAT 閘道成本</span>
+  </h3>
+  <p><strong>Services:</strong> Private EC2 &rarr; S3 Gateway Endpoint (S3 traffic) + NAT Gateway (everything else)</p>
+  <p class="zh"><strong>服務：</strong>私有 EC2 → S3 閘道端點（S3 流量）+ NAT 閘道（其他所有流量）</p>
+  <p><strong>Why it works:</strong> S3 Gateway Endpoint is free and routes S3 traffic within the AWS network, bypassing NAT Gateway entirely. Eliminates NAT data processing fees for S3 &mdash; often the largest NAT cost driver.</p>
+  <p class="zh"><strong>為何有效：</strong>S3 閘道端點免費，在 AWS 網路內路由 S3 流量，完全繞過 NAT 閘道。消除 S3 的 NAT 資料處理費用——通常是最大的 NAT 成本驅動因素。</p>
+  <p><strong>Exam signal:</strong> &ldquo;high NAT Gateway costs; EC2 frequently reads from S3 via NAT&rdquo; &rarr; add free S3 Gateway Endpoint.</p>
+  <p class="zh"><strong>考試信號：</strong>「NAT 閘道費用高；EC2 頻繁透過 NAT 從 S3 讀取」→ 新增免費 S3 閘道端點。</p>
+
+  <h3>Pattern 5: Cost-Optimized Data Analytics
+    <span class="zh">模式 5：成本最佳化資料分析</span>
+  </h3>
+  <p><strong>Services:</strong> S3 (raw data in Parquet, partitioned) &rarr; Athena (query-on-demand) &rarr; QuickSight</p>
+  <p class="zh"><strong>服務：</strong>S3（Parquet 格式的原始資料、已分割）→ Athena（隨需查詢）→ QuickSight</p>
+  <p><strong>Why it works:</strong> No always-on data warehouse. Athena charges per TB scanned ($5/TB). Columnar formats (Parquet, ORC) + S3 partitioning reduce scan size and cost by 30&ndash;90%.</p>
+  <p class="zh"><strong>為何有效：</strong>無永久運行的資料倉儲。Athena 按掃描 TB 計費（$5/TB）。欄式格式（Parquet、ORC）+ S3 分割可將掃描大小和成本降低 30–90%。</p>
+  <p><strong>Exam signal:</strong> &ldquo;infrequent analytical queries on large datasets in S3&rdquo; &rarr; Athena instead of Redshift; use Parquet + partitioning.</p>
+  <p class="zh"><strong>考試信號：</strong>「S3 中大型資料集的不頻繁分析查詢」→ Athena 而非 Redshift；使用 Parquet + 分割。</p>
+
+  <h2>4. Service Comparisons <span class="zh">服務比較</span></h2>
+
+  <h4>Spot vs. On-Demand vs. Reserved vs. Savings Plans
+    <span class="zh">Spot vs. 隨需 vs. 預留 vs. 節省方案</span>
+  </h4>
+  <table>
+    <tr>
+      <th>Model <span class="zh">模型</span></th>
+      <th>Discount <span class="zh">折扣</span></th>
+      <th>Commitment <span class="zh">承諾</span></th>
+      <th>Interruption <span class="zh">中斷</span></th>
+      <th>Best For <span class="zh">最適用於</span></th>
+    </tr>
+    <tr>
+      <td>On-Demand <span class="zh">隨需</span></td>
+      <td>None <span class="zh">無</span></td>
+      <td>None <span class="zh">無</span></td>
+      <td>None <span class="zh">無</span></td>
+      <td>Unpredictable, short-term, critical <span class="zh">無法預測、短期、關鍵</span></td>
+    </tr>
+    <tr>
+      <td>Savings Plans (Compute) <span class="zh">節省方案（運算）</span></td>
+      <td>Up to 66% <span class="zh">最高 66%</span></td>
+      <td>1&ndash;3 yr spend <span class="zh">1–3 年支出</span></td>
+      <td>None <span class="zh">無</span></td>
+      <td>Flexible steady-state <span class="zh">彈性穩定狀態</span></td>
+    </tr>
+    <tr>
+      <td>Reserved (Standard) <span class="zh">預留（標準）</span></td>
+      <td>Up to 72% <span class="zh">最高 72%</span></td>
+      <td>1&ndash;3 yr instance <span class="zh">1–3 年執行個體</span></td>
+      <td>None <span class="zh">無</span></td>
+      <td>Specific steady-state instances <span class="zh">特定穩定狀態執行個體</span></td>
+    </tr>
+    <tr>
+      <td>Spot</td>
+      <td>Up to 90% <span class="zh">最高 90%</span></td>
+      <td>None <span class="zh">無</span></td>
+      <td>Yes (2-min notice) <span class="zh">是（2 分鐘通知）</span></td>
+      <td>Fault-tolerant, flexible workloads <span class="zh">容錯、彈性工作負載</span></td>
+    </tr>
+  </table>
+
+  <h4>Standard RI vs. Convertible RI vs. Compute Savings Plans
+    <span class="zh">標準預留執行個體 vs. 可轉換預留執行個體 vs. 運算節省方案</span>
+  </h4>
+  <ul>
+    <li>Standard RI = highest discount, least flexible (can&rsquo;t change family)
+      <span class="zh">標準預留執行個體 = 最高折扣、最不彈性（無法變更系列）</span>
+    </li>
+    <li>Convertible RI = lower discount, can swap to different family/OS
+      <span class="zh">可轉換預留執行個體 = 較低折扣、可換至不同系列/作業系統</span>
+    </li>
+    <li>Compute Savings Plans = slightly lower than Standard RI, most flexible (any family, region; covers Lambda/Fargate)
+      <span class="zh">運算節省方案 = 略低於標準預留執行個體，最彈性（任何系列、區域；涵蓋 Lambda/Fargate）</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;maximum discount, won&rsquo;t change instance type&rdquo; &rarr; Standard RI; &ldquo;flexibility across families&rdquo; &rarr; Compute Savings Plans
+      <span class="zh"><strong>考試規則：</strong>「最大折扣、不會變更執行個體類型」→ 標準預留執行個體；「跨系列彈性」→ 運算節省方案</span>
+    </li>
+  </ul>
+
+  <h4>DynamoDB On-Demand vs. Provisioned <span class="zh">DynamoDB 隨需 vs. 佈建</span></h4>
+  <ul>
+    <li>On-demand = pay per request, no capacity planning, higher per-request cost
+      <span class="zh">隨需 = 按請求計費、無需容量規劃、每請求成本較高</span>
+    </li>
+    <li>Provisioned = set capacity in advance, lower per-unit cost, requires forecasting
+      <span class="zh">佈建 = 預先設定容量、較低每單位成本、需要預測</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;unpredictable or new workload&rdquo; &rarr; on-demand; &ldquo;stable predictable traffic&rdquo; &rarr; provisioned + auto scaling + reserved
+      <span class="zh"><strong>考試規則：</strong>「無法預測或新的工作負載」→ 隨需；「穩定可預測流量」→ 佈建 + Auto Scaling + 預留</span>
+    </li>
+  </ul>
+
+  <h4>Trusted Advisor vs. Compute Optimizer <span class="zh">Trusted Advisor vs. 運算最佳化器</span></h4>
+  <ul>
+    <li>Trusted Advisor = broad checks across cost, security, performance, fault tolerance &mdash; surface-level
+      <span class="zh">Trusted Advisor = 跨成本、安全性、效能、容錯的廣泛檢查——表層</span>
+    </li>
+    <li>Compute Optimizer = deep ML-based rightsizing for specific services
+      <span class="zh">運算最佳化器 = 特定服務的深度 ML 型資源調整</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;overview of all cost issues&rdquo; &rarr; Trusted Advisor; &ldquo;specific EC2/Lambda rightsizing recommendations&rdquo; &rarr; Compute Optimizer
+      <span class="zh"><strong>考試規則：</strong>「所有成本問題概覽」→ Trusted Advisor；「特定 EC2/Lambda 資源調整建議」→ 運算最佳化器</span>
+    </li>
+  </ul>
+
+  <h4>S3 Standard-IA vs. S3 Glacier Instant Retrieval
+    <span class="zh">S3 標準-IA vs. S3 Glacier 即時擷取</span>
+  </h4>
+  <ul>
+    <li>Standard-IA = millisecond retrieval, 30-day minimum, accessed monthly
+      <span class="zh">標準-IA = 毫秒擷取、30 天最低、每月存取</span>
+    </li>
+    <li>Glacier Instant Retrieval = millisecond retrieval, 90-day minimum, accessed quarterly, lower storage cost
+      <span class="zh">Glacier 即時擷取 = 毫秒擷取、90 天最低、每季存取、較低儲存成本</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;accessed once a month&rdquo; &rarr; Standard-IA; &ldquo;accessed once a quarter&rdquo; &rarr; Glacier Instant Retrieval
+      <span class="zh"><strong>考試規則：</strong>「每月存取一次」→ 標準-IA；「每季存取一次」→ Glacier 即時擷取</span>
+    </li>
+  </ul>
+
+  <div class="page-break"></div>
+  <h2>5. Exam Traps &amp; Gotchas <span class="zh">考試陷阱與注意事項</span></h2>
+  <ol>
+    <li><strong>Spot Instances are not suitable for workloads that can&rsquo;t tolerate interruption.</strong> The exam will offer Spot as the cheapest answer for a production database or a &ldquo;critical&rdquo; workload. These are always wrong. Spot = fault-tolerant + interruptible only.
+      <span class="zh"><strong>Spot 執行個體不適合無法承受中斷的工作負載。</strong>考試會為生產資料庫或「關鍵」工作負載提供 Spot 作為最便宜的答案。這些始終是錯誤的。Spot = 僅限容錯 + 可中斷。</span>
+    </li>
+    <li><strong>Minimum storage duration fees apply even if you delete early.</strong> Delete an object from S3 Standard-IA after 10 days and you still pay for 30 days. Glacier minimum is 90 days; Deep Archive is 180 days. Frequently changing data in Glacier is very expensive.
+      <span class="zh"><strong>即使提前刪除，最短儲存期費用仍適用。</strong>10 天後從 S3 標準-IA 刪除物件，您仍需為 30 天付費。Glacier 最低為 90 天；深度封存為 180 天。在 Glacier 中頻繁變更的資料非常昂貴。</span>
+    </li>
+    <li><strong>S3 Intelligent-Tiering has a monitoring fee per object.</strong> For large numbers of tiny objects (&lt;128 KB), the monitoring cost can exceed the storage savings. Not always the cheapest option &mdash; a manual lifecycle policy may be better for known access patterns.
+      <span class="zh"><strong>S3 智慧型分層每個物件有監控費用。</strong>對於大量微小物件（&lt;128 KB），監控成本可能超過儲存節省。並非始終最便宜的選項——對於已知存取模式，手動生命週期政策可能更好。</span>
+    </li>
+    <li><strong>Data transfer between AZs costs money (~$0.01/GB each way).</strong> Placing ElastiCache or a read replica in a different AZ from the app generates charges on every request. Fix: colocate resources in the same AZ.
+      <span class="zh"><strong>可用區域間的資料傳輸需要費用（約 $0.01/GB 每個方向）。</strong>將 ElastiCache 或唯讀複本置於與應用程式不同的可用區域，每個請求都會產生費用。解決方法：在同一可用區域共置資源。</span>
+    </li>
+    <li><strong>NAT Gateway charges for ALL outbound traffic, including S3.</strong> Private EC2 instances making frequent S3 requests through NAT Gateway incur data processing fees on every byte. A free S3 Gateway Endpoint eliminates this entirely.
+      <span class="zh"><strong>NAT 閘道對所有輸出流量收費，包括 S3。</strong>透過 NAT 閘道頻繁發出 S3 請求的私有 EC2 執行個體，每個位元組都會產生資料處理費用。免費的 S3 閘道端點完全消除這個問題。</span>
+    </li>
+    <li><strong>Reserved Instances apply to account-level usage, not a specific instance ID.</strong> If you buy an RI for m5.large and run multiple m5.large instances, the discount applies to one automatically. You don&rsquo;t lose the RI if you terminate a specific instance.
+      <span class="zh"><strong>預留執行個體套用至帳號層級使用量，而非特定執行個體 ID。</strong>如果您為 m5.large 購買預留執行個體並執行多個 m5.large 執行個體，折扣自動套用至其中一個。終止特定執行個體不會失去預留執行個體。</span>
+    </li>
+    <li><strong>Savings Plans apply after Reserved Instances.</strong> AWS applies RI discounts first, then Savings Plans to remaining On-Demand usage. They stack, not conflict.
+      <span class="zh"><strong>節省方案在預留執行個體之後套用。</strong>AWS 先套用預留執行個體折扣，然後將節省方案套用至剩餘的隨需使用量。它們疊加，而不是衝突。</span>
+    </li>
+    <li><strong>Stopping RDS doesn&rsquo;t eliminate all costs.</strong> Storage costs continue. After 7 days, a stopped RDS instance auto-restarts. For extended dev/test downtime, snapshot &rarr; delete &rarr; restore is cheaper.
+      <span class="zh"><strong>停止 RDS 不會消除所有成本。</strong>儲存成本持續。7 天後，已停止的 RDS 執行個體自動重新啟動。對於較長的開發/測試停機時間，快照 → 刪除 → 還原更便宜。</span>
+    </li>
+  </ol>
+
+  <h2>6. Key Numbers to Remember <span class="zh">重要數字記憶</span></h2>
+  <table>
+    <tr><th>Service / Feature <span class="zh">服務 / 功能</span></th><th>Value <span class="zh">數值</span></th></tr>
+    <tr><td>Spot Instance interruption notice <span class="zh">Spot 執行個體中斷通知</span></td><td>2 minutes <span class="zh">2 分鐘</span></td></tr>
+    <tr><td>Spot Instance max discount <span class="zh">Spot 執行個體最大折扣</span></td><td>Up to 90% vs. On-Demand <span class="zh">相較隨需最高 90%</span></td></tr>
+    <tr><td>Standard Reserved Instance max discount <span class="zh">標準預留執行個體最大折扣</span></td><td>Up to 72% <span class="zh">最高 72%</span></td></tr>
+    <tr><td>Compute Savings Plans max discount <span class="zh">運算節省方案最大折扣</span></td><td>Up to 66% <span class="zh">最高 66%</span></td></tr>
+    <tr><td>DynamoDB Reserved Capacity max discount <span class="zh">DynamoDB 預留容量最大折扣</span></td><td>Up to 76% <span class="zh">最高 76%</span></td></tr>
+    <tr><td>S3 Standard-IA minimum storage duration <span class="zh">S3 標準-IA 最短儲存期</span></td><td>30 days <span class="zh">30 天</span></td></tr>
+    <tr><td>S3 One Zone-IA minimum storage duration <span class="zh">S3 單一可用區域-IA 最短儲存期</span></td><td>30 days <span class="zh">30 天</span></td></tr>
+    <tr><td>S3 Glacier Instant Retrieval minimum duration <span class="zh">S3 Glacier 即時擷取最短儲存期</span></td><td>90 days <span class="zh">90 天</span></td></tr>
+    <tr><td>S3 Glacier Flexible Retrieval minimum duration <span class="zh">S3 Glacier 彈性擷取最短儲存期</span></td><td>90 days <span class="zh">90 天</span></td></tr>
+    <tr><td>S3 Glacier Deep Archive minimum duration <span class="zh">S3 Glacier 深度封存最短儲存期</span></td><td>180 days <span class="zh">180 天</span></td></tr>
+    <tr><td>Glacier Deep Archive Standard retrieval time <span class="zh">Glacier 深度封存標準擷取時間</span></td><td>12 hours <span class="zh">12 小時</span></td></tr>
+    <tr><td>Glacier Deep Archive Bulk retrieval time <span class="zh">Glacier 深度封存大量擷取時間</span></td><td>48 hours <span class="zh">48 小時</span></td></tr>
+    <tr><td>Glacier Flexible Expedited retrieval time <span class="zh">Glacier 彈性快速擷取時間</span></td><td>1&ndash;5 minutes <span class="zh">1–5 分鐘</span></td></tr>
+    <tr><td>NAT Gateway hourly cost (approx.) <span class="zh">NAT 閘道每小時費用（約）</span></td><td>$0.045/hour <span class="zh">$0.045/小時</span></td></tr>
+    <tr><td>NAT Gateway data processing cost (approx.) <span class="zh">NAT 閘道資料處理費用（約）</span></td><td>$0.045/GB</td></tr>
+    <tr><td>S3 Gateway Endpoint cost <span class="zh">S3 閘道端點費用</span></td><td>Free <span class="zh">免費</span></td></tr>
+    <tr><td>RDS stopped instance auto-restart <span class="zh">RDS 已停止執行個體自動重新啟動</span></td><td>After 7 days <span class="zh">7 天後</span></td></tr>
+    <tr><td>Data transfer IN to AWS <span class="zh">資料傳入 AWS</span></td><td>Free <span class="zh">免費</span></td></tr>
+    <tr><td>Data transfer between AZs (same region) <span class="zh">可用區域間資料傳輸（同一區域）</span></td><td>~$0.01/GB each way <span class="zh">約 $0.01/GB 每個方向</span></td></tr>
+    <tr><td>Compute Optimizer minimum metrics history <span class="zh">運算最佳化器最少指標歷程記錄</span></td><td>14 days <span class="zh">14 天</span></td></tr>
+  </table>
+
+  <div class="page-break"></div>
+  <h2>7. Practice Questions <span class="zh">練習題</span></h2>
+
+  <div class="question-block">
+    <div class="question-text">Question 1 &mdash; A company runs a fleet of EC2 instances for a video rendering pipeline. Jobs are submitted throughout the day and take 30&ndash;60 minutes to complete. Jobs can be restarted if interrupted. The company wants to minimize compute costs. What should the solutions architect recommend?
+      <span class="zh">問題 1——某公司為視訊渲染管道執行一批 EC2 執行個體。工作全天提交，需要 30–60 分鐘完成。工作被中斷時可以重新啟動。公司希望最小化運算成本。解決方案架構師應建議什麼？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Use On-Demand instances with Auto Scaling
+        <span class="zh">使用隨需執行個體搭配 Auto Scaling</span>
+      </li>
+      <li>Use Reserved Instances with a 1-year commitment
+        <span class="zh">使用具有 1 年承諾的預留執行個體</span>
+      </li>
+      <li>Use Spot Instances with a Spot Fleet configured with the diversified allocation strategy
+        <span class="zh">使用 Spot 執行個體搭配配置了多樣化配置策略的 Spot 叢集</span>
+      </li>
+      <li>Use Dedicated Hosts to maximize physical server utilization
+        <span class="zh">使用專用主機以最大化實體伺服器利用率</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
+    <ul class="answer-detail">
+      <li class="correct">C is correct: Video rendering is a classic Spot workload &mdash; batch, fault-tolerant, restartable. Spot offers up to 90% discount. The diversified strategy distributes across multiple instance pools to reduce interruption risk.
+        <span class="zh">C 正確：視訊渲染是典型的 Spot 工作負載——批次、容錯、可重新啟動。Spot 提供最高 90% 折扣。多樣化策略跨多個執行個體集區分佈以降低中斷風險。</span>
+      </li>
+      <li class="wrong">A is wrong: On-Demand is the most expensive option with no cost optimization benefit for this workload.
+        <span class="zh">A 錯誤：隨需是最昂貴的選項，對此工作負載沒有成本最佳化優勢。</span>
+      </li>
+      <li class="wrong">B is wrong: Reserved Instances are for steady 24/7 workloads, not variable batch jobs. Less discount than Spot and wastes capacity when pipeline is idle.
+        <span class="zh">B 錯誤：預留執行個體用於穩定的 24/7 工作負載，而非變動的批次作業。折扣少於 Spot，且管道閒置時浪費容量。</span>
+      </li>
+      <li class="wrong">D is wrong: Dedicated Hosts are the most expensive option and exist for BYOL licensing compliance, not cost optimization.
+        <span class="zh">D 錯誤：專用主機是最昂貴的選項，存在是為了 BYOL 授權合規，而非成本最佳化。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 2 &mdash; A company stores application logs in S3. Logs are accessed frequently for the first 30 days for debugging, occasionally between days 30&ndash;90, and almost never after 90 days. Logs must be retained for 1 year for compliance. What lifecycle policy should the solutions architect configure?
+      <span class="zh">問題 2——某公司在 S3 中儲存應用程式日誌。日誌在前 30 天頻繁存取用於除錯，在第 30–90 天偶爾存取，90 天後幾乎從不存取。日誌必須保留 1 年以符合合規。解決方案架構師應設定什麼生命週期政策？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Transition to S3 Glacier Deep Archive after 30 days; expire after 365 days
+        <span class="zh">30 天後轉換至 S3 Glacier 深度封存；365 天後到期</span>
+      </li>
+      <li>Transition to S3 Standard-IA after 30 days, to S3 Glacier Flexible Retrieval after 90 days; expire after 365 days
+        <span class="zh">30 天後轉換至 S3 標準-IA，90 天後轉換至 S3 Glacier 彈性擷取；365 天後到期</span>
+      </li>
+      <li>Use S3 Intelligent-Tiering for all objects; expire after 365 days
+        <span class="zh">對所有物件使用 S3 智慧型分層；365 天後到期</span>
+      </li>
+      <li>Transition to S3 One Zone-IA after 30 days; expire after 365 days
+        <span class="zh">30 天後轉換至 S3 單一可用區域-IA；365 天後到期</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
+    <ul class="answer-detail">
+      <li class="correct">B is correct: Matches the access pattern exactly. Standard for days 0&ndash;30 (frequent). Standard-IA for days 30&ndash;90 (occasional, fast retrieval). Glacier Flexible for days 90&ndash;365 (rarely accessed, low cost). Expires at 1 year.
+        <span class="zh">B 正確：完全符合存取模式。第 0–30 天為標準（頻繁）。第 30–90 天為標準-IA（偶爾、快速擷取）。第 90–365 天為 Glacier 彈性（很少存取、低成本）。1 年後到期。</span>
+      </li>
+      <li class="wrong">A is wrong: Moving to Deep Archive at day 30 means 12-hour retrieval times for logs still occasionally needed. Mismatches the access pattern.
+        <span class="zh">A 錯誤：第 30 天移至深度封存意味著仍偶爾需要的日誌需要 12 小時擷取時間。與存取模式不符。</span>
+      </li>
+      <li class="wrong">C is wrong: Intelligent-Tiering charges a per-object monitoring fee. For a known, predictable access pattern, a manual lifecycle policy is more cost-effective.
+        <span class="zh">C 錯誤：智慧型分層收取每物件監控費用。對於已知的可預測存取模式，手動生命週期政策更具成本效益。</span>
+      </li>
+      <li class="wrong">D is wrong: One Zone-IA stores data in a single AZ. Compliance logs that cannot be recreated should never use One Zone-IA due to data loss risk if the AZ fails.
+        <span class="zh">D 錯誤：單一可用區域-IA 在單一可用區域中儲存資料。無法重新建立的合規日誌由於可用區域故障時的資料遺失風險，絕不應使用單一可用區域-IA。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 3 &mdash; A startup runs a REST API on EC2 instances behind an ALB. Traffic is almost zero for 20 hours a day but spikes significantly for 4 hours during business hours. The API is stateless. The team wants to minimize infrastructure costs. What should the solutions architect recommend?
+      <span class="zh">問題 3——新創公司在 ALB 後方的 EC2 執行個體上執行 REST API。每天 20 小時流量幾乎為零，但在上班時間的 4 小時內顯著激增。API 是無狀態的。團隊希望最小化基礎設施成本。解決方案架構師應建議什麼？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Purchase Reserved Instances sized for peak load
+        <span class="zh">購買根據尖峰負載調整大小的預留執行個體</span>
+      </li>
+      <li>Use On-Demand EC2 instances with scheduled Auto Scaling
+        <span class="zh">使用隨需 EC2 執行個體搭配排程 Auto Scaling</span>
+      </li>
+      <li>Replace the EC2-based API with API Gateway and Lambda
+        <span class="zh">將以 EC2 為基礎的 API 替換為 API Gateway 和 Lambda</span>
+      </li>
+      <li>Use Spot Instances behind the ALB with a minimum capacity of 2
+        <span class="zh">在 ALB 後方使用最小容量為 2 的 Spot 執行個體</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
+    <ul class="answer-detail">
+      <li class="correct">C is correct: Lambda charges only per invocation and duration &mdash; zero cost for the 20 idle hours. For an API that is mostly idle, serverless dramatically reduces cost vs. always-on EC2.
+        <span class="zh">C 正確：Lambda 僅按叫用和持續時間收費——20 小時閒置時間零成本。對於大多數時間閒置的 API，無伺服器相較永久運行的 EC2 大幅降低成本。</span>
+      </li>
+      <li class="wrong">A is wrong: Reserved Instances for peak load means paying for large instances 24/7 &mdash; most capacity is wasted 20 hours a day.
+        <span class="zh">A 錯誤：為尖峰負載購買預留執行個體意味著 24/7 為大型執行個體付費——每天 20 小時浪費大多數容量。</span>
+      </li>
+      <li class="wrong">B is wrong: Scheduled Auto Scaling helps but still requires EC2 instances during peak hours plus baseline capacity. Lambda is cheaper for this traffic pattern.
+        <span class="zh">B 錯誤：排程 Auto Scaling 有幫助，但在尖峰時間仍需要 EC2 執行個體加上基準容量。Lambda 對此流量模式更便宜。</span>
+      </li>
+      <li class="wrong">D is wrong: Spot Instances can be interrupted at any time. A minimum of 2 still costs money during idle hours, and interruption risk is not suitable for a production API without significant fault-tolerance engineering.
+        <span class="zh">D 錯誤：Spot 執行個體可以隨時被中斷。最少 2 個在閒置時間仍需費用，且中斷風險不適合沒有大量容錯工程的生產 API。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 4 &mdash; A company&rsquo;s data engineering team notices that their AWS bill has a large line item for NAT Gateway data processing charges. Investigation shows that EC2 instances in private subnets are frequently reading large files from S3. What is the most cost-effective solution?
+      <span class="zh">問題 4——某公司的資料工程團隊注意到他們的 AWS 帳單中有一個很大的 NAT 閘道資料處理費用明細項目。調查顯示私有子網路中的 EC2 執行個體頻繁從 S3 讀取大型檔案。最具成本效益的解決方案是什麼？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Move the EC2 instances to public subnets and assign Elastic IPs
+        <span class="zh">將 EC2 執行個體移至公有子網路並指派彈性 IP</span>
+      </li>
+      <li>Create an S3 VPC Gateway Endpoint and update the route tables
+        <span class="zh">建立 S3 VPC 閘道端點並更新路由表</span>
+      </li>
+      <li>Replace the NAT Gateway with a NAT Instance to reduce costs
+        <span class="zh">將 NAT 閘道替換為 NAT 執行個體以降低成本</span>
+      </li>
+      <li>Enable S3 Transfer Acceleration to reduce the data transfer volume
+        <span class="zh">啟用 S3 傳輸加速以減少資料傳輸量</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
+    <ul class="answer-detail">
+      <li class="correct">B is correct: An S3 VPC Gateway Endpoint is free and routes S3 traffic within the AWS network, bypassing the NAT Gateway entirely. Eliminates all NAT data processing charges for S3 traffic with no application changes.
+        <span class="zh">B 正確：S3 VPC 閘道端點免費，在 AWS 網路內路由 S3 流量，完全繞過 NAT 閘道。無需任何應用程式變更即可消除 S3 流量的所有 NAT 資料處理費用。</span>
+      </li>
+      <li class="wrong">A is wrong: Moving instances to public subnets is a security regression. It also doesn&rsquo;t directly reduce data transfer costs for S3.
+        <span class="zh">A 錯誤：將執行個體移至公有子網路是安全性退步。也不會直接降低 S3 的資料傳輸成本。</span>
+      </li>
+      <li class="wrong">C is wrong: A NAT Instance is cheaper per hour but still charges for data processing. The root cause (routing S3 traffic through NAT) is not fixed.
+        <span class="zh">C 錯誤：NAT 執行個體每小時較便宜，但仍收取資料處理費用。根本原因（透過 NAT 路由 S3 流量）未解決。</span>
+      </li>
+      <li class="wrong">D is wrong: S3 Transfer Acceleration speeds up uploads from the internet to S3 &mdash; it doesn&rsquo;t reduce internal data transfer costs.
+        <span class="zh">D 錯誤：S3 傳輸加速加快從網際網路上傳至 S3 的速度——不降低內部資料傳輸成本。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 5 &mdash; A company runs a production MySQL database on RDS. The workload is consistent and predictable &mdash; roughly the same query volume every day, 24/7. The CTO wants to reduce database costs by at least 40% without changing the application or database engine. What should the solutions architect recommend?
+      <span class="zh">問題 5——某公司在 RDS 上執行生產 MySQL 資料庫。工作負載一致且可預測——每天 24/7 大約相同的查詢量。CTO 希望在不變更應用程式或資料庫引擎的情況下，將資料庫成本降低至少 40%。解決方案架構師應建議什麼？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Migrate to Aurora Serverless to automatically scale down during low-traffic periods
+        <span class="zh">遷移至 Aurora Serverless 以在低流量期間自動縮減</span>
+      </li>
+      <li>Purchase RDS Reserved Instances for a 1-year term with partial upfront payment
+        <span class="zh">以部分預付付款購買 1 年期的 RDS 預留執行個體</span>
+      </li>
+      <li>Enable RDS Multi-AZ to distribute load across the primary and standby
+        <span class="zh">啟用 RDS 多可用區域以在主要和備用執行個體之間分配負載</span>
+      </li>
+      <li>Switch to a smaller RDS instance and add Read Replicas for capacity
+        <span class="zh">切換至較小的 RDS 執行個體並新增唯讀複本以增加容量</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
+    <ul class="answer-detail">
+      <li class="correct">B is correct: RDS Reserved Instances offer up to 69% discount for a 1-year commitment. For a steady, predictable 24/7 workload, Reserved Instances achieve significant cost reduction with zero architecture or application change.
+        <span class="zh">B 正確：RDS 預留執行個體為 1 年承諾提供最高 69% 折扣。對於穩定、可預測的 24/7 工作負載，預留執行個體在零架構或應用程式變更的情況下實現顯著成本降低。</span>
+      </li>
+      <li class="wrong">A is wrong: Aurora Serverless benefits variable workloads. For consistent 24/7 traffic it may cost more than provisioned, and it requires a database engine change (Aurora MySQL, not RDS MySQL).
+        <span class="zh">A 錯誤：Aurora Serverless 對變動工作負載有益。對於一致的 24/7 流量，它可能比佈建版本更昂貴，且需要變更資料庫引擎（Aurora MySQL，而非 RDS MySQL）。</span>
+      </li>
+      <li class="wrong">C is wrong: Multi-AZ standby is not readable &mdash; it doesn&rsquo;t distribute load. It adds cost (doubles the instance) rather than reducing it.
+        <span class="zh">C 錯誤：多可用區域備用執行個體無法讀取——不分配負載。它增加成本（執行個體加倍）而非降低。</span>
+      </li>
+      <li class="wrong">D is wrong: Downsizing and adding Read Replicas changes the architecture and may cause performance issues. Reserved Instances achieve cost reduction without any architecture change.
+        <span class="zh">D 錯誤：縮小規模和新增唯讀複本變更架構並可能導致效能問題。預留執行個體在不變更任何架構的情況下實現成本降低。</span>
+      </li>
+    </ul>
+  </div>
+
+</body>
+</html>

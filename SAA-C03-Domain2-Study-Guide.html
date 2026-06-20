@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAA-C03 Domain 2: Design High-Performing Architectures</title>
+  <style>
+    body { font-family: Georgia, serif; font-size: 13px; line-height: 1.6; color: #1a1a1a; max-width: 900px; margin: 0 auto; padding: 30px 40px; }
+    h1 { font-size: 22px; border-bottom: 3px solid #232f3e; padding-bottom: 10px; color: #232f3e; margin-bottom: 6px; }
+    .subtitle { font-size: 13px; color: #555; margin-bottom: 30px; }
+    h2 { font-size: 16px; background-color: #232f3e; color: #ffffff; padding: 6px 12px; margin-top: 30px; margin-bottom: 10px; border-radius: 3px; }
+    h3 { font-size: 14px; color: #232f3e; margin-top: 16px; margin-bottom: 6px; border-left: 4px solid #ff9900; padding-left: 8px; }
+    h4 { font-size: 13px; font-weight: bold; margin-top: 12px; margin-bottom: 4px; }
+    ul, ol { padding-left: 20px; margin: 6px 0; }
+    li { margin-bottom: 4px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; }
+    th { background-color: #232f3e; color: white; padding: 6px 10px; text-align: left; }
+    td { padding: 5px 10px; border-bottom: 1px solid #ddd; }
+    tr:nth-child(even) td { background-color: #f7f7f7; }
+    .question-block { background: #f9f9f9; border: 1px solid #ddd; border-left: 4px solid #ff9900; padding: 14px 16px; margin: 16px 0; border-radius: 3px; page-break-inside: avoid; }
+    .question-text { font-weight: bold; margin-bottom: 10px; }
+    .options { padding-left: 16px; margin: 8px 0; }
+    .options li { margin-bottom: 4px; }
+    .answer-label { font-weight: bold; color: #232f3e; margin-top: 12px; }
+    .answer-detail { margin-top: 6px; padding-left: 12px; font-size: 12px; }
+    .answer-detail li { margin-bottom: 4px; }
+    .correct { color: #1a7340; font-weight: bold; }
+    .wrong { color: #8b0000; }
+    .page-break { page-break-before: always; }
+    .zh { display: block; color: #777; font-size: 0.88em; font-style: italic; margin-top: 2px; padding-left: 6px; border-left: 2px solid #ff9900; line-height: 1.5; }
+    h1 .zh, h2 .zh { font-size: 0.82em; font-weight: normal; font-style: normal; color: #ffcc80; border: none; padding-left: 0; margin-top: 3px; }
+    h3 .zh, h4 .zh { font-size: 0.82em; font-weight: normal; font-style: normal; color: #888; border: none; padding-left: 0; margin-top: 3px; }
+    .subtitle .zh { border: none; padding: 0; font-style: normal; color: #888; }
+    td .zh, th .zh { border: none; padding: 0; color: #999; font-style: italic; }
+    .question-text .zh { font-weight: normal; color: #666; margin-top: 4px; }
+    .back-link { display: inline-block; margin-bottom: 20px; color: #232f3e; text-decoration: none; font-size: 12px; border: 1px solid #232f3e; padding: 4px 10px; border-radius: 3px; }
+    .back-link:hover { background: #232f3e; color: white; }
+    @media print { body { padding: 15px 20px; } h2 { -webkit-print-color-adjust: exact; print-color-adjust: exact; } th { -webkit-print-color-adjust: exact; print-color-adjust: exact; } .question-block { page-break-inside: avoid; } }
+  </style>
+</head>
+<body>
+
+  <a class="back-link" href="index.html">&larr; Back to Index 返回目錄</a>
+
+  <h1>SAA-C03 &mdash; Domain 2: Design High-Performing Architectures
+    <span class="zh">領域 2：設計高效能架構</span>
+  </h1>
+  <div class="subtitle">AWS Certified Solutions Architect &ndash; Associate &nbsp;|&nbsp; Deep-Dive Study Guide &nbsp;|&nbsp; 24% of Exam
+    <span class="zh">AWS 認證解決方案架構師 – 助理 &nbsp;|&nbsp; 深度學習指南 &nbsp;|&nbsp; 占考試 24%</span>
+  </div>
+
+  <h2>1. Domain Overview <span class="zh">領域概覽</span></h2>
+  <p>Domain 2 tests your ability to select services and configurations that maximize speed, throughput, and scalability. The exam focuses on <strong>matching the right performance tool to the workload</strong> &mdash; choosing the correct EBS type, caching layer, compute family, or network accelerator based on specific requirements like IOPS, latency targets, or data access patterns.</p>
+  <p class="zh">領域 2 測試您選擇服務和設定以最大化速度、輸送量和擴展性的能力。考試重點在於<strong>為工作負載配對正確的效能工具</strong>——根據 IOPS、延遲目標或資料存取模式等特定需求，選擇正確的 EBS 類型、快取層、運算系列或網路加速器。</p>
+
+  <h2>2. Key AWS Services <span class="zh">主要 AWS 服務</span></h2>
+
+  <h3>Compute <span class="zh">運算</span></h3>
+
+  <h4>EC2 Instance Families <span class="zh">EC2 執行個體系列</span></h4>
+  <ul>
+    <li><strong>C-series</strong> (c6i, c7g): Compute-optimized; CPU-bound workloads, batch processing, web servers
+      <span class="zh"><strong>C 系列</strong>（c6i, c7g）：運算最佳化；CPU 密集工作負載、批次處理、Web 伺服器</span>
+    </li>
+    <li><strong>R/X-series</strong> (r6i, x2idn): Memory-optimized; in-memory databases, real-time big data, SAP HANA
+      <span class="zh"><strong>R/X 系列</strong>（r6i, x2idn）：記憶體最佳化；記憶體內資料庫、即時大數據、SAP HANA</span>
+    </li>
+    <li><strong>I/D-series</strong> (i4i, d3): Storage-optimized; high sequential I/O, data warehousing, Hadoop
+      <span class="zh"><strong>I/D 系列</strong>（i4i, d3）：儲存最佳化；高循序 I/O、資料倉儲、Hadoop</span>
+    </li>
+    <li><strong>P/G/Inf-series</strong>: Accelerated computing; ML training (P), GPU graphics (G), ML inference (Inf)
+      <span class="zh"><strong>P/G/Inf 系列</strong>：加速運算；ML 訓練（P）、GPU 圖形（G）、ML 推論（Inf）</span>
+    </li>
+    <li><strong>Exam rule:</strong> match instance family to bottleneck &mdash; CPU-bound &rarr; C; memory-bound &rarr; R; IOPS-bound &rarr; I; ML &rarr; P/Inf
+      <span class="zh"><strong>考試規則：</strong>將執行個體系列對應至瓶頸——CPU 密集 → C；記憶體密集 → R；IOPS 密集 → I；ML → P/Inf</span>
+    </li>
+  </ul>
+
+  <h4>Enhanced Networking <span class="zh">增強型網路</span></h4>
+  <ul>
+    <li><strong>ENA</strong> (Elastic Network Adapter): up to 100 Gbps, lower latency, lower jitter &mdash; available on most modern instance types
+      <span class="zh"><strong>ENA</strong>（彈性網路轉接器）：最高 100 Gbps、較低延遲、較低抖動——適用於大多數現代執行個體類型</span>
+    </li>
+    <li><strong>EFA</strong> (Elastic Fabric Adapter): HPC and ML workloads requiring tightly coupled node communication (MPI); only on supported instances
+      <span class="zh"><strong>EFA</strong>（彈性網路結構轉接器）：需要緊密耦合節點通訊（MPI）的 HPC 和 ML 工作負載；僅限支援的執行個體</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;HPC cluster with inter-node communication&rdquo; &rarr; EFA; general high bandwidth &rarr; ENA
+      <span class="zh"><strong>考試規則：</strong>「具有節點間通訊的 HPC 叢集」→ EFA；一般高頻寬 → ENA</span>
+    </li>
+  </ul>
+
+  <h4>Lambda</h4>
+  <ul>
+    <li>Memory allocation (128 MB &ndash; 10,240 MB) also scales CPU proportionally
+      <span class="zh">記憶體配置（128 MB – 10,240 MB）也按比例擴展 CPU</span>
+    </li>
+    <li><strong>Provisioned Concurrency</strong>: pre-warms execution environments &mdash; eliminates cold starts for latency-sensitive workloads
+      <span class="zh"><strong>佈建並行</strong>：預先暖機執行環境——消除對延遲敏感工作負載的冷啟動</span>
+    </li>
+    <li>Max timeout: 15 minutes &nbsp;|&nbsp; Max memory: 10,240 MB
+      <span class="zh">最長逾時：15 分鐘 | 最大記憶體：10,240 MB</span>
+    </li>
+    <li>Default concurrency limit: 1,000 per region (soft limit, can be raised)
+      <span class="zh">預設並行限制：每個區域 1,000（軟性限制，可提高）</span>
+    </li>
+    <li><strong>Exam trap:</strong> &ldquo;Lambda takes too long on first request&rdquo; &rarr; Provisioned Concurrency, not increasing memory
+      <span class="zh"><strong>考試陷阱：</strong>「Lambda 在第一個請求時花費太長時間」→ 佈建並行，而非增加記憶體</span>
+    </li>
+  </ul>
+
+  <h4>ECS / EKS / Fargate</h4>
+  <ul>
+    <li>ECS: AWS-native container orchestration
+      <span class="zh">ECS：AWS 原生容器協調</span>
+    </li>
+    <li>EKS: Kubernetes; use when team already uses K8s or needs K8s ecosystem
+      <span class="zh">EKS：Kubernetes；當團隊已使用 K8s 或需要 K8s 生態系統時使用</span>
+    </li>
+    <li>Fargate: serverless compute for containers (no EC2 management)
+      <span class="zh">Fargate：容器的無伺服器運算（無需管理 EC2）</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;no server management for containers&rdquo; &rarr; Fargate; &ldquo;K8s required&rdquo; &rarr; EKS; &ldquo;AWS-native containers&rdquo; &rarr; ECS
+      <span class="zh"><strong>考試規則：</strong>「容器無需伺服器管理」→ Fargate；「需要 K8s」→ EKS；「AWS 原生容器」→ ECS</span>
+    </li>
+  </ul>
+
+  <h3>Storage <span class="zh">儲存</span></h3>
+
+  <h4>EBS Volume Types <span class="zh">EBS 磁碟區類型</span></h4>
+  <table>
+    <tr>
+      <th>Type <span class="zh">類型</span></th>
+      <th>Use Case <span class="zh">使用案例</span></th>
+      <th>Max IOPS <span class="zh">最大 IOPS</span></th>
+      <th>Max Throughput <span class="zh">最大輸送量</span></th>
+    </tr>
+    <tr><td>gp3</td><td>General purpose (default choice) <span class="zh">一般用途（預設選擇）</span></td><td>16,000</td><td>1,000 MB/s</td></tr>
+    <tr><td>gp2</td><td>Legacy general purpose <span class="zh">舊版一般用途</span></td><td>16,000</td><td>250 MB/s</td></tr>
+    <tr><td>io2</td><td>Mission-critical, consistent IOPS <span class="zh">關鍵任務、一致 IOPS</span></td><td>64,000</td><td>1,000 MB/s</td></tr>
+    <tr><td>io2 Block Express</td><td>Highest performance (SAP/Oracle) <span class="zh">最高效能（SAP/Oracle）</span></td><td>256,000</td><td>4,000 MB/s</td></tr>
+    <tr><td>st1</td><td>Throughput-optimized HDD (big data, logs) <span class="zh">輸送量最佳化 HDD（大數據、日誌）</span></td><td>500</td><td>500 MB/s</td></tr>
+    <tr><td>sc1</td><td>Cold HDD (infrequent access, archival) <span class="zh">冷 HDD（不頻繁存取、封存）</span></td><td>250</td><td>250 MB/s</td></tr>
+  </table>
+  <ul>
+    <li><strong>gp2 vs gp3:</strong> gp3 delivers 3,000 IOPS baseline regardless of volume size; gp2 ties IOPS to size (3 IOPS/GB). gp3 is cheaper and more predictable &mdash; default choice.
+      <span class="zh"><strong>gp2 vs gp3：</strong>gp3 無論磁碟區大小均提供 3,000 IOPS 基準；gp2 將 IOPS 與大小掛鉤（3 IOPS/GB）。gp3 更便宜且更可預測——預設選擇。</span>
+    </li>
+    <li><strong>Exam rule:</strong> need &gt;16,000 IOPS &rarr; io2; sequential reads (Hadoop, logs) &rarr; st1; general DB &rarr; gp3; st1/sc1 cannot be boot volumes
+      <span class="zh"><strong>考試規則：</strong>需要 &gt;16,000 IOPS → io2；循序讀取（Hadoop、日誌）→ st1；一般資料庫 → gp3；st1/sc1 不能作為開機磁碟區</span>
+    </li>
+  </ul>
+
+  <h4>S3 Performance <span class="zh">S3 效能</span></h4>
+  <ul>
+    <li>Default: <strong>3,500 PUT/COPY/POST/DELETE</strong> and <strong>5,500 GET/HEAD</strong> per second <strong>per prefix</strong>
+      <span class="zh">預設：每個<strong>字首</strong>每秒 <strong>3,500 PUT/COPY/POST/DELETE</strong> 和 <strong>5,500 GET/HEAD</strong></span>
+    </li>
+    <li>Add prefixes to scale horizontally (distribute objects across partitions)
+      <span class="zh">新增字首以水平擴展（跨分割區分配物件）</span>
+    </li>
+    <li><strong>Multipart Upload:</strong> recommended for &gt;100 MB, required for &gt;5 GB
+      <span class="zh"><strong>多部分上傳：</strong>建議用於 &gt;100 MB，&gt;5 GB 時必須使用</span>
+    </li>
+    <li><strong>S3 Transfer Acceleration:</strong> routes uploads through CloudFront edge locations &mdash; use for long-distance uploads
+      <span class="zh"><strong>S3 傳輸加速：</strong>透過 CloudFront 邊緣位置路由上傳——用於長距離上傳</span>
+    </li>
+    <li><strong>S3 Byte-Range Fetches:</strong> parallel downloads of object parts &mdash; improves GET throughput
+      <span class="zh"><strong>S3 位元組範圍擷取：</strong>平行下載物件部分——提升 GET 輸送量</span>
+    </li>
+  </ul>
+
+  <h4>EFS (Elastic File System) <span class="zh">EFS（彈性檔案系統）</span></h4>
+  <ul>
+    <li><strong>Bursting:</strong> throughput scales with storage size
+      <span class="zh"><strong>爆量：</strong>輸送量隨儲存大小擴展</span>
+    </li>
+    <li><strong>Provisioned:</strong> set throughput independently of storage &mdash; use when workload needs more than storage tier provides
+      <span class="zh"><strong>佈建：</strong>獨立於儲存設定輸送量——當工作負載需求超過儲存層提供時使用</span>
+    </li>
+    <li><strong>Elastic:</strong> auto-scales throughput up/down; best for unpredictable workloads (recommended default)
+      <span class="zh"><strong>彈性：</strong>自動向上/向下擴展輸送量；最適合無法預測的工作負載（建議預設）</span>
+    </li>
+    <li><strong>Max I/O mode:</strong> higher aggregate throughput, higher latency &mdash; only for massively parallel workloads (10,000+ clients)
+      <span class="zh"><strong>最大 I/O 模式：</strong>更高的彙總輸送量、更高延遲——僅用於大量平行工作負載（10,000 個以上用戶端）</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;NFS shared file system for Linux&rdquo; &rarr; EFS; &ldquo;unpredictable throughput&rdquo; &rarr; Elastic mode
+      <span class="zh"><strong>考試規則：</strong>「Linux 的 NFS 共用檔案系統」→ EFS；「無法預測的輸送量」→ 彈性模式</span>
+    </li>
+  </ul>
+
+  <h4>FSx for Windows File Server <span class="zh">FSx for Windows 檔案伺服器</span></h4>
+  <ul>
+    <li>SMB protocol, NTFS, Active Directory integration
+      <span class="zh">SMB 通訊協定、NTFS、Active Directory 整合</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;Windows workloads needing shared file storage&rdquo; or &ldquo;SMB protocol&rdquo; &rarr; FSx for Windows
+      <span class="zh"><strong>考試規則：</strong>「需要共用檔案儲存的 Windows 工作負載」或「SMB 通訊協定」→ FSx for Windows</span>
+    </li>
+  </ul>
+
+  <h4>FSx for Lustre</h4>
+  <ul>
+    <li>High-performance parallel file system; sub-millisecond latency; hundreds of GB/s throughput
+      <span class="zh">高效能平行檔案系統；毫秒以下延遲；數百 GB/s 輸送量</span>
+    </li>
+    <li>Integrates natively with S3 &mdash; read/write S3 as a filesystem
+      <span class="zh">與 S3 原生整合——以檔案系統方式讀寫 S3</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;HPC&rdquo;, &ldquo;ML training with large datasets&rdquo;, &ldquo;high-throughput compute&rdquo; &rarr; FSx for Lustre
+      <span class="zh"><strong>考試規則：</strong>「HPC」、「使用大型資料集的 ML 訓練」、「高輸送量運算」→ FSx for Lustre</span>
+    </li>
+  </ul>
+
+  <h3>Database Performance <span class="zh">資料庫效能</span></h3>
+
+  <h4>ElastiCache: Redis vs. Memcached</h4>
+  <table>
+    <tr>
+      <th>Feature <span class="zh">功能</span></th>
+      <th>Redis</th>
+      <th>Memcached</th>
+    </tr>
+    <tr><td>Data structures <span class="zh">資料結構</span></td><td>Complex (lists, sets, sorted sets, hashes) <span class="zh">複雜（清單、集合、有序集合、雜湊）</span></td><td>Simple key-value only <span class="zh">僅簡單鍵值</span></td></tr>
+    <tr><td>Persistence <span class="zh">持久性</span></td><td>Yes (RDB snapshots, AOF) <span class="zh">是（RDB 快照、AOF）</span></td><td>No <span class="zh">否</span></td></tr>
+    <tr><td>Replication / Multi-AZ <span class="zh">複寫 / 多可用區域</span></td><td>Yes <span class="zh">是</span></td><td>No <span class="zh">否</span></td></tr>
+    <tr><td>Pub/Sub</td><td>Yes <span class="zh">是</span></td><td>No <span class="zh">否</span></td></tr>
+    <tr><td>Multi-threaded <span class="zh">多執行緒</span></td><td>No (single-threaded) <span class="zh">否（單執行緒）</span></td><td>Yes <span class="zh">是</span></td></tr>
+    <tr><td>Horizontal scaling <span class="zh">水平擴展</span></td><td>Cluster mode <span class="zh">叢集模式</span></td><td>Native sharding <span class="zh">原生分片</span></td></tr>
+  </table>
+  <p><strong>Exam rule:</strong> need persistence, replication, complex data types, or pub/sub &rarr; Redis; pure horizontal scaling with simple caching &rarr; Memcached</p>
+  <p class="zh"><strong>考試規則：</strong>需要持久性、複寫、複雜資料類型或 Pub/Sub → Redis；純水平擴展搭配簡單快取 → Memcached</p>
+
+  <h4>DynamoDB Accelerator (DAX) <span class="zh">DynamoDB 加速器</span></h4>
+  <ul>
+    <li>In-memory cache purpose-built for DynamoDB; <strong>microsecond</strong> read latency
+      <span class="zh">專為 DynamoDB 建置的記憶體快取；<strong>微秒</strong>讀取延遲</span>
+    </li>
+    <li>Write-through cache; API-compatible with DynamoDB (minimal code change)
+      <span class="zh">寫入穿透快取；與 DynamoDB API 相容（最少程式碼變更）</span>
+    </li>
+    <li>Does NOT help with write-heavy workloads or strongly consistent reads
+      <span class="zh">對寫入密集工作負載或強一致性讀取<strong>無幫助</strong></span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;DynamoDB reads are too slow&rdquo; or &ldquo;microsecond latency for DynamoDB&rdquo; &rarr; DAX
+      <span class="zh"><strong>考試規則：</strong>「DynamoDB 讀取太慢」或「DynamoDB 需要微秒延遲」→ DAX</span>
+    </li>
+  </ul>
+
+  <h4>RDS Read Replicas <span class="zh">RDS 唯讀複本</span></h4>
+  <ul>
+    <li>Asynchronous replication; offloads read traffic from primary
+      <span class="zh">非同步複寫；從主要執行個體分擔讀取流量</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;read-heavy workload causing performance issues on RDS&rdquo; &rarr; add read replicas
+      <span class="zh"><strong>考試規則：</strong>「讀取密集工作負載導致 RDS 效能問題」→ 新增唯讀複本</span>
+    </li>
+  </ul>
+
+  <h3>Networking &amp; Content Delivery <span class="zh">網路與內容交付</span></h3>
+
+  <h4>CloudFront</h4>
+  <ul>
+    <li>Global CDN with 450+ edge locations; caches static and dynamic content
+      <span class="zh">擁有 450 個以上邊緣位置的全球 CDN；快取靜態和動態內容</span>
+    </li>
+    <li>Origins: S3, ALB, EC2, API Gateway, custom HTTP
+      <span class="zh">來源：S3、ALB、EC2、API Gateway、自訂 HTTP</span>
+    </li>
+    <li><strong>Origin Shield:</strong> extra caching layer between edges and origin &mdash; reduces origin load
+      <span class="zh"><strong>來源防護：</strong>邊緣與來源之間的額外快取層——減少來源負載</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;reduce latency for global users for HTTP/HTTPS content&rdquo; &rarr; CloudFront
+      <span class="zh"><strong>考試規則：</strong>「降低全球使用者的 HTTP/HTTPS 內容延遲」→ CloudFront</span>
+    </li>
+  </ul>
+
+  <h4>Global Accelerator <span class="zh">全球加速器</span></h4>
+  <ul>
+    <li>Routes traffic over AWS backbone to optimal endpoints using anycast IP
+      <span class="zh">使用任播 IP 透過 AWS 骨幹網路將流量路由至最佳端點</span>
+    </li>
+    <li>Provides 2 static global IPs &mdash; no DNS propagation delay on failover
+      <span class="zh">提供 2 個靜態全球 IP——容錯移轉時無 DNS 傳播延遲</span>
+    </li>
+    <li>Works for TCP/UDP (not HTTP-specific like CloudFront)
+      <span class="zh">適用於 TCP/UDP（不像 CloudFront 那樣特定於 HTTP）</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;static IP for global routing&rdquo; or &ldquo;non-HTTP protocol&rdquo; &rarr; Global Accelerator; &ldquo;HTTP content caching&rdquo; &rarr; CloudFront
+      <span class="zh"><strong>考試規則：</strong>「全球路由的靜態 IP」或「非 HTTP 通訊協定」→ 全球加速器；「HTTP 內容快取」→ CloudFront</span>
+    </li>
+  </ul>
+
+  <h4>VPC Endpoints <span class="zh">VPC 端點</span></h4>
+  <ul>
+    <li><strong>Interface Endpoint</strong> (PrivateLink): ENI in subnet; supports most AWS services; costs money per hour
+      <span class="zh"><strong>介面端點</strong>（PrivateLink）：子網路中的 ENI；支援大多數 AWS 服務；按小時收費</span>
+    </li>
+    <li><strong>Gateway Endpoint:</strong> adds route to route table; only S3 and DynamoDB; <strong>free</strong>
+      <span class="zh"><strong>閘道端點：</strong>在路由表中新增路由；僅限 S3 和 DynamoDB；<strong>免費</strong></span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;EC2 accessing S3 without internet&rdquo; &rarr; Gateway Endpoint (free); anything else &rarr; Interface Endpoint
+      <span class="zh"><strong>考試規則：</strong>「EC2 不經網際網路存取 S3」→ 閘道端點（免費）；其他情況 → 介面端點</span>
+    </li>
+  </ul>
+
+  <h4>Direct Connect <span class="zh">專線連線</span></h4>
+  <ul>
+    <li>Dedicated private network connection from on-premises to AWS
+      <span class="zh">從本地端到 AWS 的專用私有網路連線</span>
+    </li>
+    <li>Consistent latency, higher bandwidth, lower per-GB cost than internet VPN
+      <span class="zh">一致延遲、更高頻寬、比網際網路 VPN 更低的每 GB 費用</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;consistent network performance to AWS&rdquo; or &ldquo;high-throughput hybrid connectivity&rdquo; &rarr; Direct Connect
+      <span class="zh"><strong>考試規則：</strong>「對 AWS 一致的網路效能」或「高輸送量混合連線」→ Direct Connect</span>
+    </li>
+  </ul>
+
+  <h3>Streaming &amp; Messaging <span class="zh">串流與訊息傳遞</span></h3>
+
+  <h4>Kinesis Data Streams <span class="zh">Kinesis 資料串流</span></h4>
+  <ul>
+    <li>Real-time streaming; ordered within a shard; retention up to 365 days
+      <span class="zh">即時串流；在分片內有序；保留期最長 365 天</span>
+    </li>
+    <li>Each shard = 1 MB/s write, 2 MB/s read
+      <span class="zh">每個分片 = 1 MB/s 寫入、2 MB/s 讀取</span>
+    </li>
+    <li><strong>Enhanced Fan-Out:</strong> dedicated 2 MB/s per consumer per shard &mdash; eliminates consumer competition
+      <span class="zh"><strong>增強型展開：</strong>每個消費者每個分片專用 2 MB/s——消除消費者競爭</span>
+    </li>
+  </ul>
+
+  <h4>Kinesis Data Firehose <span class="zh">Kinesis Data Firehose</span></h4>
+  <ul>
+    <li>Managed delivery to S3, Redshift, OpenSearch, Splunk; no shards to manage
+      <span class="zh">受管交付至 S3、Redshift、OpenSearch、Splunk；無需管理分片</span>
+    </li>
+    <li>Near-real-time (60-second buffer minimum)
+      <span class="zh">接近即時（最少 60 秒緩衝）</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;stream data to S3/Redshift without managing infrastructure&rdquo; &rarr; Firehose; &ldquo;real-time processing with custom consumers&rdquo; &rarr; Data Streams
+      <span class="zh"><strong>考試規則：</strong>「無需管理基礎設施即可將資料串流至 S3/Redshift」→ Firehose；「使用自訂消費者的即時處理」→ Data Streams</span>
+    </li>
+  </ul>
+
+  <div class="page-break"></div>
+  <h2>3. Architecture Patterns <span class="zh">架構模式</span></h2>
+
+  <h3>Pattern 1: Read-Heavy Application with Caching
+    <span class="zh">模式 1：使用快取的讀取密集應用程式</span>
+  </h3>
+  <p><strong>Services:</strong> Route 53 &rarr; ALB &rarr; EC2 ASG &rarr; ElastiCache Redis &rarr; RDS</p>
+  <p class="zh"><strong>服務：</strong>Route 53 → ALB → EC2 ASG → ElastiCache Redis → RDS</p>
+  <p><strong>Why it works:</strong> Read requests hit ElastiCache first (sub-millisecond). Only cache misses hit RDS. Dramatically reduces DB load and response time.</p>
+  <p class="zh"><strong>為何有效：</strong>讀取請求先命中 ElastiCache（毫秒以下）。僅快取未命中才存取 RDS。大幅降低資料庫負載和回應時間。</p>
+  <p><strong>Exam signal:</strong> &ldquo;database is a bottleneck&rdquo;, &ldquo;reduce read latency&rdquo;, &ldquo;high read-to-write ratio&rdquo; &rarr; add ElastiCache in front of RDS.</p>
+  <p class="zh"><strong>考試信號：</strong>「資料庫是瓶頸」、「降低讀取延遲」、「高讀寫比例」→ 在 RDS 前新增 ElastiCache。</p>
+
+  <h3>Pattern 2: High-Throughput Data Ingestion Pipeline
+    <span class="zh">模式 2：高輸送量資料擷取管道</span>
+  </h3>
+  <p><strong>Services:</strong> Producers &rarr; Kinesis Data Streams &rarr; Lambda / EC2 consumers &rarr; S3 / DynamoDB / Redshift</p>
+  <p class="zh"><strong>服務：</strong>生產者 → Kinesis Data Streams → Lambda/EC2 消費者 → S3/DynamoDB/Redshift</p>
+  <p><strong>Why it works:</strong> Kinesis buffers high-volume real-time data; multiple consumers independently process the same stream; replay is possible.</p>
+  <p class="zh"><strong>為何有效：</strong>Kinesis 緩衝大量即時資料；多個消費者獨立處理同一串流；可重播。</p>
+  <p><strong>Exam signal:</strong> &ldquo;ingest millions of events per second&rdquo;, &ldquo;multiple downstream systems need the same data&rdquo;, &ldquo;real-time processing&rdquo; &rarr; Kinesis Data Streams.</p>
+  <p class="zh"><strong>考試信號：</strong>「每秒擷取數百萬個事件」、「多個下游系統需要相同資料」、「即時處理」→ Kinesis Data Streams。</p>
+
+  <h3>Pattern 3: Global API Acceleration
+    <span class="zh">模式 3：全球 API 加速</span>
+  </h3>
+  <p><strong>Services:</strong> Route 53 &rarr; Global Accelerator &rarr; ALB in multiple regions &rarr; EC2/Lambda</p>
+  <p class="zh"><strong>服務：</strong>Route 53 → 全球加速器 → 多個區域的 ALB → EC2/Lambda</p>
+  <p><strong>Why it works:</strong> Traffic enters AWS network at nearest edge, then travels the optimized AWS backbone. Reduces latency vs. public internet routing.</p>
+  <p class="zh"><strong>為何有效：</strong>流量在最近的邊緣進入 AWS 網路，然後透過最佳化的 AWS 骨幹傳輸。相較於公共網際網路路由降低延遲。</p>
+  <p><strong>Exam signal:</strong> &ldquo;global users experiencing high latency&rdquo;, &ldquo;non-HTTP application&rdquo;, &ldquo;need static IP for global routing&rdquo; &rarr; Global Accelerator.</p>
+  <p class="zh"><strong>考試信號：</strong>「全球使用者遭遇高延遲」、「非 HTTP 應用程式」、「需要全球路由的靜態 IP」→ 全球加速器。</p>
+
+  <h3>Pattern 4: HPC / ML Training Architecture
+    <span class="zh">模式 4：HPC / ML 訓練架構</span>
+  </h3>
+  <p><strong>Services:</strong> EC2 P/G/Inf instances + EFA &rarr; FSx for Lustre (linked to S3) &rarr; S3</p>
+  <p class="zh"><strong>服務：</strong>EC2 P/G/Inf 執行個體 + EFA → FSx for Lustre（連結至 S3）→ S3</p>
+  <p><strong>Why it works:</strong> EFA enables low-latency inter-node communication. FSx for Lustre provides high-throughput shared storage. S3 feeds training data into FSx.</p>
+  <p class="zh"><strong>為何有效：</strong>EFA 啟用低延遲節點間通訊。FSx for Lustre 提供高輸送量共用儲存。S3 將訓練資料饋入 FSx。</p>
+  <p><strong>Exam signal:</strong> &ldquo;ML training&rdquo;, &ldquo;HPC cluster&rdquo;, &ldquo;hundreds of GB/s storage throughput&rdquo; &rarr; FSx for Lustre + EFA-enabled instances.</p>
+  <p class="zh"><strong>考試信號：</strong>「ML 訓練」、「HPC 叢集」、「數百 GB/s 儲存輸送量」→ FSx for Lustre + 啟用 EFA 的執行個體。</p>
+
+  <h3>Pattern 5: Serverless High-Performance API
+    <span class="zh">模式 5：無伺服器高效能 API</span>
+  </h3>
+  <p><strong>Services:</strong> API Gateway &rarr; Lambda (Provisioned Concurrency) &rarr; DynamoDB + DAX</p>
+  <p class="zh"><strong>服務：</strong>API Gateway → Lambda（佈建並行）→ DynamoDB + DAX</p>
+  <p><strong>Why it works:</strong> Provisioned Concurrency eliminates cold starts. DAX provides microsecond DynamoDB reads. No servers to scale.</p>
+  <p class="zh"><strong>為何有效：</strong>佈建並行消除冷啟動。DAX 提供微秒 DynamoDB 讀取。無需擴展伺服器。</p>
+  <p><strong>Exam signal:</strong> &ldquo;serverless API with consistent sub-10ms response time&rdquo; &rarr; Lambda + Provisioned Concurrency + DAX.</p>
+  <p class="zh"><strong>考試信號：</strong>「具一致性 10 毫秒以下回應時間的無伺服器 API」→ Lambda + 佈建並行 + DAX。</p>
+
+  <h2>4. Service Comparisons <span class="zh">服務比較</span></h2>
+
+  <h4>CloudFront vs. Global Accelerator</h4>
+  <ul>
+    <li>CloudFront = HTTP/HTTPS CDN, caches content at edge, reduces origin load
+      <span class="zh">CloudFront = HTTP/HTTPS CDN，在邊緣快取內容，減少來源負載</span>
+    </li>
+    <li>Global Accelerator = TCP/UDP routing over AWS backbone, no caching, static IPs
+      <span class="zh">全球加速器 = 透過 AWS 骨幹的 TCP/UDP 路由，無快取，靜態 IP</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;cache assets globally&rdquo; or &ldquo;HTTP API latency&rdquo; &rarr; CloudFront; &ldquo;static IPs&rdquo; or &ldquo;non-HTTP&rdquo; &rarr; Global Accelerator
+      <span class="zh"><strong>考試規則：</strong>「全球快取資產」或「HTTP API 延遲」→ CloudFront；「靜態 IP」或「非 HTTP」→ 全球加速器</span>
+    </li>
+  </ul>
+
+  <h4>ElastiCache Redis vs. Memcached</h4>
+  <ul>
+    <li>Redis = persistence, replication, complex data types, Multi-AZ, pub/sub
+      <span class="zh">Redis = 持久性、複寫、複雜資料類型、多可用區域、Pub/Sub</span>
+    </li>
+    <li>Memcached = simple key-value, multi-threaded, pure horizontal scaling
+      <span class="zh">Memcached = 簡單鍵值、多執行緒、純水平擴展</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;sorted leaderboard&rdquo;, &ldquo;session persistence&rdquo;, &ldquo;pub/sub&rdquo;, &ldquo;Multi-AZ cache&rdquo; &rarr; Redis; &ldquo;simple scalable cache&rdquo; &rarr; Memcached
+      <span class="zh"><strong>考試規則：</strong>「排序排行榜」、「工作階段持久性」、「Pub/Sub」、「多可用區域快取」→ Redis；「簡單可擴展快取」→ Memcached</span>
+    </li>
+  </ul>
+
+  <h4>gp3 vs. io2 EBS</h4>
+  <ul>
+    <li>gp3 = 3,000&ndash;16,000 IOPS, cost-effective general purpose
+      <span class="zh">gp3 = 3,000–16,000 IOPS，符合成本效益的一般用途</span>
+    </li>
+    <li>io2 = up to 64,000 IOPS, consistent sub-ms latency, 99.999% durability
+      <span class="zh">io2 = 最高 64,000 IOPS、一致的毫秒以下延遲、99.999% 持久性</span>
+    </li>
+    <li><strong>Exam rule:</strong> &gt;16,000 IOPS or &ldquo;mission-critical consistent latency&rdquo; &rarr; io2; everything else &rarr; gp3
+      <span class="zh"><strong>考試規則：</strong>&gt;16,000 IOPS 或「關鍵任務一致延遲」→ io2；其他情況 → gp3</span>
+    </li>
+  </ul>
+
+  <h4>Kinesis Data Streams vs. Kinesis Firehose
+    <span class="zh">Kinesis Data Streams vs. Kinesis Firehose</span>
+  </h4>
+  <ul>
+    <li>Data Streams = real-time, custom consumers, ordered per shard, replay, code required
+      <span class="zh">Data Streams = 即時、自訂消費者、每個分片有序、可重播、需要程式碼</span>
+    </li>
+    <li>Firehose = near-real-time, managed delivery to destinations, no code needed
+      <span class="zh">Firehose = 接近即時、受管交付至目的地、無需程式碼</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;real-time processing with custom logic&rdquo; &rarr; Data Streams; &ldquo;load to S3/Redshift automatically&rdquo; &rarr; Firehose
+      <span class="zh"><strong>考試規則：</strong>「使用自訂邏輯的即時處理」→ Data Streams；「自動載入至 S3/Redshift」→ Firehose</span>
+    </li>
+  </ul>
+
+  <h4>EFS vs. FSx for Lustre</h4>
+  <ul>
+    <li>EFS = general-purpose Linux shared file system, multi-AZ, POSIX-compliant
+      <span class="zh">EFS = 一般用途 Linux 共用檔案系統、多可用區域、POSIX 相容</span>
+    </li>
+    <li>FSx for Lustre = HPC-grade throughput, S3 integration, sub-millisecond latency
+      <span class="zh">FSx for Lustre = HPC 等級輸送量、S3 整合、毫秒以下延遲</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;shared file storage for general Linux workloads&rdquo; &rarr; EFS; &ldquo;HPC or ML needing maximum throughput&rdquo; &rarr; FSx for Lustre
+      <span class="zh"><strong>考試規則：</strong>「一般 Linux 工作負載的共用檔案儲存」→ EFS；「需要最大輸送量的 HPC 或 ML」→ FSx for Lustre</span>
+    </li>
+  </ul>
+
+  <h4>DAX vs. ElastiCache for DynamoDB</h4>
+  <ul>
+    <li>DAX = purpose-built for DynamoDB, drop-in replacement, API-compatible, read-through/write-through
+      <span class="zh">DAX = 專為 DynamoDB 建置、即插即用替換、API 相容、讀取穿透/寫入穿透</span>
+    </li>
+    <li>ElastiCache = general-purpose cache, requires application-level cache logic
+      <span class="zh">ElastiCache = 一般用途快取，需要應用程式層級的快取邏輯</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;speed up DynamoDB reads with minimal code change&rdquo; &rarr; DAX; &ldquo;cache data from multiple sources&rdquo; &rarr; ElastiCache
+      <span class="zh"><strong>考試規則：</strong>「以最少程式碼變更加速 DynamoDB 讀取」→ DAX；「快取來自多個來源的資料」→ ElastiCache</span>
+    </li>
+  </ul>
+
+  <div class="page-break"></div>
+  <h2>5. Exam Traps &amp; Gotchas <span class="zh">考試陷阱與注意事項</span></h2>
+  <ol>
+    <li><strong>Lambda cold starts vs. memory.</strong> Increasing memory speeds up execution but does NOT eliminate cold starts. Cold starts require Provisioned Concurrency.
+      <span class="zh"><strong>Lambda 冷啟動 vs. 記憶體。</strong>增加記憶體可加快執行速度，但不能消除冷啟動。消除冷啟動需要佈建並行。</span>
+    </li>
+    <li><strong>gp2 IOPS tied to volume size; gp3 is not.</strong> A 100 GB gp2 gets only 300 IOPS baseline. A 100 GB gp3 gets 3,000 IOPS. Small volumes needing high IOPS &rarr; gp3 or io2.
+      <span class="zh"><strong>gp2 的 IOPS 與磁碟區大小掛鉤；gp3 則不然。</strong>100 GB gp2 僅有 300 IOPS 基準。100 GB gp3 有 3,000 IOPS。需要高 IOPS 的小型磁碟區 → gp3 或 io2。</span>
+    </li>
+    <li><strong>DAX does not help write performance.</strong> DAX caches reads. Write-heavy DynamoDB workloads don&rsquo;t benefit from DAX.
+      <span class="zh"><strong>DAX 對寫入效能無幫助。</strong>DAX 快取讀取。寫入密集的 DynamoDB 工作負載無法從 DAX 受益。</span>
+    </li>
+    <li><strong>S3 performance is per prefix, not per bucket.</strong> All objects under one prefix = limited to 5,500 GET/s. Distribute across multiple prefixes to multiply throughput.
+      <span class="zh"><strong>S3 效能按字首計算，而非按儲存貯體計算。</strong>同一字首下的所有物件 = 限制為 5,500 GET/秒。跨多個字首分佈以倍增輸送量。</span>
+    </li>
+    <li><strong>Kinesis Enhanced Fan-Out vs. standard GetRecords.</strong> Standard polling shares 2 MB/s per shard across all consumers. Enhanced Fan-Out gives each consumer dedicated 2 MB/s. &ldquo;Multiple consumers with high lag&rdquo; &rarr; Enable Enhanced Fan-Out.
+      <span class="zh"><strong>Kinesis 增強型展開 vs. 標準 GetRecords。</strong>標準輪詢跨所有消費者共享每分片 2 MB/s。增強型展開給每個消費者專用 2 MB/s。「多個消費者延遲高」→ 啟用增強型展開。</span>
+    </li>
+    <li><strong>Global Accelerator does not cache.</strong> It only routes traffic faster. If the question mentions caching or content delivery, CloudFront is the answer.
+      <span class="zh"><strong>全球加速器不快取。</strong>它只是更快地路由流量。若問題提到快取或內容交付，CloudFront 才是答案。</span>
+    </li>
+    <li><strong>EFS Max I/O has higher latency.</strong> Not a performance upgrade for all workloads. Only for massively parallel workloads (10,000+ clients).
+      <span class="zh"><strong>EFS 最大 I/O 有更高延遲。</strong>並非所有工作負載的效能升級。僅適用於大量平行工作負載（10,000 個以上用戶端）。</span>
+    </li>
+    <li><strong>st1 and sc1 cannot be boot volumes.</strong> Only gp2, gp3, io1, io2 can be root/boot volumes.
+      <span class="zh"><strong>st1 和 sc1 不能作為開機磁碟區。</strong>只有 gp2、gp3、io1、io2 可以作為根/開機磁碟區。</span>
+    </li>
+  </ol>
+
+  <h2>6. Key Numbers to Remember <span class="zh">重要數字記憶</span></h2>
+  <table>
+    <tr><th>Service / Feature <span class="zh">服務 / 功能</span></th><th>Value <span class="zh">數值</span></th></tr>
+    <tr><td>Lambda max timeout <span class="zh">Lambda 最長逾時</span></td><td>15 minutes <span class="zh">15 分鐘</span></td></tr>
+    <tr><td>Lambda max memory <span class="zh">Lambda 最大記憶體</span></td><td>10,240 MB</td></tr>
+    <tr><td>Lambda default concurrency limit (per region) <span class="zh">Lambda 預設並行限制（每個區域）</span></td><td>1,000 (soft limit) <span class="zh">1,000（軟性限制）</span></td></tr>
+    <tr><td>EBS gp3 baseline IOPS <span class="zh">EBS gp3 基準 IOPS</span></td><td>3,000</td></tr>
+    <tr><td>EBS gp3 max IOPS <span class="zh">EBS gp3 最大 IOPS</span></td><td>16,000</td></tr>
+    <tr><td>EBS gp2 IOPS rate <span class="zh">EBS gp2 IOPS 速率</span></td><td>3 IOPS/GB, burst to 3,000 <span class="zh">3 IOPS/GB，爆量至 3,000</span></td></tr>
+    <tr><td>EBS io2 max IOPS <span class="zh">EBS io2 最大 IOPS</span></td><td>64,000</td></tr>
+    <tr><td>EBS io2 Block Express max IOPS</td><td>256,000</td></tr>
+    <tr><td>S3 PUT/DELETE per prefix per second <span class="zh">S3 每字首每秒 PUT/DELETE</span></td><td>3,500</td></tr>
+    <tr><td>S3 GET/HEAD per prefix per second <span class="zh">S3 每字首每秒 GET/HEAD</span></td><td>5,500</td></tr>
+    <tr><td>S3 multipart upload recommended threshold <span class="zh">S3 多部分上傳建議閾值</span></td><td>100 MB</td></tr>
+    <tr><td>S3 multipart upload required threshold <span class="zh">S3 多部分上傳必要閾值</span></td><td>5 GB</td></tr>
+    <tr><td>Kinesis shard write throughput <span class="zh">Kinesis 分片寫入輸送量</span></td><td>1 MB/s</td></tr>
+    <tr><td>Kinesis shard read throughput (standard) <span class="zh">Kinesis 分片讀取輸送量（標準）</span></td><td>2 MB/s shared <span class="zh">2 MB/s 共享</span></td></tr>
+    <tr><td>Kinesis Enhanced Fan-Out per consumer <span class="zh">Kinesis 增強型展開每消費者</span></td><td>2 MB/s dedicated <span class="zh">2 MB/s 專用</span></td></tr>
+    <tr><td>Kinesis max retention <span class="zh">Kinesis 最長保留期間</span></td><td>365 days <span class="zh">365 天</span></td></tr>
+    <tr><td>Firehose minimum buffer interval <span class="zh">Firehose 最小緩衝間隔</span></td><td>60 seconds <span class="zh">60 秒</span></td></tr>
+    <tr><td>CloudFront edge locations <span class="zh">CloudFront 邊緣位置</span></td><td>450+</td></tr>
+  </table>
+
+  <div class="page-break"></div>
+  <h2>7. Practice Questions <span class="zh">練習題</span></h2>
+
+  <div class="question-block">
+    <div class="question-text">Question 1 &mdash; A company runs a read-heavy web application backed by an RDS MySQL database. The database is experiencing high CPU utilization due to a large number of repetitive read queries. The application team cannot change the application code significantly. What should a solutions architect recommend?
+      <span class="zh">問題 1——某公司執行以 RDS MySQL 資料庫為後端的讀取密集 Web 應用程式。由於大量重複讀取查詢，資料庫的 CPU 使用率很高。應用程式團隊無法大幅變更應用程式程式碼。解決方案架構師應建議什麼？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Add RDS Read Replicas and update the application to route reads to the replica endpoint
+        <span class="zh">新增 RDS 唯讀複本並更新應用程式將讀取路由至複本端點</span>
+      </li>
+      <li>Enable RDS Multi-AZ to distribute read traffic to the standby instance
+        <span class="zh">啟用 RDS 多可用區域將讀取流量分配至備用執行個體</span>
+      </li>
+      <li>Deploy an ElastiCache Memcached cluster in front of RDS
+        <span class="zh">在 RDS 前部署 ElastiCache Memcached 叢集</span>
+      </li>
+      <li>Deploy an ElastiCache Redis cluster in front of RDS and use lazy loading
+        <span class="zh">在 RDS 前部署 ElastiCache Redis 叢集並使用延遲載入</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: D <span class="zh">答案：D</span></div>
+    <ul class="answer-detail">
+      <li class="correct">D is correct: ElastiCache Redis with lazy loading caches frequent read results, dramatically reducing RDS CPU. Redis is preferred for its replication and persistence.
+        <span class="zh">D 正確：ElastiCache Redis 搭配延遲載入快取頻繁讀取結果，大幅降低 RDS CPU。Redis 因其複寫和持久性而更受青睞。</span>
+      </li>
+      <li class="wrong">A is wrong: Read Replicas still hit the database for every query &mdash; repetitive queries are not cached.
+        <span class="zh">A 錯誤：唯讀複本對每個查詢仍存取資料庫——重複查詢不會被快取。</span>
+      </li>
+      <li class="wrong">B is wrong: Multi-AZ standby is not readable. It exists only for failover.
+        <span class="zh">B 錯誤：多可用區域備用執行個體無法讀取。它僅用於容錯移轉。</span>
+      </li>
+      <li class="wrong">C is wrong: Memcached could work but lacks replication and persistence. Redis is the better default for production caching.
+        <span class="zh">C 錯誤：Memcached 可以運作，但缺乏複寫和持久性。Redis 是生產快取的更好預設選擇。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 2 &mdash; A machine learning team needs to train a model on a 50 TB dataset stored in S3. Training jobs run on a cluster of EC2 P4d instances. The training requires extremely high throughput I/O and low latency access to the dataset. What storage solution should a solutions architect recommend?
+      <span class="zh">問題 2——機器學習團隊需要在儲存於 S3 的 50 TB 資料集上訓練模型。訓練工作在 EC2 P4d 執行個體叢集上執行。訓練需要極高輸送量 I/O 和對資料集的低延遲存取。解決方案架構師應建議什麼儲存方案？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Mount the S3 bucket directly using S3 File Gateway on each instance
+        <span class="zh">在每個執行個體上使用 S3 File Gateway 直接掛載 S3 儲存貯體</span>
+      </li>
+      <li>Copy the dataset to EBS gp3 volumes attached to each instance
+        <span class="zh">將資料集複製到連接至每個執行個體的 EBS gp3 磁碟區</span>
+      </li>
+      <li>Use Amazon FSx for Lustre linked to the S3 bucket
+        <span class="zh">使用連結至 S3 儲存貯體的 Amazon FSx for Lustre</span>
+      </li>
+      <li>Use Amazon EFS with Max I/O performance mode
+        <span class="zh">使用最大 I/O 效能模式的 Amazon EFS</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
+    <ul class="answer-detail">
+      <li class="correct">C is correct: FSx for Lustre provides sub-millisecond latency and hundreds of GB/s throughput with native S3 integration. Designed exactly for HPC/ML workloads.
+        <span class="zh">C 正確：FSx for Lustre 提供毫秒以下延遲和數百 GB/s 輸送量，並具有原生 S3 整合。專為 HPC/ML 工作負載設計。</span>
+      </li>
+      <li class="wrong">A is wrong: S3 File Gateway adds latency and is meant for hybrid on-premises scenarios.
+        <span class="zh">A 錯誤：S3 File Gateway 增加延遲，適用於混合本地端場景。</span>
+      </li>
+      <li class="wrong">B is wrong: EBS volumes are per-instance. Copying 50 TB to each instance is impractical and doesn&rsquo;t support shared access.
+        <span class="zh">B 錯誤：EBS 磁碟區是每個執行個體專屬的。將 50 TB 複製到每個執行個體不切實際，且不支援共用存取。</span>
+      </li>
+      <li class="wrong">D is wrong: EFS Max I/O has higher latency than FSx for Lustre and lower aggregate throughput. Not designed for this scale.
+        <span class="zh">D 錯誤：EFS 最大 I/O 的延遲高於 FSx for Lustre，彙總輸送量也較低。不是為此規模而設計的。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 3 &mdash; A company has a DynamoDB table that serves a leaderboard for a gaming application. As the game grew, read latency has increased to 5&ndash;8 ms, causing visible lag in the UI. The team needs microsecond read latency. What should the solutions architect recommend?
+      <span class="zh">問題 3——某公司有一個 DynamoDB 資料表，為遊戲應用程式提供排行榜。隨著遊戲成長，讀取延遲已增加至 5–8 毫秒，導致 UI 出現明顯延遲。團隊需要微秒讀取延遲。解決方案架構師應建議什麼？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Add a Global Secondary Index to the DynamoDB table
+        <span class="zh">在 DynamoDB 資料表中新增全域次要索引</span>
+      </li>
+      <li>Switch to DynamoDB on-demand capacity mode
+        <span class="zh">切換至 DynamoDB 隨需容量模式</span>
+      </li>
+      <li>Deploy Amazon DynamoDB Accelerator (DAX) in front of the table
+        <span class="zh">在資料表前部署 Amazon DynamoDB Accelerator（DAX）</span>
+      </li>
+      <li>Add an ElastiCache Redis cluster and implement a cache-aside pattern
+        <span class="zh">新增 ElastiCache Redis 叢集並實作旁路快取模式</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
+    <ul class="answer-detail">
+      <li class="correct">C is correct: DAX is purpose-built for DynamoDB and provides microsecond read latency. API-compatible with DynamoDB, so minimal code changes are required.
+        <span class="zh">C 正確：DAX 專為 DynamoDB 建置，提供微秒讀取延遲。與 DynamoDB API 相容，因此只需最少程式碼變更。</span>
+      </li>
+      <li class="wrong">A is wrong: A GSI improves query flexibility, not read latency. It doesn&rsquo;t cache anything.
+        <span class="zh">A 錯誤：全域次要索引提升查詢彈性，而非讀取延遲。它不快取任何內容。</span>
+      </li>
+      <li class="wrong">B is wrong: On-demand mode adjusts capacity, not latency. The bottleneck is latency, not throughput.
+        <span class="zh">B 錯誤：隨需模式調整容量，而非延遲。瓶頸是延遲，而非輸送量。</span>
+      </li>
+      <li class="wrong">D is wrong: ElastiCache Redis requires significant application code changes. DAX is the simpler, purpose-built solution.
+        <span class="zh">D 錯誤：ElastiCache Redis 需要大量應用程式程式碼變更。DAX 是更簡單的專用解決方案。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 4 &mdash; A media company streams video content to users worldwide. Videos are stored in S3 in us-east-1. Users in Asia and Europe are experiencing long load times. The company wants to reduce latency with minimal code changes. What should the solutions architect recommend?
+      <span class="zh">問題 4——某媒體公司向全球使用者串流視訊內容。影片儲存在 us-east-1 的 S3 中。亞洲和歐洲的使用者遭遇較長的載入時間。公司希望以最少程式碼變更降低延遲。解決方案架構師應建議什麼？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Enable S3 Transfer Acceleration on the bucket
+        <span class="zh">在儲存貯體上啟用 S3 傳輸加速</span>
+      </li>
+      <li>Use Amazon CloudFront with an S3 origin
+        <span class="zh">使用以 S3 為來源的 Amazon CloudFront</span>
+      </li>
+      <li>Use AWS Global Accelerator pointing to the S3 bucket
+        <span class="zh">使用指向 S3 儲存貯體的 AWS 全球加速器</span>
+      </li>
+      <li>Replicate the S3 bucket to regions in Asia and Europe using S3 CRR
+        <span class="zh">使用 S3 CRR 將 S3 儲存貯體複寫至亞洲和歐洲的區域</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
+    <ul class="answer-detail">
+      <li class="correct">B is correct: CloudFront caches video content at 450+ edge locations globally. Users are served from the nearest edge, dramatically reducing load times.
+        <span class="zh">B 正確：CloudFront 在全球 450 個以上邊緣位置快取視訊內容。使用者從最近的邊緣提供服務，大幅降低載入時間。</span>
+      </li>
+      <li class="wrong">A is wrong: S3 Transfer Acceleration speeds up uploads to S3, not downloads to end users.
+        <span class="zh">A 錯誤：S3 傳輸加速加快上傳至 S3 的速度，而非向終端使用者的下載速度。</span>
+      </li>
+      <li class="wrong">C is wrong: Global Accelerator doesn&rsquo;t cache content. The origin still serves every request.
+        <span class="zh">C 錯誤：全球加速器不快取內容。來源仍然服務每個請求。</span>
+      </li>
+      <li class="wrong">D is wrong: CRR adds operational complexity and cost. CloudFront achieves the same goal with a single bucket.
+        <span class="zh">D 錯誤：CRR 增加營運複雜性和成本。CloudFront 以單一儲存貯體達到相同目標。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 5 &mdash; A company processes clickstream events from its website. Multiple downstream systems need to process the same events independently &mdash; a real-time dashboard, a fraud detection system, and a data archiving pipeline. Events must be processed in order and replay must be possible. What should a solutions architect recommend?
+      <span class="zh">問題 5——某公司處理來自其網站的點擊串流事件。多個下游系統需要獨立處理相同事件——即時儀表板、詐欺偵測系統和資料封存管道。事件必須按順序處理，且必須可以重播。解決方案架構師應建議什麼？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Use Amazon SQS Standard queues with one queue per consumer
+        <span class="zh">使用每個消費者一個佇列的 Amazon SQS 標準佇列</span>
+      </li>
+      <li>Use Amazon SNS with three SQS queues as subscribers
+        <span class="zh">使用 Amazon SNS 搭配三個 SQS 佇列作為訂閱者</span>
+      </li>
+      <li>Use Amazon Kinesis Data Streams with Enhanced Fan-Out enabled
+        <span class="zh">使用啟用增強型展開的 Amazon Kinesis Data Streams</span>
+      </li>
+      <li>Use Amazon EventBridge with three separate rules and targets
+        <span class="zh">使用具有三個獨立規則和目標的 Amazon EventBridge</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
+    <ul class="answer-detail">
+      <li class="correct">C is correct: Kinesis Data Streams preserves order within a shard, supports replay, and Enhanced Fan-Out gives each consumer dedicated 2 MB/s per shard. Perfect for multi-consumer ordered replayable streaming.
+        <span class="zh">C 正確：Kinesis Data Streams 在分片內保留順序、支援重播，增強型展開給每個消費者每個分片專用 2 MB/s。完美適用於多消費者有序可重播串流。</span>
+      </li>
+      <li class="wrong">A is wrong: A message consumed from one SQS queue is not available to others. Duplicating events to multiple queues is an anti-pattern.
+        <span class="zh">A 錯誤：從一個 SQS 佇列消費的訊息無法供其他人使用。將事件複製到多個佇列是反模式。</span>
+      </li>
+      <li class="wrong">B is wrong: SNS + SQS fanout distributes events but SQS doesn&rsquo;t guarantee order and doesn&rsquo;t support replay.
+        <span class="zh">B 錯誤：SNS + SQS 展開分配事件，但 SQS 不保證順序且不支援重播。</span>
+      </li>
+      <li class="wrong">D is wrong: EventBridge is excellent for event routing but does not support ordered processing or stream replay.
+        <span class="zh">D 錯誤：EventBridge 非常適合事件路由，但不支援有序處理或串流重播。</span>
+      </li>
+    </ul>
+  </div>
+
+</body>
+</html>
