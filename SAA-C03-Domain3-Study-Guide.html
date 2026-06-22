@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SAA-C03 Domain 3: Design Secure Architectures</title>
+  <title>SAA-C03 Domain 3: Design High-Performing Architectures</title>
   <style>
     body { font-family: Georgia, serif; font-size: 13px; line-height: 1.6; color: #1a1a1a; max-width: 900px; margin: 0 auto; padding: 30px 40px; }
     h1 { font-size: 22px; border-bottom: 3px solid #232f3e; padding-bottom: 10px; color: #232f3e; margin-bottom: 6px; }
@@ -26,7 +26,6 @@
     .answer-detail li { margin-bottom: 4px; }
     .correct { color: #1a7340; font-weight: bold; }
     .wrong { color: #8b0000; }
-    code { background: #f0f0f0; padding: 1px 4px; border-radius: 2px; font-family: monospace; font-size: 12px; }
     .page-break { page-break-before: always; }
     .zh { display: block; color: #777; font-size: 0.88em; font-style: italic; margin-top: 2px; padding-left: 6px; border-left: 2px solid #ff9900; line-height: 1.5; }
     h1 .zh, h2 .zh { font-size: 0.82em; font-weight: normal; font-style: normal; color: #ffcc80; border: none; padding-left: 0; margin-top: 3px; }
@@ -43,838 +42,794 @@
 
   <a class="back-link" href="index.html">&larr; Back to Index 返回目錄</a>
 
-  <h1>SAA-C03 &mdash; Domain 3: Design Secure Architectures
-    <span class="zh">領域 3：設計安全架構</span>
+  <h1>SAA-C03 &mdash; Domain 3: Design High-Performing Architectures
+    <span class="zh">領域 3：設計高效能架構</span>
   </h1>
-  <div class="subtitle">AWS Certified Solutions Architect &ndash; Associate &nbsp;|&nbsp; Deep-Dive Study Guide &nbsp;|&nbsp; 30% of Exam
-    <span class="zh">AWS 認證解決方案架構師 – 助理 &nbsp;|&nbsp; 深度學習指南 &nbsp;|&nbsp; 占考試 30%</span>
+  <div class="subtitle">AWS Certified Solutions Architect &ndash; Associate &nbsp;|&nbsp; Deep-Dive Study Guide &nbsp;|&nbsp; 24% of Exam
+    <span class="zh">AWS 認證解決方案架構師 – 助理 &nbsp;|&nbsp; 深度學習指南 &nbsp;|&nbsp; 占考試 24%</span>
   </div>
 
   <h2>1. Domain Overview <span class="zh">領域概覽</span></h2>
-  <p>Domain 3 tests your ability to design systems that protect data, control access, and detect threats using AWS security services. The exam focuses on <strong>choosing the right security control for the right layer</strong> &mdash; IAM for identity, KMS/encryption for data protection, security groups/NACLs/WAF for network, and GuardDuty/Inspector/Macie for detection. This domain rewards precision: knowing <em>when</em> one service applies and another doesn&rsquo;t is what separates correct answers from plausible-looking traps.</p>
-  <p class="zh">領域 3 測試您使用 AWS 安全服務設計保護資料、控制存取和偵測威脅系統的能力。考試重點在於<strong>為正確的層選擇正確的安全控制</strong>——IAM 用於身分識別、KMS/加密用於資料保護、安全群組/NACL/WAF 用於網路，以及 GuardDuty/Inspector/Macie 用於偵測。此領域獎勵精準度：了解<em>何時</em>適用某個服務而另一個不適用，是區分正確答案和看似合理陷阱的關鍵。</p>
+  <p>Domain 3 tests your ability to select services and configurations that maximize speed, throughput, and scalability. The exam focuses on <strong>matching the right performance tool to the workload</strong> &mdash; choosing the correct EBS type, caching layer, compute family, or network accelerator based on specific requirements like IOPS, latency targets, or data access patterns.</p>
+  <p class="zh">領域 3 測試您選擇服務和設定以最大化速度、輸送量和擴展性的能力。考試重點在於<strong>為工作負載配對正確的效能工具</strong>——根據 IOPS、延遲目標或資料存取模式等特定需求，選擇正確的 EBS 類型、快取層、運算系列或網路加速器。</p>
 
   <h2>2. Key AWS Services <span class="zh">主要 AWS 服務</span></h2>
 
-  <h3>Identity &amp; Access Management (IAM) <span class="zh">身分識別和存取管理</span></h3>
+  <h3>Compute <span class="zh">運算</span></h3>
 
-  <h4>IAM Policies <span class="zh">IAM 政策</span></h4>
+  <h4>EC2 Instance Families <span class="zh">EC2 執行個體系列</span></h4>
   <ul>
-    <li><strong>Identity-based policies:</strong> attached to users, groups, roles &mdash; define what that identity can do
-      <span class="zh"><strong>以身分識別為基礎的政策：</strong>附加至使用者、群組、角色——定義該身分可以做什麼</span>
+    <li><strong>C-series</strong> (c6i, c7g): Compute-optimized; CPU-bound workloads, batch processing, web servers
+      <span class="zh"><strong>C 系列</strong>（c6i, c7g）：運算最佳化；CPU 密集工作負載、批次處理、Web 伺服器</span>
     </li>
-    <li><strong>Resource-based policies:</strong> attached to resources (S3 bucket policy, KMS key policy, Lambda resource policy) &mdash; define who can access that resource
-      <span class="zh"><strong>以資源為基礎的政策：</strong>附加至資源（S3 儲存貯體政策、KMS 金鑰政策、Lambda 資源政策）——定義誰可以存取該資源</span>
+    <li><strong>R/X-series</strong> (r6i, x2idn): Memory-optimized; in-memory databases, real-time big data, SAP HANA
+      <span class="zh"><strong>R/X 系列</strong>（r6i, x2idn）：記憶體最佳化；記憶體內資料庫、即時大數據、SAP HANA</span>
     </li>
-    <li><strong>Permission boundaries:</strong> set the maximum permissions an identity can have &mdash; used to delegate administration safely
-      <span class="zh"><strong>許可界限：</strong>設定身分可擁有的最大許可——用於安全地委派管理</span>
+    <li><strong>I/D-series</strong> (i4i, d3): Storage-optimized; high sequential I/O, data warehousing, Hadoop
+      <span class="zh"><strong>I/D 系列</strong>（i4i, d3）：儲存最佳化；高循序 I/O、資料倉儲、Hadoop</span>
     </li>
-    <li><strong>Session policies:</strong> passed at role assumption; can only restrict (never expand) permissions
-      <span class="zh"><strong>工作階段政策：</strong>在擔任角色時傳遞；只能限制（永遠不能擴展）許可</span>
+    <li><strong>P/G/Inf-series</strong>: Accelerated computing; ML training (P), GPU graphics (G), ML inference (Inf)
+      <span class="zh"><strong>P/G/Inf 系列</strong>：加速運算；ML 訓練（P）、GPU 圖形（G）、ML 推論（Inf）</span>
     </li>
-    <li>Evaluation order: explicit Deny &rarr; SCPs &rarr; Permission Boundaries &rarr; Identity policies &rarr; Resource policies
-      <span class="zh">評估順序：明確拒絕 → SCP → 許可界限 → 以身分識別為基礎的政策 → 以資源為基礎的政策</span>
+    <li><strong>Exam rule:</strong> match instance family to bottleneck &mdash; CPU-bound &rarr; C; memory-bound &rarr; R; IOPS-bound &rarr; I; ML &rarr; P/Inf
+      <span class="zh"><strong>考試規則：</strong>將執行個體系列對應至瓶頸——CPU 密集 → C；記憶體密集 → R；IOPS 密集 → I；ML → P/Inf</span>
     </li>
   </ul>
 
-  <h4>IAM Roles <span class="zh">IAM 角色</span></h4>
+  <h4>Enhanced Networking <span class="zh">增強型網路</span></h4>
   <ul>
-    <li>Temporary credentials via STS; no long-term access keys
-      <span class="zh">透過 STS 的暫時憑證；無長期存取金鑰</span>
+    <li><strong>ENA</strong> (Elastic Network Adapter): up to 100 Gbps, lower latency, lower jitter &mdash; available on most modern instance types
+      <span class="zh"><strong>ENA</strong>（彈性網路轉接器）：最高 100 Gbps、較低延遲、較低抖動——適用於大多數現代執行個體類型</span>
     </li>
-    <li><strong>EC2 instance profile:</strong> attach role to EC2 so app code uses role credentials &mdash; never hardcode keys
-      <span class="zh"><strong>EC2 執行個體設定檔：</strong>將角色附加至 EC2，讓應用程式程式碼使用角色憑證——永遠不要在程式碼中硬式編碼金鑰</span>
+    <li><strong>EFA</strong> (Elastic Fabric Adapter): HPC and ML workloads requiring tightly coupled node communication (MPI); only on supported instances
+      <span class="zh"><strong>EFA</strong>（彈性網路結構轉接器）：需要緊密耦合節點通訊（MPI）的 HPC 和 ML 工作負載；僅限支援的執行個體</span>
     </li>
-    <li><strong>Cross-account role:</strong> Account A assumes a role in Account B to access resources there
-      <span class="zh"><strong>跨帳號角色：</strong>帳號 A 擔任帳號 B 中的角色以存取該處的資源</span>
-    </li>
-    <li><strong>Service roles:</strong> allow AWS services (Lambda, ECS, etc.) to call other AWS services
-      <span class="zh"><strong>服務角色：</strong>允許 AWS 服務（Lambda、ECS 等）呼叫其他 AWS 服務</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;EC2 needs to access S3 securely&rdquo; &rarr; IAM role + instance profile, never access keys in code
-      <span class="zh"><strong>考試規則：</strong>「EC2 需要安全存取 S3」→ IAM 角色 + 執行個體設定檔，永遠不要在程式碼中使用存取金鑰</span>
+    <li><strong>Exam rule:</strong> &ldquo;HPC cluster with inter-node communication&rdquo; &rarr; EFA; general high bandwidth &rarr; ENA
+      <span class="zh"><strong>考試規則：</strong>「具有節點間通訊的 HPC 叢集」→ EFA；一般高頻寬 → ENA</span>
     </li>
   </ul>
 
-  <h4>IAM Conditions <span class="zh">IAM 條件</span></h4>
+  <h4>Lambda</h4>
   <ul>
-    <li><code>aws:MultiFactorAuthPresent</code> &mdash; require MFA
-      <span class="zh"><code>aws:MultiFactorAuthPresent</code> —— 要求 MFA</span>
+    <li>Memory allocation (128 MB &ndash; 10,240 MB) also scales CPU proportionally
+      <span class="zh">記憶體配置（128 MB – 10,240 MB）也按比例擴展 CPU</span>
     </li>
-    <li><code>aws:SourceIp</code> &mdash; restrict access by IP
-      <span class="zh"><code>aws:SourceIp</code> —— 依 IP 限制存取</span>
+    <li><strong>Provisioned Concurrency</strong>: pre-warms execution environments &mdash; eliminates cold starts for latency-sensitive workloads
+      <span class="zh"><strong>佈建並行</strong>：預先暖機執行環境——消除對延遲敏感工作負載的冷啟動</span>
     </li>
-    <li><code>aws:RequestedRegion</code> &mdash; restrict to specific regions
-      <span class="zh"><code>aws:RequestedRegion</code> —— 限制至特定區域</span>
+    <li>Max timeout: 15 minutes &nbsp;|&nbsp; Max memory: 10,240 MB
+      <span class="zh">最長逾時：15 分鐘 | 最大記憶體：10,240 MB</span>
     </li>
-    <li><code>s3:prefix</code> &mdash; restrict S3 access to specific object prefixes
-      <span class="zh"><code>s3:prefix</code> —— 限制 S3 存取至特定物件字首</span>
+    <li>Default concurrency limit: 1,000 per region (soft limit, can be raised)
+      <span class="zh">預設並行限制：每個區域 1,000（軟性限制，可提高）</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;require MFA to delete S3 objects&rdquo; &rarr; IAM policy with <code>aws:MultiFactorAuthPresent</code> condition
-      <span class="zh"><strong>考試規則：</strong>「要求 MFA 才能刪除 S3 物件」→ 具有 <code>aws:MultiFactorAuthPresent</code> 條件的 IAM 政策</span>
+    <li><strong>Exam trap:</strong> &ldquo;Lambda takes too long on first request&rdquo; &rarr; Provisioned Concurrency, not increasing memory
+      <span class="zh"><strong>考試陷阱：</strong>「Lambda 在第一個請求時花費太長時間」→ 佈建並行，而非增加記憶體</span>
     </li>
   </ul>
 
-  <h4>AWS Organizations &amp; SCPs <span class="zh">AWS Organizations 與服務控制政策</span></h4>
+  <h4>ECS / EKS / Fargate</h4>
   <ul>
-    <li><strong>SCPs (Service Control Policies):</strong> guardrails applied to accounts or OUs &mdash; define the <em>maximum</em> allowed permissions across the org
-      <span class="zh"><strong>SCP（服務控制政策）：</strong>套用至帳號或組織單位的護欄——定義整個組織允許的<em>最大</em>許可</span>
+    <li>ECS: AWS-native container orchestration
+      <span class="zh">ECS：AWS 原生容器協調</span>
     </li>
-    <li>SCPs do NOT grant permissions &mdash; they only restrict what IAM can grant
-      <span class="zh">SCP 不授予許可——它們只限制 IAM 可以授予的內容</span>
+    <li>EKS: Kubernetes; use when team already uses K8s or needs K8s ecosystem
+      <span class="zh">EKS：Kubernetes；當團隊已使用 K8s 或需要 K8s 生態系統時使用</span>
     </li>
-    <li>SCPs apply to all principals in member accounts, <strong>except</strong> the management (root) account
-      <span class="zh">SCP 套用至成員帳號中的所有主體，<strong>管理（根）帳號除外</strong></span>
+    <li>Fargate: serverless compute for containers (no EC2 management)
+      <span class="zh">Fargate：容器的無伺服器運算（無需管理 EC2）</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;prevent any IAM user from disabling CloudTrail across all accounts&rdquo; &rarr; SCP, not IAM policy
-      <span class="zh"><strong>考試規則：</strong>「防止任何 IAM 使用者在所有帳號中停用 CloudTrail」→ SCP，而非 IAM 政策</span>
+    <li><strong>Exam rule:</strong> &ldquo;no server management for containers&rdquo; &rarr; Fargate; &ldquo;K8s required&rdquo; &rarr; EKS; &ldquo;AWS-native containers&rdquo; &rarr; ECS
+      <span class="zh"><strong>考試規則：</strong>「容器無需伺服器管理」→ Fargate；「需要 K8s」→ EKS；「AWS 原生容器」→ ECS</span>
     </li>
   </ul>
 
-  <h4>IAM Access Analyzer <span class="zh">IAM 存取分析器</span></h4>
-  <ul>
-    <li>Identifies resources shared with external entities (outside the account or org)
-      <span class="zh">識別與外部實體（帳號或組織外部）共用的資源</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;find S3 buckets or IAM roles accessible from outside the organization&rdquo; &rarr; IAM Access Analyzer
-      <span class="zh"><strong>考試規則：</strong>「尋找可從組織外部存取的 S3 儲存貯體或 IAM 角色」→ IAM 存取分析器</span>
-    </li>
-  </ul>
+  <h3>Storage <span class="zh">儲存</span></h3>
 
-  <h3>S3 Security <span class="zh">S3 安全</span></h3>
-
-  <h4>Access Control Layers <span class="zh">存取控制層</span></h4>
-  <ul>
-    <li><strong>Block Public Access:</strong> account-level or bucket-level; overrides ACLs and bucket policies; must be disabled to allow any public access
-      <span class="zh"><strong>封鎖公有存取：</strong>帳號層級或儲存貯體層級；覆寫 ACL 和儲存貯體政策；必須停用才能允許任何公有存取</span>
-    </li>
-    <li><strong>Bucket Policies:</strong> JSON resource-based policies; grant access to other accounts or enforce conditions (TLS, VPC endpoint)
-      <span class="zh"><strong>儲存貯體政策：</strong>JSON 以資源為基礎的政策；授予其他帳號存取權或強制執行條件（TLS、VPC 端點）</span>
-    </li>
-    <li><strong>ACLs:</strong> legacy object-level control; AWS recommends leaving them disabled in modern setups
-      <span class="zh"><strong>ACL：</strong>舊版物件層級控制；AWS 建議在現代設定中保持停用</span>
-    </li>
-    <li><strong>S3 Access Points:</strong> named endpoints with own access policies; simplify access for shared datasets with multiple teams
-      <span class="zh"><strong>S3 存取點：</strong>具有自己存取政策的具名端點；簡化多個團隊共用資料集的存取</span>
-    </li>
-  </ul>
-
-  <h4>S3 Encryption <span class="zh">S3 加密</span></h4>
+  <h4>EBS Volume Types <span class="zh">EBS 磁碟區類型</span></h4>
   <table>
     <tr>
       <th>Type <span class="zh">類型</span></th>
-      <th>Key Management <span class="zh">金鑰管理</span></th>
       <th>Use Case <span class="zh">使用案例</span></th>
+      <th>Max IOPS <span class="zh">最大 IOPS</span></th>
+      <th>Max Throughput <span class="zh">最大輸送量</span></th>
     </tr>
-    <tr><td>SSE-S3 (AES-256)</td><td>AWS manages entirely <span class="zh">AWS 完全管理</span></td><td>Default, lowest overhead <span class="zh">預設、最低負荷</span></td></tr>
-    <tr><td>SSE-KMS</td><td>AWS KMS manages CMK <span class="zh">AWS KMS 管理 CMK</span></td><td>Audit trail, key control, cross-account <span class="zh">稽核追蹤、金鑰控制、跨帳號</span></td></tr>
-    <tr><td>SSE-C</td><td>Customer provides key per request <span class="zh">客戶每次請求提供金鑰</span></td><td>Customer retains full key control <span class="zh">客戶保留完整金鑰控制</span></td></tr>
-    <tr><td>Client-side encryption <span class="zh">用戶端加密</span></td><td>Customer encrypts before upload <span class="zh">客戶在上傳前加密</span></td><td>Maximum control, app-level responsibility <span class="zh">最大控制、應用程式層級責任</span></td></tr>
+    <tr><td>gp3</td><td>General purpose (default choice) <span class="zh">一般用途（預設選擇）</span></td><td>16,000</td><td>1,000 MB/s</td></tr>
+    <tr><td>gp2</td><td>Legacy general purpose <span class="zh">舊版一般用途</span></td><td>16,000</td><td>250 MB/s</td></tr>
+    <tr><td>io2</td><td>Mission-critical, consistent IOPS <span class="zh">關鍵任務、一致 IOPS</span></td><td>64,000</td><td>1,000 MB/s</td></tr>
+    <tr><td>io2 Block Express</td><td>Highest performance (SAP/Oracle) <span class="zh">最高效能（SAP/Oracle）</span></td><td>256,000</td><td>4,000 MB/s</td></tr>
+    <tr><td>st1</td><td>Throughput-optimized HDD (big data, logs) <span class="zh">輸送量最佳化 HDD（大數據、日誌）</span></td><td>500</td><td>500 MB/s</td></tr>
+    <tr><td>sc1</td><td>Cold HDD (infrequent access, archival) <span class="zh">冷 HDD（不頻繁存取、封存）</span></td><td>250</td><td>250 MB/s</td></tr>
   </table>
-  <p><strong>Exam rule:</strong> &ldquo;need audit trail of key usage&rdquo; &rarr; SSE-KMS; &ldquo;AWS must not access key material&rdquo; &rarr; SSE-C or client-side; &ldquo;default encryption with no overhead&rdquo; &rarr; SSE-S3</p>
-  <p class="zh"><strong>考試規則：</strong>「需要金鑰使用的稽核追蹤」→ SSE-KMS；「AWS 不得存取金鑰材料」→ SSE-C 或用戶端；「無負荷的預設加密」→ SSE-S3</p>
-
-  <h4>Presigned URLs <span class="zh">預先簽署 URL</span></h4>
   <ul>
-    <li>Temporary access to a private S3 object without changing bucket permissions
-      <span class="zh">在不變更儲存貯體許可的情況下臨時存取私有 S3 物件</span>
+    <li><strong>gp2 vs gp3:</strong> gp3 delivers 3,000 IOPS baseline regardless of volume size; gp2 ties IOPS to size (3 IOPS/GB). gp3 is cheaper and more predictable &mdash; default choice.
+      <span class="zh"><strong>gp2 vs gp3：</strong>gp3 無論磁碟區大小均提供 3,000 IOPS 基準；gp2 將 IOPS 與大小掛鉤（3 IOPS/GB）。gp3 更便宜且更可預測——預設選擇。</span>
     </li>
-    <li>Generated by any principal with access; expires after a configured time (max 7 days via STS credentials)
-      <span class="zh">由任何具有存取權的主體產生；在設定的時間後到期（透過 STS 憑證最長 7 天）</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;share a private S3 file temporarily without making it public&rdquo; &rarr; presigned URL
-      <span class="zh"><strong>考試規則：</strong>「臨時共用私有 S3 檔案而不公開」→ 預先簽署 URL</span>
+    <li><strong>Exam rule:</strong> need &gt;16,000 IOPS &rarr; io2; sequential reads (Hadoop, logs) &rarr; st1; general DB &rarr; gp3; st1/sc1 cannot be boot volumes
+      <span class="zh"><strong>考試規則：</strong>需要 &gt;16,000 IOPS → io2；循序讀取（Hadoop、日誌）→ st1；一般資料庫 → gp3；st1/sc1 不能作為開機磁碟區</span>
     </li>
   </ul>
 
-  <h4>S3 MFA Delete <span class="zh">S3 MFA 刪除</span></h4>
+  <h4>S3 Performance <span class="zh">S3 效能</span></h4>
   <ul>
-    <li>Requires MFA to permanently delete objects or suspend versioning
-      <span class="zh">需要 MFA 才能永久刪除物件或暫停版本控制</span>
+    <li>Default: <strong>3,500 PUT/COPY/POST/DELETE</strong> and <strong>5,500 GET/HEAD</strong> per second <strong>per prefix</strong>
+      <span class="zh">預設：每個<strong>字首</strong>每秒 <strong>3,500 PUT/COPY/POST/DELETE</strong> 和 <strong>5,500 GET/HEAD</strong></span>
     </li>
-    <li>Can only be enabled by the root account user (not IAM users)
-      <span class="zh">只能由根帳號使用者啟用（非 IAM 使用者）</span>
+    <li>Add prefixes to scale horizontally (distribute objects across partitions)
+      <span class="zh">新增字首以水平擴展（跨分割區分配物件）</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;protect against accidental or malicious deletion&rdquo; &rarr; versioning + MFA Delete
-      <span class="zh"><strong>考試規則：</strong>「防止意外或惡意刪除」→ 版本控制 + MFA 刪除</span>
+    <li><strong>Multipart Upload:</strong> recommended for &gt;100 MB, required for &gt;5 GB
+      <span class="zh"><strong>多部分上傳：</strong>建議用於 &gt;100 MB，&gt;5 GB 時必須使用</span>
+    </li>
+    <li><strong>S3 Transfer Acceleration:</strong> routes uploads through CloudFront edge locations &mdash; use for long-distance uploads
+      <span class="zh"><strong>S3 傳輸加速：</strong>透過 CloudFront 邊緣位置路由上傳——用於長距離上傳</span>
+    </li>
+    <li><strong>S3 Byte-Range Fetches:</strong> parallel downloads of object parts &mdash; improves GET throughput
+      <span class="zh"><strong>S3 位元組範圍擷取：</strong>平行下載物件部分——提升 GET 輸送量</span>
     </li>
   </ul>
 
-  <h3>Encryption &amp; Key Management <span class="zh">加密與金鑰管理</span></h3>
-
-  <h4>AWS KMS <span class="zh">AWS 金鑰管理服務</span></h4>
+  <h4>EFS (Elastic File System) <span class="zh">EFS（彈性檔案系統）</span></h4>
   <ul>
-    <li>Managed encryption key service; keys never leave KMS unencrypted
-      <span class="zh">受管加密金鑰服務；金鑰絕不會以未加密狀態離開 KMS</span>
+    <li><strong>Bursting:</strong> throughput scales with storage size
+      <span class="zh"><strong>爆量：</strong>輸送量隨儲存大小擴展</span>
     </li>
-    <li><strong>AWS-managed CMK:</strong> free, no direct control; <strong>Customer-managed CMK:</strong> full control, key policies, rotation; <strong>AWS-owned:</strong> used internally by services
-      <span class="zh"><strong>AWS 受管 CMK：</strong>免費、無直接控制；<strong>客戶受管 CMK：</strong>完整控制、金鑰政策、輪換；<strong>AWS 擁有：</strong>服務內部使用</span>
+    <li><strong>Provisioned:</strong> set throughput independently of storage &mdash; use when workload needs more than storage tier provides
+      <span class="zh"><strong>佈建：</strong>獨立於儲存設定輸送量——當工作負載需求超過儲存層提供時使用</span>
     </li>
-    <li><strong>Key policies:</strong> resource-based policies that control who can use/manage the key &mdash; must exist for any principal to use the key
-      <span class="zh"><strong>金鑰政策：</strong>控制誰可以使用/管理金鑰的以資源為基礎的政策——任何主體使用金鑰都必須存在金鑰政策</span>
+    <li><strong>Elastic:</strong> auto-scales throughput up/down; best for unpredictable workloads (recommended default)
+      <span class="zh"><strong>彈性：</strong>自動向上/向下擴展輸送量；最適合無法預測的工作負載（建議預設）</span>
     </li>
-    <li><strong>Envelope encryption:</strong> plaintext data encrypted with a data key; data key encrypted with CMK; only encrypted data key is stored
-      <span class="zh"><strong>信封加密：</strong>純文字資料用資料金鑰加密；資料金鑰用 CMK 加密；僅儲存已加密的資料金鑰</span>
+    <li><strong>Max I/O mode:</strong> higher aggregate throughput, higher latency &mdash; only for massively parallel workloads (10,000+ clients)
+      <span class="zh"><strong>最大 I/O 模式：</strong>更高的彙總輸送量、更高延遲——僅用於大量平行工作負載（10,000 個以上用戶端）</span>
     </li>
-    <li><strong>Automatic key rotation:</strong> optional; rotates key material annually; old key retained to decrypt existing data
-      <span class="zh"><strong>自動金鑰輪換：</strong>選用；每年輪換金鑰材料；保留舊金鑰以解密現有資料</span>
-    </li>
-    <li>KMS keys are regional; use multi-region keys for cross-region scenarios
-      <span class="zh">KMS 金鑰為區域性；跨區域場景使用多區域金鑰</span>
+    <li><strong>Exam rule:</strong> &ldquo;NFS shared file system for Linux&rdquo; &rarr; EFS; &ldquo;unpredictable throughput&rdquo; &rarr; Elastic mode
+      <span class="zh"><strong>考試規則：</strong>「Linux 的 NFS 共用檔案系統」→ EFS；「無法預測的輸送量」→ 彈性模式</span>
     </li>
   </ul>
 
-  <h4>CloudHSM</h4>
+  <h4>FSx for Windows File Server <span class="zh">FSx for Windows 檔案伺服器</span></h4>
   <ul>
-    <li>Dedicated hardware security module in your VPC
-      <span class="zh">VPC 中的專用硬體安全模組</span>
+    <li>SMB protocol, NTFS, Active Directory integration
+      <span class="zh">SMB 通訊協定、NTFS、Active Directory 整合</span>
     </li>
-    <li><strong>FIPS 140-2 Level 3</strong> certified (KMS is Level 2)
-      <span class="zh"><strong>FIPS 140-2 Level 3</strong> 認證（KMS 為 Level 2）</span>
-    </li>
-    <li>AWS has zero access to keys &mdash; customer-managed entirely
-      <span class="zh">AWS 對金鑰的存取權為零——完全由客戶管理</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;FIPS 140-2 Level 3 required&rdquo; or &ldquo;AWS must have zero access to key material&rdquo; &rarr; CloudHSM; otherwise &rarr; KMS
-      <span class="zh"><strong>考試規則：</strong>「需要 FIPS 140-2 Level 3」或「AWS 必須對金鑰材料的存取權為零」→ CloudHSM；否則 → KMS</span>
+    <li><strong>Exam rule:</strong> &ldquo;Windows workloads needing shared file storage&rdquo; or &ldquo;SMB protocol&rdquo; &rarr; FSx for Windows
+      <span class="zh"><strong>考試規則：</strong>「需要共用檔案儲存的 Windows 工作負載」或「SMB 通訊協定」→ FSx for Windows</span>
     </li>
   </ul>
 
-  <h4>ACM (AWS Certificate Manager) <span class="zh">ACM（AWS 憑證管理員）</span></h4>
+  <h4>FSx for Lustre</h4>
   <ul>
-    <li>Provisions, manages, and renews SSL/TLS certificates
-      <span class="zh">佈建、管理和更新 SSL/TLS 憑證</span>
+    <li>High-performance parallel file system; sub-millisecond latency; hundreds of GB/s throughput
+      <span class="zh">高效能平行檔案系統；毫秒以下延遲；數百 GB/s 輸送量</span>
     </li>
-    <li>Free for certificates used with ALB, CloudFront, API Gateway
-      <span class="zh">與 ALB、CloudFront、API Gateway 搭配使用的憑證免費</span>
+    <li>Integrates natively with S3 &mdash; read/write S3 as a filesystem
+      <span class="zh">與 S3 原生整合——以檔案系統方式讀寫 S3</span>
     </li>
-    <li>Certificates are NOT exportable from ACM for use outside AWS services
-      <span class="zh">憑證不可從 ACM 匯出供 AWS 服務以外使用</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;HTTPS on ALB or CloudFront&rdquo; &rarr; ACM; &ldquo;certificate needed on EC2 directly&rdquo; &rarr; ACM Private CA or third-party
-      <span class="zh"><strong>考試規則：</strong>「ALB 或 CloudFront 上的 HTTPS」→ ACM；「EC2 上直接需要憑證」→ ACM Private CA 或第三方</span>
+    <li><strong>Exam rule:</strong> &ldquo;HPC&rdquo;, &ldquo;ML training with large datasets&rdquo;, &ldquo;high-throughput compute&rdquo; &rarr; FSx for Lustre
+      <span class="zh"><strong>考試規則：</strong>「HPC」、「使用大型資料集的 ML 訓練」、「高輸送量運算」→ FSx for Lustre</span>
     </li>
   </ul>
 
-  <h3>Secrets Management <span class="zh">秘密管理</span></h3>
+  <h3>Database Performance <span class="zh">資料庫效能</span></h3>
 
-  <h4>AWS Secrets Manager <span class="zh">AWS Secrets Manager</span></h4>
+  <h4>ElastiCache: Redis vs. Memcached</h4>
+  <table>
+    <tr>
+      <th>Feature <span class="zh">功能</span></th>
+      <th>Redis</th>
+      <th>Memcached</th>
+    </tr>
+    <tr><td>Data structures <span class="zh">資料結構</span></td><td>Complex (lists, sets, sorted sets, hashes) <span class="zh">複雜（清單、集合、有序集合、雜湊）</span></td><td>Simple key-value only <span class="zh">僅簡單鍵值</span></td></tr>
+    <tr><td>Persistence <span class="zh">持久性</span></td><td>Yes (RDB snapshots, AOF) <span class="zh">是（RDB 快照、AOF）</span></td><td>No <span class="zh">否</span></td></tr>
+    <tr><td>Replication / Multi-AZ <span class="zh">複寫 / 多可用區域</span></td><td>Yes <span class="zh">是</span></td><td>No <span class="zh">否</span></td></tr>
+    <tr><td>Pub/Sub</td><td>Yes <span class="zh">是</span></td><td>No <span class="zh">否</span></td></tr>
+    <tr><td>Multi-threaded <span class="zh">多執行緒</span></td><td>No (single-threaded) <span class="zh">否（單執行緒）</span></td><td>Yes <span class="zh">是</span></td></tr>
+    <tr><td>Horizontal scaling <span class="zh">水平擴展</span></td><td>Cluster mode <span class="zh">叢集模式</span></td><td>Native sharding <span class="zh">原生分片</span></td></tr>
+  </table>
+  <p><strong>Exam rule:</strong> need persistence, replication, complex data types, or pub/sub &rarr; Redis; pure horizontal scaling with simple caching &rarr; Memcached</p>
+  <p class="zh"><strong>考試規則：</strong>需要持久性、複寫、複雜資料類型或 Pub/Sub → Redis；純水平擴展搭配簡單快取 → Memcached</p>
+
+  <h4>DynamoDB Accelerator (DAX) <span class="zh">DynamoDB 加速器</span></h4>
   <ul>
-    <li>Stores and <strong>automatically rotates</strong> secrets (DB credentials, API keys)
-      <span class="zh">儲存並<strong>自動輪換</strong>秘密（資料庫憑證、API 金鑰）</span>
+    <li>In-memory cache purpose-built for DynamoDB; <strong>microsecond</strong> read latency
+      <span class="zh">專為 DynamoDB 建置的記憶體快取；<strong>微秒</strong>讀取延遲</span>
     </li>
-    <li>Native integration with RDS, Redshift, DocumentDB for rotation
-      <span class="zh">與 RDS、Redshift、DocumentDB 原生整合以進行輪換</span>
+    <li>Write-through cache; API-compatible with DynamoDB (minimal code change)
+      <span class="zh">寫入穿透快取；與 DynamoDB API 相容（最少程式碼變更）</span>
     </li>
-    <li>Cost: ~$0.40/secret/month
-      <span class="zh">費用：約 $0.40/秘密/月</span>
+    <li>Does NOT help with write-heavy workloads or strongly consistent reads
+      <span class="zh">對寫入密集工作負載或強一致性讀取<strong>無幫助</strong></span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;automatically rotate database credentials&rdquo; &rarr; Secrets Manager
-      <span class="zh"><strong>考試規則：</strong>「自動輪換資料庫憑證」→ Secrets Manager</span>
+    <li><strong>Exam rule:</strong> &ldquo;DynamoDB reads are too slow&rdquo; or &ldquo;microsecond latency for DynamoDB&rdquo; &rarr; DAX
+      <span class="zh"><strong>考試規則：</strong>「DynamoDB 讀取太慢」或「DynamoDB 需要微秒延遲」→ DAX</span>
     </li>
   </ul>
 
-  <h4>Systems Manager Parameter Store <span class="zh">Systems Manager 參數存放區</span></h4>
+  <h4>RDS Read Replicas <span class="zh">RDS 唯讀複本</span></h4>
   <ul>
-    <li>Stores configuration and secrets as name/value pairs
-      <span class="zh">以名稱/值配對方式儲存設定和秘密</span>
+    <li>Asynchronous replication; offloads read traffic from primary
+      <span class="zh">非同步複寫；從主要執行個體分擔讀取流量</span>
     </li>
-    <li>Standard tier: free, max 4 KB; Advanced tier: max 8 KB, supports parameter policies
-      <span class="zh">標準層：免費、最大 4 KB；進階層：最大 8 KB、支援參數政策</span>
-    </li>
-    <li>SecureString uses KMS encryption
-      <span class="zh">SecureString 使用 KMS 加密</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;store config and secrets with no auto-rotation needed&rdquo; &rarr; Parameter Store (cheaper); &ldquo;auto-rotation required&rdquo; &rarr; Secrets Manager
-      <span class="zh"><strong>考試規則：</strong>「儲存不需要自動輪換的設定和秘密」→ 參數存放區（較便宜）；「需要自動輪換」→ Secrets Manager</span>
+    <li><strong>Exam rule:</strong> &ldquo;read-heavy workload causing performance issues on RDS&rdquo; &rarr; add read replicas
+      <span class="zh"><strong>考試規則：</strong>「讀取密集工作負載導致 RDS 效能問題」→ 新增唯讀複本</span>
     </li>
   </ul>
 
-  <h3>Network Security <span class="zh">網路安全</span></h3>
+  <h3>Analytics &amp; Big Data Performance <span class="zh">分析與大數據效能</span></h3>
 
-  <h4>Security Groups <span class="zh">安全群組</span></h4>
+  <h4>Amazon Redshift <span class="zh">Amazon Redshift（資料倉儲）</span></h4>
   <ul>
-    <li>Stateful: return traffic automatically allowed
-      <span class="zh">具狀態：傳回流量自動允許</span>
+    <li>Fully managed petabyte-scale data warehouse; columnar storage; massively parallel processing (MPP); designed for OLAP, not OLTP
+      <span class="zh">完全受管的 PB 級資料倉儲；欄式儲存；大量平行處理（MPP）；為 OLAP 而非 OLTP 設計</span>
     </li>
-    <li>Applied at the ENI (instance) level; allow rules only (no explicit deny)
-      <span class="zh">套用於 ENI（執行個體）層級；僅限允許規則（無明確拒絕）</span>
+    <li><strong>Redshift Spectrum:</strong> query data directly in S3 (Parquet, ORC, CSV) without loading into Redshift; extends Redshift to a data lake
+      <span class="zh"><strong>Redshift Spectrum：</strong>直接查詢 S3 中的資料（Parquet、ORC、CSV）而無需載入 Redshift；將 Redshift 延伸至資料湖</span>
     </li>
-    <li>Multiple security groups can be applied; rules are unioned
-      <span class="zh">可套用多個安全群組；規則取聯集</span>
+    <li>Enhanced VPC routing: forces all COPY/UNLOAD traffic through VPC (no public internet)
+      <span class="zh">增強型 VPC 路由：強制所有 COPY/UNLOAD 流量通過 VPC（無公共網際網路）</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;block a specific IP from reaching an instance&rdquo; &rarr; Security Groups cannot block by IP; use NACL instead
-      <span class="zh"><strong>考試規則：</strong>「封鎖特定 IP 到達執行個體」→ 安全群組無法依 IP 封鎖；改用 NACL</span>
+    <li><strong>Exam rule:</strong> &ldquo;complex OLAP queries on terabytes of historical data&rdquo; or &ldquo;BI dashboards on large datasets&rdquo; &rarr; Redshift; &ldquo;ad-hoc queries on S3 without ETL&rdquo; &rarr; Athena; &ldquo;real-time OLTP transactions&rdquo; &rarr; RDS/Aurora
+      <span class="zh"><strong>考試規則：</strong>「對 TB 級歷史資料的複雜 OLAP 查詢」或「大型資料集的 BI 儀表板」→ Redshift；「無需 ETL 對 S3 的即席查詢」→ Athena；「即時 OLTP 交易」→ RDS/Aurora</span>
     </li>
   </ul>
 
-  <h4>Network ACLs (NACLs) <span class="zh">網路存取控制清單</span></h4>
+  <h4>Amazon EMR (Elastic MapReduce) <span class="zh">Amazon EMR（彈性 MapReduce）</span></h4>
   <ul>
-    <li>Stateless: must explicitly allow both inbound AND outbound (including ephemeral ports 1024&ndash;65535)
-      <span class="zh">無狀態：必須明確允許輸入和輸出（包括暫時連接埠 1024–65535）</span>
+    <li>Managed big data platform; runs open-source frameworks: Spark, Hadoop, Hive, Presto, Flink on auto-provisioned EC2 clusters
+      <span class="zh">受管大數據平台；在自動佈建的 EC2 叢集上執行開源框架：Spark、Hadoop、Hive、Presto、Flink</span>
     </li>
-    <li>Applied at the subnet level; support both allow and deny rules
-      <span class="zh">套用於子網路層級；支援允許和拒絕規則</span>
+    <li><strong>Transient clusters:</strong> spin up for a job, write results to S3, then terminate; use Spot Instances for task nodes to cut cost up to 90%
+      <span class="zh"><strong>暫時性叢集：</strong>為工作啟動、將結果寫入 S3，然後終止；使用 Spot 執行個體作為任務節點可降低最多 90% 成本</span>
     </li>
-    <li>Rules evaluated in numbered order, lowest first; first match wins
-      <span class="zh">規則依編號順序評估，最小號碼優先；第一個相符規則勝出</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;block a specific IP range at the subnet level&rdquo; &rarr; NACL; &ldquo;instance-level filtering&rdquo; &rarr; Security Group
-      <span class="zh"><strong>考試規則：</strong>「在子網路層級封鎖特定 IP 範圍」→ NACL；「執行個體層級篩選」→ 安全群組</span>
+    <li><strong>Exam rule:</strong> &ldquo;process petabytes of log data with Apache Spark&rdquo; or &ldquo;run Hadoop/Spark jobs with managed cluster&rdquo; &rarr; EMR; &ldquo;ad-hoc SQL on S3 without cluster management&rdquo; &rarr; Athena
+      <span class="zh"><strong>考試規則：</strong>「使用 Apache Spark 處理 PB 級日誌資料」或「使用受管叢集執行 Hadoop/Spark 工作」→ EMR；「無需叢集管理對 S3 的即席 SQL」→ Athena</span>
     </li>
   </ul>
 
-  <h4>VPC Flow Logs <span class="zh">VPC 流量日誌</span></h4>
+  <h4>Amazon OpenSearch Service <span class="zh">Amazon OpenSearch 服務</span></h4>
   <ul>
-    <li>Capture metadata about IP traffic to/from ENIs, subnets, or VPCs; logs to CloudWatch or S3
-      <span class="zh">擷取往返 ENI、子網路或 VPC 的 IP 流量中繼資料；日誌記錄至 CloudWatch 或 S3</span>
+    <li>Managed search and analytics engine (successor to Amazon Elasticsearch Service); full-text search, log analytics, real-time application monitoring
+      <span class="zh">受管搜尋和分析引擎（Amazon Elasticsearch 服務的繼任者）；全文搜尋、日誌分析、即時應用程式監控</span>
     </li>
-    <li>Does NOT capture packet content (use traffic mirroring for that)
-      <span class="zh">不擷取封包內容（使用流量鏡像來實現）</span>
+    <li>Common ingestion pattern: Kinesis Firehose &rarr; OpenSearch for log ingestion; or Lambda &rarr; OpenSearch for custom processing
+      <span class="zh">常見擷取模式：Kinesis Firehose → OpenSearch 用於日誌擷取；或 Lambda → OpenSearch 用於自訂處理</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;investigate which IPs are connecting to EC2 instances&rdquo; &rarr; VPC Flow Logs
-      <span class="zh"><strong>考試規則：</strong>「調查哪些 IP 正在連接 EC2 執行個體」→ VPC 流量日誌</span>
+    <li><strong>Exam rule:</strong> &ldquo;full-text search across application logs&rdquo; or &ldquo;real-time log analytics dashboard&rdquo; &rarr; OpenSearch; &ldquo;structured SQL analytics on historical data&rdquo; &rarr; Redshift or Athena
+      <span class="zh"><strong>考試規則：</strong>「跨應用程式日誌的全文搜尋」或「即時日誌分析儀表板」→ OpenSearch；「對歷史資料的結構化 SQL 分析」→ Redshift 或 Athena</span>
     </li>
   </ul>
 
-  <h4>NAT Gateway <span class="zh">NAT 閘道</span></h4>
+  <h4>Amazon Athena <span class="zh">Amazon Athena</span></h4>
   <ul>
-    <li>Allows private subnet instances to initiate outbound internet traffic; blocks inbound
-      <span class="zh">允許私有子網路執行個體發起輸出網際網路流量；封鎖輸入</span>
+    <li>Serverless SQL query engine; query data directly in S3 using standard SQL; pay per TB scanned ($5/TB); no infrastructure to manage
+      <span class="zh">無伺服器 SQL 查詢引擎；使用標準 SQL 直接查詢 S3 中的資料；按掃描 TB 計費（$5/TB）；無需管理基礎設施</span>
     </li>
-    <li>Managed by AWS, HA within an AZ; deploy one per AZ for full HA
-      <span class="zh">由 AWS 管理，在可用區域內具有高可用性；每個可用區域部署一個以實現完整高可用性</span>
+    <li>Use columnar formats (Parquet, ORC) and S3 partitioning to reduce data scanned and lower cost by 30&ndash;90%
+      <span class="zh">使用欄式格式（Parquet、ORC）和 S3 分割以減少掃描資料並降低 30–90% 成本</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;private EC2 needs to download patches from the internet&rdquo; &rarr; NAT Gateway
-      <span class="zh"><strong>考試規則：</strong>「私有 EC2 需要從網際網路下載修補程式」→ NAT 閘道</span>
+    <li><strong>Exam rule:</strong> &ldquo;query S3 data with SQL, no ETL, no cluster&rdquo; &rarr; Athena; &ldquo;interactive BI on large data warehouse&rdquo; &rarr; Redshift; &ldquo;process with Spark/Hadoop&rdquo; &rarr; EMR
+      <span class="zh"><strong>考試規則：</strong>「以 SQL 查詢 S3 資料、無需 ETL、無需叢集」→ Athena；「大型資料倉儲的互動式 BI」→ Redshift；「使用 Spark/Hadoop 處理」→ EMR</span>
     </li>
   </ul>
 
-  <h4>AWS WAF <span class="zh">AWS Web 應用程式防火牆</span></h4>
+  <h3>Networking &amp; Content Delivery <span class="zh">網路與內容交付</span></h3>
+
+  <h4>CloudFront</h4>
   <ul>
-    <li>Layer 7 protection; inspects HTTP/HTTPS requests; protects against SQL injection, XSS, bad bots
-      <span class="zh">第 7 層保護；檢查 HTTP/HTTPS 請求；防護 SQL 注入、XSS、惡意機器人</span>
+    <li>Global CDN with 450+ edge locations; caches static and dynamic content
+      <span class="zh">擁有 450 個以上邊緣位置的全球 CDN；快取靜態和動態內容</span>
     </li>
-    <li>Deployed on ALB, CloudFront, API Gateway, AppSync
-      <span class="zh">部署於 ALB、CloudFront、API Gateway、AppSync</span>
+    <li>Origins: S3, ALB, EC2, API Gateway, custom HTTP
+      <span class="zh">來源：S3、ALB、EC2、API Gateway、自訂 HTTP</span>
     </li>
-    <li><strong>Rate-based rules:</strong> block IPs exceeding a threshold (Layer 7 DDoS mitigation)
-      <span class="zh"><strong>以速率為基礎的規則：</strong>封鎖超過閾值的 IP（第 7 層 DDoS 緩解）</span>
+    <li><strong>Origin Shield:</strong> extra caching layer between edges and origin &mdash; reduces origin load
+      <span class="zh"><strong>來源防護：</strong>邊緣與來源之間的額外快取層——減少來源負載</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;protect web app from SQL injection and XSS&rdquo; &rarr; WAF; &ldquo;Layer 3/4 DDoS&rdquo; &rarr; Shield
-      <span class="zh"><strong>考試規則：</strong>「保護 Web 應用程式免受 SQL 注入和 XSS 攻擊」→ WAF；「第 3/4 層 DDoS」→ Shield</span>
+    <li><strong>Exam rule:</strong> &ldquo;reduce latency for global users for HTTP/HTTPS content&rdquo; &rarr; CloudFront
+      <span class="zh"><strong>考試規則：</strong>「降低全球使用者的 HTTP/HTTPS 內容延遲」→ CloudFront</span>
     </li>
   </ul>
 
-  <h4>AWS Shield <span class="zh">AWS Shield</span></h4>
+  <h4>Global Accelerator <span class="zh">全球加速器</span></h4>
   <ul>
-    <li><strong>Shield Standard:</strong> automatic Layer 3/4 DDoS protection; free for all customers
-      <span class="zh"><strong>Shield 標準版：</strong>自動第 3/4 層 DDoS 防護；所有客戶免費</span>
+    <li>Routes traffic over AWS backbone to optimal endpoints using anycast IP
+      <span class="zh">使用任播 IP 透過 AWS 骨幹網路將流量路由至最佳端點</span>
     </li>
-    <li><strong>Shield Advanced:</strong> enhanced protection, 24/7 DRT access, cost protection, near-real-time visibility; ~$3,000/month
-      <span class="zh"><strong>Shield 進階版：</strong>增強防護、24/7 DRT 存取、費用保護、接近即時可見性；約 $3,000/月</span>
+    <li>Provides 2 static global IPs &mdash; no DNS propagation delay on failover
+      <span class="zh">提供 2 個靜態全球 IP——容錯移轉時無 DNS 傳播延遲</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;DDoS response team support and cost protection&rdquo; &rarr; Shield Advanced; basic protection &rarr; Standard (already included)
-      <span class="zh"><strong>考試規則：</strong>「DDoS 回應團隊支援和費用保護」→ Shield 進階版；基本防護 → 標準版（已包含）</span>
+    <li>Works for TCP/UDP (not HTTP-specific like CloudFront)
+      <span class="zh">適用於 TCP/UDP（不像 CloudFront 那樣特定於 HTTP）</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;static IP for global routing&rdquo; or &ldquo;non-HTTP protocol&rdquo; &rarr; Global Accelerator; &ldquo;HTTP content caching&rdquo; &rarr; CloudFront
+      <span class="zh"><strong>考試規則：</strong>「全球路由的靜態 IP」或「非 HTTP 通訊協定」→ 全球加速器；「HTTP 內容快取」→ CloudFront</span>
     </li>
   </ul>
 
-  <h4>AWS Network Firewall <span class="zh">AWS 網路防火牆</span></h4>
+  <h4>VPC Endpoints <span class="zh">VPC 端點</span></h4>
   <ul>
-    <li>Managed stateful firewall in VPC; deep packet inspection; Suricata-based rules
-      <span class="zh">VPC 中的受管具狀態防火牆；深度封包檢查；以 Suricata 為基礎的規則</span>
+    <li><strong>Interface Endpoint</strong> (PrivateLink): ENI in subnet; supports most AWS services; costs money per hour
+      <span class="zh"><strong>介面端點</strong>（PrivateLink）：子網路中的 ENI；支援大多數 AWS 服務；按小時收費</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;intrusion prevention&rdquo;, &ldquo;deep packet inspection at VPC level&rdquo; &rarr; Network Firewall; web traffic filtering &rarr; WAF
-      <span class="zh"><strong>考試規則：</strong>「入侵防護」、「VPC 層級的深度封包檢查」→ 網路防火牆；Web 流量篩選 → WAF</span>
+    <li><strong>Gateway Endpoint:</strong> adds route to route table; only S3 and DynamoDB; <strong>free</strong>
+      <span class="zh"><strong>閘道端點：</strong>在路由表中新增路由；僅限 S3 和 DynamoDB；<strong>免費</strong></span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;EC2 accessing S3 without internet&rdquo; &rarr; Gateway Endpoint (free); anything else &rarr; Interface Endpoint
+      <span class="zh"><strong>考試規則：</strong>「EC2 不經網際網路存取 S3」→ 閘道端點（免費）；其他情況 → 介面端點</span>
     </li>
   </ul>
 
-  <h3>Threat Detection &amp; Monitoring <span class="zh">威脅偵測與監控</span></h3>
-
-  <h4>Amazon GuardDuty <span class="zh">Amazon GuardDuty（守衛職責）</span></h4>
+  <h4>Direct Connect <span class="zh">專線連線</span></h4>
   <ul>
-    <li>Intelligent threat detection using ML; analyzes CloudTrail, VPC Flow Logs, DNS logs, S3 data events
-      <span class="zh">使用 ML 的智慧型威脅偵測；分析 CloudTrail、VPC 流量日誌、DNS 日誌、S3 資料事件</span>
+    <li>Dedicated private network connection from on-premises to AWS
+      <span class="zh">從本地端到 AWS 的專用私有網路連線</span>
     </li>
-    <li>Detects: compromised credentials, unusual API calls, port scanning, crypto-mining, data exfiltration
-      <span class="zh">偵測：遭入侵的憑證、異常 API 呼叫、連接埠掃描、加密貨幣挖掘、資料竊取</span>
+    <li>Consistent latency, higher bandwidth, lower per-GB cost than internet VPN
+      <span class="zh">一致延遲、更高頻寬、比網際網路 VPN 更低的每 GB 費用</span>
     </li>
-    <li>No agents required; one-click enable
-      <span class="zh">無需代理程式；一鍵啟用</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;detect threats and suspicious activity across the account&rdquo; &rarr; GuardDuty
-      <span class="zh"><strong>考試規則：</strong>「偵測帳號中的威脅和可疑活動」→ GuardDuty</span>
+    <li><strong>Exam rule:</strong> &ldquo;consistent network performance to AWS&rdquo; or &ldquo;high-throughput hybrid connectivity&rdquo; &rarr; Direct Connect
+      <span class="zh"><strong>考試規則：</strong>「對 AWS 一致的網路效能」或「高輸送量混合連線」→ Direct Connect</span>
     </li>
   </ul>
 
-  <h4>Amazon Inspector <span class="zh">Amazon Inspector（巡查員）</span></h4>
+  <h3>Streaming &amp; Messaging <span class="zh">串流與訊息傳遞</span></h3>
+
+  <h4>Kinesis Data Streams <span class="zh">Kinesis 資料串流</span></h4>
   <ul>
-    <li>Automated vulnerability assessment for EC2, containers (ECR), and Lambda
-      <span class="zh">EC2、容器（ECR）和 Lambda 的自動化弱點評估</span>
+    <li>Real-time streaming; ordered within a shard; retention up to 365 days
+      <span class="zh">即時串流；在分片內有序；保留期最長 365 天</span>
     </li>
-    <li>Finds OS vulnerabilities, network exposure, unintended software
-      <span class="zh">尋找作業系統弱點、網路暴露、非預期軟體</span>
+    <li>Each shard = 1 MB/s write, 2 MB/s read
+      <span class="zh">每個分片 = 1 MB/s 寫入、2 MB/s 讀取</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;scan EC2 for known vulnerabilities and CVEs&rdquo; &rarr; Inspector; &ldquo;detect active threats&rdquo; &rarr; GuardDuty
-      <span class="zh"><strong>考試規則：</strong>「掃描 EC2 的已知弱點和 CVE」→ Inspector；「偵測主動威脅」→ GuardDuty</span>
+    <li><strong>Enhanced Fan-Out:</strong> dedicated 2 MB/s per consumer per shard &mdash; eliminates consumer competition
+      <span class="zh"><strong>增強型展開：</strong>每個消費者每個分片專用 2 MB/s——消除消費者競爭</span>
     </li>
   </ul>
 
-  <h4>Amazon Macie <span class="zh">Amazon Macie（資料安全服務）</span></h4>
+  <h4>Kinesis Data Firehose <span class="zh">Kinesis Data Firehose</span></h4>
   <ul>
-    <li>Uses ML to discover and protect sensitive data (PII, financial data, credentials) in S3
-      <span class="zh">使用 ML 在 S3 中探索和保護敏感資料（個人識別資訊、財務資料、憑證）</span>
+    <li>Managed delivery to S3, Redshift, OpenSearch, Splunk; no shards to manage
+      <span class="zh">受管交付至 S3、Redshift、OpenSearch、Splunk；無需管理分片</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;identify S3 buckets containing PII&rdquo; &rarr; Macie
-      <span class="zh"><strong>考試規則：</strong>「識別包含個人識別資訊的 S3 儲存貯體」→ Macie</span>
+    <li>Near-real-time (60-second buffer minimum)
+      <span class="zh">接近即時（最少 60 秒緩衝）</span>
     </li>
-  </ul>
-
-  <h4>AWS Security Hub <span class="zh">AWS Security Hub（安全中樞）</span></h4>
-  <ul>
-    <li>Centralized view of security findings across GuardDuty, Inspector, Macie, WAF, Access Analyzer
-      <span class="zh">GuardDuty、Inspector、Macie、WAF、存取分析器的安全調查結果集中檢視</span>
-    </li>
-    <li>Aggregates across accounts using AWS Organizations
-      <span class="zh">使用 AWS Organizations 跨帳號彙總</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;single pane of glass for security findings across multiple accounts&rdquo; &rarr; Security Hub
-      <span class="zh"><strong>考試規則：</strong>「跨多個帳號安全調查結果的單一管理介面」→ Security Hub</span>
-    </li>
-  </ul>
-
-  <h4>AWS CloudTrail <span class="zh">AWS CloudTrail（雲端追蹤）</span></h4>
-  <ul>
-    <li>Records every API call: who did what, when, from where
-      <span class="zh">記錄每個 API 呼叫：誰做了什麼、何時、從哪裡</span>
-    </li>
-    <li><strong>Management events:</strong> control plane (CreateBucket, RunInstances) &mdash; enabled by default
-      <span class="zh"><strong>管理事件：</strong>控制平面（CreateBucket、RunInstances）——預設啟用</span>
-    </li>
-    <li><strong>Data events:</strong> S3 object-level and Lambda invocations &mdash; off by default, costs extra
-      <span class="zh"><strong>資料事件：</strong>S3 物件層級和 Lambda 叫用——預設關閉，需額外付費</span>
-    </li>
-    <li><strong>CloudTrail Insights:</strong> detects unusual API activity patterns
-      <span class="zh"><strong>CloudTrail Insights：</strong>偵測異常 API 活動模式</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;audit who deleted the S3 bucket&rdquo; &rarr; CloudTrail; &ldquo;real-time alerts on API calls&rdquo; &rarr; CloudTrail + CloudWatch Events
-      <span class="zh"><strong>考試規則：</strong>「稽核誰刪除了 S3 儲存貯體」→ CloudTrail；「API 呼叫的即時警示」→ CloudTrail + CloudWatch Events</span>
-    </li>
-  </ul>
-
-  <h4>AWS Config <span class="zh">AWS Config（設定服務）</span></h4>
-  <ul>
-    <li>Tracks configuration changes to AWS resources; evaluates against compliance rules
-      <span class="zh">追蹤 AWS 資源的設定變更；根據合規規則評估</span>
-    </li>
-    <li>CloudTrail = <em>who did what</em>; Config = <em>what does the resource look like now/then</em>
-      <span class="zh">CloudTrail = <em>誰做了什麼</em>；Config = <em>資源現在/當時是什麼樣子</em></span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;check if all S3 buckets have encryption enabled&rdquo; or &ldquo;track configuration drift&rdquo; &rarr; AWS Config
-      <span class="zh"><strong>考試規則：</strong>「檢查所有 S3 儲存貯體是否啟用加密」或「追蹤設定漂移」→ AWS Config</span>
-    </li>
-  </ul>
-
-  <h3>Identity Federation &amp; Cognito <span class="zh">身分識別聯合與 Cognito</span></h3>
-
-  <h4>Cognito User Pools <span class="zh">Cognito 使用者集區</span></h4>
-  <ul>
-    <li>User directory for web/mobile apps; handles sign-up, sign-in, MFA, password recovery
-      <span class="zh">Web/行動應用程式的使用者目錄；處理註冊、登入、MFA、密碼復原</span>
-    </li>
-    <li>Issues JWT tokens (ID token, access token, refresh token)
-      <span class="zh">發出 JWT 權杖（ID 權杖、存取權杖、重新整理權杖）</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;add user authentication to a mobile app&rdquo; &rarr; Cognito User Pools
-      <span class="zh"><strong>考試規則：</strong>「將使用者驗證新增至行動應用程式」→ Cognito 使用者集區</span>
-    </li>
-  </ul>
-
-  <h4>Cognito Identity Pools (Federated Identities) <span class="zh">Cognito 身分識別集區（聯合身分識別）</span></h4>
-  <ul>
-    <li>Provides temporary AWS credentials to users; works with User Pools, social providers, SAML
-      <span class="zh">向使用者提供暫時 AWS 憑證；與使用者集區、社群媒體提供者、SAML 搭配使用</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;allow mobile app users to directly access S3 or DynamoDB&rdquo; &rarr; Cognito Identity Pools
-      <span class="zh"><strong>考試規則：</strong>「允許行動應用程式使用者直接存取 S3 或 DynamoDB」→ Cognito 身分識別集區</span>
-    </li>
-  </ul>
-
-  <h4>IAM Identity Center (SSO) <span class="zh">IAM Identity Center（單一登入）</span></h4>
-  <ul>
-    <li>Centralized SSO for multiple AWS accounts and business applications
-      <span class="zh">多個 AWS 帳號和商業應用程式的集中式 SSO</span>
-    </li>
-    <li>Integrates with Active Directory, Okta, Azure AD
-      <span class="zh">與 Active Directory、Okta、Azure AD 整合</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;single sign-on for employees across multiple AWS accounts&rdquo; &rarr; IAM Identity Center
-      <span class="zh"><strong>考試規則：</strong>「員工跨多個 AWS 帳號的單一登入」→ IAM Identity Center</span>
+    <li><strong>Exam rule:</strong> &ldquo;stream data to S3/Redshift without managing infrastructure&rdquo; &rarr; Firehose; &ldquo;real-time processing with custom consumers&rdquo; &rarr; Data Streams
+      <span class="zh"><strong>考試規則：</strong>「無需管理基礎設施即可將資料串流至 S3/Redshift」→ Firehose；「使用自訂消費者的即時處理」→ Data Streams</span>
     </li>
   </ul>
 
   <div class="page-break"></div>
   <h2>3. Architecture Patterns <span class="zh">架構模式</span></h2>
 
-  <h3>Pattern 1: Secure Multi-Tier Web Application
-    <span class="zh">模式 1：安全的多層 Web 應用程式</span>
+  <h3>Pattern 1: Read-Heavy Application with Caching
+    <span class="zh">模式 1：使用快取的讀取密集應用程式</span>
   </h3>
-  <p><strong>Services:</strong> CloudFront (WAF) &rarr; ALB (Security Group) &rarr; EC2 in private subnets &rarr; RDS in isolated subnets</p>
-  <p class="zh"><strong>服務：</strong>CloudFront（WAF）→ ALB（安全群組）→ 私有子網路中的 EC2 → 隔離子網路中的 RDS</p>
-  <p><strong>Why it works:</strong> WAF filters malicious traffic at edge. ALB security group allows only HTTPS from CloudFront IPs. EC2 security group allows only traffic from ALB. RDS security group allows only traffic from EC2. No direct internet exposure to app or DB tier.</p>
-  <p class="zh"><strong>為何有效：</strong>WAF 在邊緣篩選惡意流量。ALB 安全群組僅允許來自 CloudFront IP 的 HTTPS。EC2 安全群組僅允許來自 ALB 的流量。RDS 安全群組僅允許來自 EC2 的流量。應用程式層或資料庫層不直接暴露於網際網路。</p>
-  <p><strong>Exam signal:</strong> &ldquo;web application with defense in depth&rdquo; &rarr; CloudFront + WAF + layered security groups, no public IPs on app/DB tier.</p>
-  <p class="zh"><strong>考試信號：</strong>「具深度防禦的 Web 應用程式」→ CloudFront + WAF + 分層安全群組，應用程式/資料庫層無公有 IP。</p>
+  <p><strong>Services:</strong> Route 53 &rarr; ALB &rarr; EC2 ASG &rarr; ElastiCache Redis &rarr; RDS</p>
+  <p class="zh"><strong>服務：</strong>Route 53 → ALB → EC2 ASG → ElastiCache Redis → RDS</p>
+  <p><strong>Why it works:</strong> Read requests hit ElastiCache first (sub-millisecond). Only cache misses hit RDS. Dramatically reduces DB load and response time.</p>
+  <p class="zh"><strong>為何有效：</strong>讀取請求先命中 ElastiCache（毫秒以下）。僅快取未命中才存取 RDS。大幅降低資料庫負載和回應時間。</p>
+  <p><strong>Exam signal:</strong> &ldquo;database is a bottleneck&rdquo;, &ldquo;reduce read latency&rdquo;, &ldquo;high read-to-write ratio&rdquo; &rarr; add ElastiCache in front of RDS.</p>
+  <p class="zh"><strong>考試信號：</strong>「資料庫是瓶頸」、「降低讀取延遲」、「高讀寫比例」→ 在 RDS 前新增 ElastiCache。</p>
 
-  <h3>Pattern 2: Secure S3 Data Lake
-    <span class="zh">模式 2：安全的 S3 資料湖</span>
+  <h3>Pattern 2: High-Throughput Data Ingestion Pipeline
+    <span class="zh">模式 2：高輸送量資料擷取管道</span>
   </h3>
-  <p><strong>Services:</strong> S3 (SSE-KMS, Block Public Access ON) + Bucket Policy (enforce TLS + VPC endpoint) + Macie + CloudTrail data events</p>
-  <p class="zh"><strong>服務：</strong>S3（SSE-KMS、封鎖公有存取開啟）+ 儲存貯體政策（強制 TLS + VPC 端點）+ Macie + CloudTrail 資料事件</p>
-  <p><strong>Why it works:</strong> SSE-KMS encrypts with auditable key usage. Block Public Access prevents accidental exposure. Bucket policy denies non-TLS requests. Macie monitors for sensitive data. CloudTrail data events capture every object-level access.</p>
-  <p class="zh"><strong>為何有效：</strong>SSE-KMS 使用可稽核金鑰使用進行加密。封鎖公有存取防止意外暴露。儲存貯體政策拒絕非 TLS 請求。Macie 監控敏感資料。CloudTrail 資料事件擷取每個物件層級存取。</p>
-  <p><strong>Exam signal:</strong> &ldquo;sensitive data in S3 with full audit trail and encryption&rdquo; &rarr; SSE-KMS + CloudTrail data events + Macie.</p>
-  <p class="zh"><strong>考試信號：</strong>「S3 中具完整稽核追蹤和加密的敏感資料」→ SSE-KMS + CloudTrail 資料事件 + Macie。</p>
+  <p><strong>Services:</strong> Producers &rarr; Kinesis Data Streams &rarr; Lambda / EC2 consumers &rarr; S3 / DynamoDB / Redshift</p>
+  <p class="zh"><strong>服務：</strong>生產者 → Kinesis Data Streams → Lambda/EC2 消費者 → S3/DynamoDB/Redshift</p>
+  <p><strong>Why it works:</strong> Kinesis buffers high-volume real-time data; multiple consumers independently process the same stream; replay is possible.</p>
+  <p class="zh"><strong>為何有效：</strong>Kinesis 緩衝大量即時資料；多個消費者獨立處理同一串流；可重播。</p>
+  <p><strong>Exam signal:</strong> &ldquo;ingest millions of events per second&rdquo;, &ldquo;multiple downstream systems need the same data&rdquo;, &ldquo;real-time processing&rdquo; &rarr; Kinesis Data Streams.</p>
+  <p class="zh"><strong>考試信號：</strong>「每秒擷取數百萬個事件」、「多個下游系統需要相同資料」、「即時處理」→ Kinesis Data Streams。</p>
 
-  <h3>Pattern 3: Cross-Account Access
-    <span class="zh">模式 3：跨帳號存取</span>
+  <h3>Pattern 3: Global API Acceleration
+    <span class="zh">模式 3：全球 API 加速</span>
   </h3>
-  <p><strong>Services:</strong> IAM Role in Account B (trust policy allows Account A) &rarr; Account A IAM principal assumes the role via STS</p>
-  <p class="zh"><strong>服務：</strong>帳號 B 中的 IAM 角色（信任政策允許帳號 A）→ 帳號 A 的 IAM 主體透過 STS 擔任角色</p>
-  <p><strong>Why it works:</strong> No long-term credentials cross account boundaries. Permissions scoped to the role in Account B. Fully audited via CloudTrail.</p>
-  <p class="zh"><strong>為何有效：</strong>無長期憑證跨帳號邊界。許可範圍限定於帳號 B 中的角色。透過 CloudTrail 完整稽核。</p>
-  <p><strong>Exam signal:</strong> &ldquo;application in Account A needs to read DynamoDB in Account B&rdquo; &rarr; create role in Account B, trust Account A, assume it from Account A.</p>
-  <p class="zh"><strong>考試信號：</strong>「帳號 A 中的應用程式需要讀取帳號 B 中的 DynamoDB」→ 在帳號 B 中建立角色、信任帳號 A、從帳號 A 擔任角色。</p>
+  <p><strong>Services:</strong> Route 53 &rarr; Global Accelerator &rarr; ALB in multiple regions &rarr; EC2/Lambda</p>
+  <p class="zh"><strong>服務：</strong>Route 53 → 全球加速器 → 多個區域的 ALB → EC2/Lambda</p>
+  <p><strong>Why it works:</strong> Traffic enters AWS network at nearest edge, then travels the optimized AWS backbone. Reduces latency vs. public internet routing.</p>
+  <p class="zh"><strong>為何有效：</strong>流量在最近的邊緣進入 AWS 網路，然後透過最佳化的 AWS 骨幹傳輸。相較於公共網際網路路由降低延遲。</p>
+  <p><strong>Exam signal:</strong> &ldquo;global users experiencing high latency&rdquo;, &ldquo;non-HTTP application&rdquo;, &ldquo;need static IP for global routing&rdquo; &rarr; Global Accelerator.</p>
+  <p class="zh"><strong>考試信號：</strong>「全球使用者遭遇高延遲」、「非 HTTP 應用程式」、「需要全球路由的靜態 IP」→ 全球加速器。</p>
 
-  <h3>Pattern 4: Secrets Rotation for RDS
-    <span class="zh">模式 4：RDS 的秘密輪換</span>
+  <h3>Pattern 4: HPC / ML Training Architecture
+    <span class="zh">模式 4：HPC / ML 訓練架構</span>
   </h3>
-  <p><strong>Services:</strong> RDS &rarr; Secrets Manager (automatic rotation Lambda) &rarr; Application retrieves secret at runtime</p>
-  <p class="zh"><strong>服務：</strong>RDS → Secrets Manager（自動輪換 Lambda）→ 應用程式在執行時期擷取秘密</p>
-  <p><strong>Why it works:</strong> Secrets Manager rotates credentials on schedule without manual intervention. Application never has hardcoded credentials.</p>
-  <p class="zh"><strong>為何有效：</strong>Secrets Manager 按排程輪換憑證，無需手動干預。應用程式永遠不會有硬式編碼的憑證。</p>
-  <p><strong>Exam signal:</strong> &ldquo;automatically rotate database passwords without application changes&rdquo; &rarr; Secrets Manager with RDS integration.</p>
-  <p class="zh"><strong>考試信號：</strong>「在不變更應用程式的情況下自動輪換資料庫密碼」→ 具有 RDS 整合的 Secrets Manager。</p>
+  <p><strong>Services:</strong> EC2 P/G/Inf instances + EFA &rarr; FSx for Lustre (linked to S3) &rarr; S3</p>
+  <p class="zh"><strong>服務：</strong>EC2 P/G/Inf 執行個體 + EFA → FSx for Lustre（連結至 S3）→ S3</p>
+  <p><strong>Why it works:</strong> EFA enables low-latency inter-node communication. FSx for Lustre provides high-throughput shared storage. S3 feeds training data into FSx.</p>
+  <p class="zh"><strong>為何有效：</strong>EFA 啟用低延遲節點間通訊。FSx for Lustre 提供高輸送量共用儲存。S3 將訓練資料饋入 FSx。</p>
+  <p><strong>Exam signal:</strong> &ldquo;ML training&rdquo;, &ldquo;HPC cluster&rdquo;, &ldquo;hundreds of GB/s storage throughput&rdquo; &rarr; FSx for Lustre + EFA-enabled instances.</p>
+  <p class="zh"><strong>考試信號：</strong>「ML 訓練」、「HPC 叢集」、「數百 GB/s 儲存輸送量」→ FSx for Lustre + 啟用 EFA 的執行個體。</p>
 
-  <h3>Pattern 5: Centralized Security Monitoring
-    <span class="zh">模式 5：集中式安全監控</span>
+  <h3>Pattern 5: Serverless High-Performance API
+    <span class="zh">模式 5：無伺服器高效能 API</span>
   </h3>
-  <p><strong>Services:</strong> GuardDuty + Security Hub + CloudTrail + Config &rarr; EventBridge &rarr; SNS (alerts) or Lambda (automated remediation)</p>
-  <p class="zh"><strong>服務：</strong>GuardDuty + Security Hub + CloudTrail + Config → EventBridge → SNS（警示）或 Lambda（自動修復）</p>
-  <p><strong>Why it works:</strong> GuardDuty detects threats; Config tracks compliance drift; CloudTrail provides audit logs; Security Hub aggregates findings; EventBridge triggers automated responses.</p>
-  <p class="zh"><strong>為何有效：</strong>GuardDuty 偵測威脅；Config 追蹤合規漂移；CloudTrail 提供稽核日誌；Security Hub 彙總調查結果；EventBridge 觸發自動回應。</p>
-  <p><strong>Exam signal:</strong> &ldquo;detect and automatically remediate security issues across all accounts&rdquo; &rarr; GuardDuty + Security Hub + EventBridge + Lambda.</p>
-  <p class="zh"><strong>考試信號：</strong>「偵測並自動修復所有帳號的安全問題」→ GuardDuty + Security Hub + EventBridge + Lambda。</p>
+  <p><strong>Services:</strong> API Gateway &rarr; Lambda (Provisioned Concurrency) &rarr; DynamoDB + DAX</p>
+  <p class="zh"><strong>服務：</strong>API Gateway → Lambda（佈建並行）→ DynamoDB + DAX</p>
+  <p><strong>Why it works:</strong> Provisioned Concurrency eliminates cold starts. DAX provides microsecond DynamoDB reads. No servers to scale.</p>
+  <p class="zh"><strong>為何有效：</strong>佈建並行消除冷啟動。DAX 提供微秒 DynamoDB 讀取。無需擴展伺服器。</p>
+  <p><strong>Exam signal:</strong> &ldquo;serverless API with consistent sub-10ms response time&rdquo; &rarr; Lambda + Provisioned Concurrency + DAX.</p>
+  <p class="zh"><strong>考試信號：</strong>「具一致性 10 毫秒以下回應時間的無伺服器 API」→ Lambda + 佈建並行 + DAX。</p>
 
   <h2>4. Service Comparisons <span class="zh">服務比較</span></h2>
 
-  <h4>Security Groups vs. NACLs <span class="zh">安全群組 vs. NACL</span></h4>
+  <h4>CloudFront vs. Global Accelerator</h4>
   <ul>
-    <li>Security Groups = stateful, instance level, allow rules only
-      <span class="zh">安全群組 = 具狀態、執行個體層級、僅限允許規則</span>
+    <li>CloudFront = HTTP/HTTPS CDN, caches content at edge, reduces origin load
+      <span class="zh">CloudFront = HTTP/HTTPS CDN，在邊緣快取內容，減少來源負載</span>
     </li>
-    <li>NACLs = stateless, subnet level, allow and deny, numbered rules (lowest first, first match wins)
-      <span class="zh">NACL = 無狀態、子網路層級、允許和拒絕、編號規則（最小號碼優先，第一個相符勝出）</span>
+    <li>Global Accelerator = TCP/UDP routing over AWS backbone, no caching, static IPs
+      <span class="zh">全球加速器 = 透過 AWS 骨幹的 TCP/UDP 路由，無快取，靜態 IP</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;block a specific IP address&rdquo; &rarr; NACL (Security Groups can&rsquo;t deny); &ldquo;control traffic between instances in same subnet&rdquo; &rarr; Security Groups
-      <span class="zh"><strong>考試規則：</strong>「封鎖特定 IP 位址」→ NACL（安全群組無法拒絕）；「控制同一子網路中執行個體間的流量」→ 安全群組</span>
+    <li><strong>Exam rule:</strong> &ldquo;cache assets globally&rdquo; or &ldquo;HTTP API latency&rdquo; &rarr; CloudFront; &ldquo;static IPs&rdquo; or &ldquo;non-HTTP&rdquo; &rarr; Global Accelerator
+      <span class="zh"><strong>考試規則：</strong>「全球快取資產」或「HTTP API 延遲」→ CloudFront；「靜態 IP」或「非 HTTP」→ 全球加速器</span>
     </li>
   </ul>
 
-  <h4>KMS vs. CloudHSM</h4>
+  <h4>ElastiCache Redis vs. Memcached</h4>
   <ul>
-    <li>KMS = managed, shared HSM, FIPS 140-2 Level 2, AWS has limited access
-      <span class="zh">KMS = 受管、共用 HSM、FIPS 140-2 Level 2、AWS 有限存取</span>
+    <li>Redis = persistence, replication, complex data types, Multi-AZ, pub/sub
+      <span class="zh">Redis = 持久性、複寫、複雜資料類型、多可用區域、Pub/Sub</span>
     </li>
-    <li>CloudHSM = dedicated hardware, FIPS 140-2 Level 3, zero AWS access
-      <span class="zh">CloudHSM = 專用硬體、FIPS 140-2 Level 3、AWS 存取權為零</span>
+    <li>Memcached = simple key-value, multi-threaded, pure horizontal scaling
+      <span class="zh">Memcached = 簡單鍵值、多執行緒、純水平擴展</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;FIPS 140-2 Level 3&rdquo; or &ldquo;AWS must have no access to key material&rdquo; &rarr; CloudHSM; all other encryption &rarr; KMS
-      <span class="zh"><strong>考試規則：</strong>「FIPS 140-2 Level 3」或「AWS 不得對金鑰材料有任何存取權」→ CloudHSM；所有其他加密 → KMS</span>
+    <li><strong>Exam rule:</strong> &ldquo;sorted leaderboard&rdquo;, &ldquo;session persistence&rdquo;, &ldquo;pub/sub&rdquo;, &ldquo;Multi-AZ cache&rdquo; &rarr; Redis; &ldquo;simple scalable cache&rdquo; &rarr; Memcached
+      <span class="zh"><strong>考試規則：</strong>「排序排行榜」、「工作階段持久性」、「Pub/Sub」、「多可用區域快取」→ Redis；「簡單可擴展快取」→ Memcached</span>
     </li>
   </ul>
 
-  <h4>Secrets Manager vs. Parameter Store <span class="zh">Secrets Manager vs. 參數存放區</span></h4>
+  <h4>gp3 vs. io2 EBS</h4>
   <ul>
-    <li>Secrets Manager = auto-rotation, RDS integration, ~$0.40/secret/month
-      <span class="zh">Secrets Manager = 自動輪換、RDS 整合、約 $0.40/秘密/月</span>
+    <li>gp3 = 3,000&ndash;16,000 IOPS, cost-effective general purpose
+      <span class="zh">gp3 = 3,000–16,000 IOPS，符合成本效益的一般用途</span>
     </li>
-    <li>Parameter Store = free for standard, no auto-rotation, good for config + secrets
-      <span class="zh">參數存放區 = 標準層免費、無自動輪換、適合設定 + 秘密</span>
+    <li>io2 = up to 64,000 IOPS, consistent sub-ms latency, 99.999% durability
+      <span class="zh">io2 = 最高 64,000 IOPS、一致的毫秒以下延遲、99.999% 持久性</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;automatic credential rotation&rdquo; &rarr; Secrets Manager; &ldquo;store app config cheaply&rdquo; &rarr; Parameter Store
-      <span class="zh"><strong>考試規則：</strong>「自動憑證輪換」→ Secrets Manager；「便宜儲存應用程式設定」→ 參數存放區</span>
+    <li><strong>Exam rule:</strong> &gt;16,000 IOPS or &ldquo;mission-critical consistent latency&rdquo; &rarr; io2; everything else &rarr; gp3
+      <span class="zh"><strong>考試規則：</strong>&gt;16,000 IOPS 或「關鍵任務一致延遲」→ io2；其他情況 → gp3</span>
     </li>
   </ul>
 
-  <h4>GuardDuty vs. Inspector vs. Macie</h4>
+  <h4>Kinesis Data Streams vs. Kinesis Firehose
+    <span class="zh">Kinesis Data Streams vs. Kinesis Firehose</span>
+  </h4>
   <ul>
-    <li>GuardDuty = active threat detection (runtime, network, API behavior) &mdash; no agents
-      <span class="zh">GuardDuty = 主動威脅偵測（執行時期、網路、API 行為）——無代理程式</span>
+    <li>Data Streams = real-time, custom consumers, ordered per shard, replay, code required
+      <span class="zh">Data Streams = 即時、自訂消費者、每個分片有序、可重播、需要程式碼</span>
     </li>
-    <li>Inspector = vulnerability scanning (CVEs, misconfigurations in EC2/containers)
-      <span class="zh">Inspector = 弱點掃描（CVE、EC2/容器中的設定錯誤）</span>
+    <li>Firehose = near-real-time, managed delivery to destinations, no code needed
+      <span class="zh">Firehose = 接近即時、受管交付至目的地、無需程式碼</span>
     </li>
-    <li>Macie = sensitive data discovery in S3 (PII, financial data)
-      <span class="zh">Macie = S3 中的敏感資料探索（個人識別資訊、財務資料）</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;detect compromised instance behavior&rdquo; &rarr; GuardDuty; &ldquo;find unpatched OS vulnerabilities&rdquo; &rarr; Inspector; &ldquo;find PII in S3&rdquo; &rarr; Macie
-      <span class="zh"><strong>考試規則：</strong>「偵測遭入侵的執行個體行為」→ GuardDuty；「尋找未修補的作業系統弱點」→ Inspector；「在 S3 中尋找個人識別資訊」→ Macie</span>
+    <li><strong>Exam rule:</strong> &ldquo;real-time processing with custom logic&rdquo; &rarr; Data Streams; &ldquo;load to S3/Redshift automatically&rdquo; &rarr; Firehose
+      <span class="zh"><strong>考試規則：</strong>「使用自訂邏輯的即時處理」→ Data Streams；「自動載入至 S3/Redshift」→ Firehose</span>
     </li>
   </ul>
 
-  <h4>Shield Standard vs. Advanced <span class="zh">Shield 標準版 vs. 進階版</span></h4>
+  <h4>EFS vs. FSx for Lustre</h4>
   <ul>
-    <li>Standard = free, automatic, Layer 3/4 DDoS protection
-      <span class="zh">標準版 = 免費、自動、第 3/4 層 DDoS 防護</span>
+    <li>EFS = general-purpose Linux shared file system, multi-AZ, POSIX-compliant
+      <span class="zh">EFS = 一般用途 Linux 共用檔案系統、多可用區域、POSIX 相容</span>
     </li>
-    <li>Advanced = ~$3K/month, Layer 7, DRT access, cost protection, real-time metrics
-      <span class="zh">進階版 = 約 $3,000/月、第 7 層、DRT 存取、費用保護、即時指標</span>
+    <li>FSx for Lustre = HPC-grade throughput, S3 integration, sub-millisecond latency
+      <span class="zh">FSx for Lustre = HPC 等級輸送量、S3 整合、毫秒以下延遲</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;DRT support and financial protection from DDoS&rdquo; &rarr; Shield Advanced; basic protection &rarr; Standard (already included)
-      <span class="zh"><strong>考試規則：</strong>「DRT 支援和 DDoS 財務保護」→ Shield 進階版；基本防護 → 標準版（已包含）</span>
+    <li><strong>Exam rule:</strong> &ldquo;shared file storage for general Linux workloads&rdquo; &rarr; EFS; &ldquo;HPC or ML needing maximum throughput&rdquo; &rarr; FSx for Lustre
+      <span class="zh"><strong>考試規則：</strong>「一般 Linux 工作負載的共用檔案儲存」→ EFS；「需要最大輸送量的 HPC 或 ML」→ FSx for Lustre</span>
     </li>
   </ul>
 
-  <h4>Cognito User Pools vs. Identity Pools <span class="zh">Cognito 使用者集區 vs. 身分識別集區</span></h4>
+  <h4>DAX vs. ElastiCache for DynamoDB</h4>
   <ul>
-    <li>User Pools = authentication (sign-in, JWT tokens, user directory)
-      <span class="zh">使用者集區 = 驗證（登入、JWT 權杖、使用者目錄）</span>
+    <li>DAX = purpose-built for DynamoDB, drop-in replacement, API-compatible, read-through/write-through
+      <span class="zh">DAX = 專為 DynamoDB 建置、即插即用替換、API 相容、讀取穿透/寫入穿透</span>
     </li>
-    <li>Identity Pools = AWS credentials (allow users to call AWS APIs directly)
-      <span class="zh">身分識別集區 = AWS 憑證（允許使用者直接呼叫 AWS API）</span>
+    <li>ElastiCache = general-purpose cache, requires application-level cache logic
+      <span class="zh">ElastiCache = 一般用途快取，需要應用程式層級的快取邏輯</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;app users need to sign in&rdquo; &rarr; User Pools; &ldquo;app users need AWS credentials to access S3/DynamoDB&rdquo; &rarr; Identity Pools; both needed &rarr; use together
-      <span class="zh"><strong>考試規則：</strong>「應用程式使用者需要登入」→ 使用者集區；「應用程式使用者需要 AWS 憑證存取 S3/DynamoDB」→ 身分識別集區；兩者皆需 → 一起使用</span>
-    </li>
-  </ul>
-
-  <h4>SCPs vs. IAM Policies <span class="zh">SCP vs. IAM 政策</span></h4>
-  <ul>
-    <li>SCPs = org-wide guardrails; define the ceiling of permissions; do NOT grant permissions
-      <span class="zh">SCP = 整個組織的護欄；定義許可的上限；不授予許可</span>
-    </li>
-    <li>IAM Policies = grant/deny permissions within an account
-      <span class="zh">IAM 政策 = 在帳號內授予/拒絕許可</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;prevent all accounts in the org from leaving Organizations&rdquo; &rarr; SCP; &ldquo;allow a user to access S3&rdquo; &rarr; IAM policy
-      <span class="zh"><strong>考試規則：</strong>「防止組織中的所有帳號離開 Organizations」→ SCP；「允許使用者存取 S3」→ IAM 政策</span>
+    <li><strong>Exam rule:</strong> &ldquo;speed up DynamoDB reads with minimal code change&rdquo; &rarr; DAX; &ldquo;cache data from multiple sources&rdquo; &rarr; ElastiCache
+      <span class="zh"><strong>考試規則：</strong>「以最少程式碼變更加速 DynamoDB 讀取」→ DAX；「快取來自多個來源的資料」→ ElastiCache</span>
     </li>
   </ul>
 
   <div class="page-break"></div>
   <h2>5. Exam Traps &amp; Gotchas <span class="zh">考試陷阱與注意事項</span></h2>
   <ol>
-    <li><strong>Security Groups cannot deny traffic.</strong> To explicitly block an IP, use a NACL. The exam will ask &ldquo;block a specific malicious IP&rdquo; &mdash; the answer is always NACL.
-      <span class="zh"><strong>安全群組無法拒絕流量。</strong>要明確封鎖 IP，使用 NACL。考試會問「封鎖特定惡意 IP」——答案始終是 NACL。</span>
+    <li><strong>Lambda cold starts vs. memory.</strong> Increasing memory speeds up execution but does NOT eliminate cold starts. Cold starts require Provisioned Concurrency.
+      <span class="zh"><strong>Lambda 冷啟動 vs. 記憶體。</strong>增加記憶體可加快執行速度，但不能消除冷啟動。消除冷啟動需要佈建並行。</span>
     </li>
-    <li><strong>NACLs are stateless &mdash; remember ephemeral ports.</strong> When allowing inbound port 443, you must also allow outbound ephemeral ports (1024&ndash;65535) for the response. Forgetting this causes connectivity failures in NACL scenarios.
-      <span class="zh"><strong>NACL 是無狀態的——記住暫時連接埠。</strong>允許輸入連接埠 443 時，也必須允許輸出暫時連接埠（1024–65535）以供回應。忘記這點會在 NACL 場景中導致連線失敗。</span>
+    <li><strong>gp2 IOPS tied to volume size; gp3 is not.</strong> A 100 GB gp2 gets only 300 IOPS baseline. A 100 GB gp3 gets 3,000 IOPS. Small volumes needing high IOPS &rarr; gp3 or io2.
+      <span class="zh"><strong>gp2 的 IOPS 與磁碟區大小掛鉤；gp3 則不然。</strong>100 GB gp2 僅有 300 IOPS 基準。100 GB gp3 有 3,000 IOPS。需要高 IOPS 的小型磁碟區 → gp3 或 io2。</span>
     </li>
-    <li><strong>SCPs don&rsquo;t grant permissions; they only restrict.</strong> Even if an SCP allows everything, an IAM policy must still explicitly grant access. A user can&rsquo;t access S3 with only an SCP &mdash; they need an IAM policy too.
-      <span class="zh"><strong>SCP 不授予許可；它們只限制。</strong>即使 SCP 允許所有內容，IAM 政策仍必須明確授予存取權。使用者僅憑 SCP 無法存取 S3——他們還需要 IAM 政策。</span>
+    <li><strong>DAX does not help write performance.</strong> DAX caches reads. Write-heavy DynamoDB workloads don&rsquo;t benefit from DAX.
+      <span class="zh"><strong>DAX 對寫入效能無幫助。</strong>DAX 快取讀取。寫入密集的 DynamoDB 工作負載無法從 DAX 受益。</span>
     </li>
-    <li><strong>IAM role trust policy vs. permission policy.</strong> A role has two policies: the trust policy (who can assume the role) and the permission policy (what the role can do). Cross-account failures often stem from a missing trust policy, not missing permissions.
-      <span class="zh"><strong>IAM 角色信任政策 vs. 許可政策。</strong>角色有兩個政策：信任政策（誰可以擔任角色）和許可政策（角色可以做什麼）。跨帳號失敗通常源於缺少信任政策，而非缺少許可。</span>
+    <li><strong>S3 performance is per prefix, not per bucket.</strong> All objects under one prefix = limited to 5,500 GET/s. Distribute across multiple prefixes to multiply throughput.
+      <span class="zh"><strong>S3 效能按字首計算，而非按儲存貯體計算。</strong>同一字首下的所有物件 = 限制為 5,500 GET/秒。跨多個字首分佈以倍增輸送量。</span>
     </li>
-    <li><strong>SSE-KMS has API call costs.</strong> Every S3 GET/PUT with SSE-KMS results in a KMS API call. High-throughput S3 workloads can hit KMS limits. If audit trail is not required &rarr; SSE-S3 may be more appropriate.
-      <span class="zh"><strong>SSE-KMS 有 API 呼叫成本。</strong>每次使用 SSE-KMS 的 S3 GET/PUT 都會產生 KMS API 呼叫。高輸送量 S3 工作負載可能達到 KMS 限制。若不需要稽核追蹤 → SSE-S3 可能更合適。</span>
+    <li><strong>Kinesis Enhanced Fan-Out vs. standard GetRecords.</strong> Standard polling shares 2 MB/s per shard across all consumers. Enhanced Fan-Out gives each consumer dedicated 2 MB/s. &ldquo;Multiple consumers with high lag&rdquo; &rarr; Enable Enhanced Fan-Out.
+      <span class="zh"><strong>Kinesis 增強型展開 vs. 標準 GetRecords。</strong>標準輪詢跨所有消費者共享每分片 2 MB/s。增強型展開給每個消費者專用 2 MB/s。「多個消費者延遲高」→ 啟用增強型展開。</span>
     </li>
-    <li><strong>CloudTrail data events are off by default.</strong> Management events (CreateBucket, RunInstances) log by default. S3 object-level access (GetObject, PutObject) must be explicitly enabled and costs extra.
-      <span class="zh"><strong>CloudTrail 資料事件預設關閉。</strong>管理事件（CreateBucket、RunInstances）預設記錄。S3 物件層級存取（GetObject、PutObject）必須明確啟用並需額外付費。</span>
+    <li><strong>Global Accelerator does not cache.</strong> It only routes traffic faster. If the question mentions caching or content delivery, CloudFront is the answer.
+      <span class="zh"><strong>全球加速器不快取。</strong>它只是更快地路由流量。若問題提到快取或內容交付，CloudFront 才是答案。</span>
     </li>
-    <li><strong>GuardDuty doesn&rsquo;t block traffic.</strong> It only detects and alerts. Automated remediation requires EventBridge + Lambda. GuardDuty itself takes no blocking action.
-      <span class="zh"><strong>GuardDuty 不封鎖流量。</strong>它只偵測和發出警示。自動修復需要 EventBridge + Lambda。GuardDuty 本身不採取任何封鎖動作。</span>
+    <li><strong>EFS Max I/O has higher latency.</strong> Not a performance upgrade for all workloads. Only for massively parallel workloads (10,000+ clients).
+      <span class="zh"><strong>EFS 最大 I/O 有更高延遲。</strong>並非所有工作負載的效能升級。僅適用於大量平行工作負載（10,000 個以上用戶端）。</span>
     </li>
-    <li><strong>Cognito User Pools vs. Identity Pools confusion.</strong> JWTs from User Pools cannot authenticate directly to AWS APIs &mdash; they require Identity Pools to exchange for AWS credentials. If the scenario involves calling S3 or DynamoDB from a mobile app, Identity Pools are required.
-      <span class="zh"><strong>Cognito 使用者集區 vs. 身分識別集區混淆。</strong>來自使用者集區的 JWT 無法直接向 AWS API 驗證——它們需要身分識別集區兌換為 AWS 憑證。若場景涉及從行動應用程式呼叫 S3 或 DynamoDB，則需要身分識別集區。</span>
+    <li><strong>st1 and sc1 cannot be boot volumes.</strong> Only gp2, gp3, io1, io2 can be root/boot volumes.
+      <span class="zh"><strong>st1 和 sc1 不能作為開機磁碟區。</strong>只有 gp2、gp3、io1、io2 可以作為根/開機磁碟區。</span>
     </li>
   </ol>
 
   <h2>6. Key Numbers to Remember <span class="zh">重要數字記憶</span></h2>
   <table>
     <tr><th>Service / Feature <span class="zh">服務 / 功能</span></th><th>Value <span class="zh">數值</span></th></tr>
-    <tr><td>NACL rule evaluation order <span class="zh">NACL 規則評估順序</span></td><td>Lowest number first; first match wins <span class="zh">最小號碼優先；第一個相符勝出</span></td></tr>
-    <tr><td>NACL ephemeral port range <span class="zh">NACL 暫時連接埠範圍</span></td><td>1024&ndash;65535</td></tr>
-    <tr><td>KMS automatic key rotation interval <span class="zh">KMS 自動金鑰輪換間隔</span></td><td>Annual (optional) <span class="zh">每年（選用）</span></td></tr>
-    <tr><td>KMS max data size for direct encryption <span class="zh">KMS 直接加密最大資料大小</span></td><td>4 KB</td></tr>
-    <tr><td>KMS FIPS certification level <span class="zh">KMS FIPS 認證等級</span></td><td>140-2 Level 2</td></tr>
-    <tr><td>CloudHSM FIPS certification level <span class="zh">CloudHSM FIPS 認證等級</span></td><td>140-2 Level 3</td></tr>
-    <tr><td>CloudTrail Event History retention (default) <span class="zh">CloudTrail 事件歷程保留（預設）</span></td><td>90 days (free) <span class="zh">90 天（免費）</span></td></tr>
-    <tr><td>Secrets Manager cost <span class="zh">Secrets Manager 費用</span></td><td>~$0.40/secret/month <span class="zh">約 $0.40/秘密/月</span></td></tr>
-    <tr><td>Parameter Store standard tier max value size <span class="zh">參數存放區標準層最大值大小</span></td><td>4 KB</td></tr>
-    <tr><td>Parameter Store advanced tier max value size <span class="zh">參數存放區進階層最大值大小</span></td><td>8 KB</td></tr>
-    <tr><td>S3 presigned URL max expiry (STS credentials) <span class="zh">S3 預先簽署 URL 最長到期時間</span></td><td>7 days <span class="zh">7 天</span></td></tr>
-    <tr><td>Shield Advanced cost <span class="zh">Shield 進階版費用</span></td><td>~$3,000/month <span class="zh">約 $3,000/月</span></td></tr>
-    <tr><td>MFA Delete: who can enable it <span class="zh">MFA 刪除：誰可以啟用</span></td><td>Root account user only <span class="zh">僅限根帳號使用者</span></td></tr>
+    <tr><td>Lambda max timeout <span class="zh">Lambda 最長逾時</span></td><td>15 minutes <span class="zh">15 分鐘</span></td></tr>
+    <tr><td>Lambda max memory <span class="zh">Lambda 最大記憶體</span></td><td>10,240 MB</td></tr>
+    <tr><td>Lambda default concurrency limit (per region) <span class="zh">Lambda 預設並行限制（每個區域）</span></td><td>1,000 (soft limit) <span class="zh">1,000（軟性限制）</span></td></tr>
+    <tr><td>EBS gp3 baseline IOPS <span class="zh">EBS gp3 基準 IOPS</span></td><td>3,000</td></tr>
+    <tr><td>EBS gp3 max IOPS <span class="zh">EBS gp3 最大 IOPS</span></td><td>16,000</td></tr>
+    <tr><td>EBS gp2 IOPS rate <span class="zh">EBS gp2 IOPS 速率</span></td><td>3 IOPS/GB, burst to 3,000 <span class="zh">3 IOPS/GB，爆量至 3,000</span></td></tr>
+    <tr><td>EBS io2 max IOPS <span class="zh">EBS io2 最大 IOPS</span></td><td>64,000</td></tr>
+    <tr><td>EBS io2 Block Express max IOPS</td><td>256,000</td></tr>
+    <tr><td>S3 PUT/DELETE per prefix per second <span class="zh">S3 每字首每秒 PUT/DELETE</span></td><td>3,500</td></tr>
+    <tr><td>S3 GET/HEAD per prefix per second <span class="zh">S3 每字首每秒 GET/HEAD</span></td><td>5,500</td></tr>
+    <tr><td>S3 multipart upload recommended threshold <span class="zh">S3 多部分上傳建議閾值</span></td><td>100 MB</td></tr>
+    <tr><td>S3 multipart upload required threshold <span class="zh">S3 多部分上傳必要閾值</span></td><td>5 GB</td></tr>
+    <tr><td>Kinesis shard write throughput <span class="zh">Kinesis 分片寫入輸送量</span></td><td>1 MB/s</td></tr>
+    <tr><td>Kinesis shard read throughput (standard) <span class="zh">Kinesis 分片讀取輸送量（標準）</span></td><td>2 MB/s shared <span class="zh">2 MB/s 共享</span></td></tr>
+    <tr><td>Kinesis Enhanced Fan-Out per consumer <span class="zh">Kinesis 增強型展開每消費者</span></td><td>2 MB/s dedicated <span class="zh">2 MB/s 專用</span></td></tr>
+    <tr><td>Kinesis max retention <span class="zh">Kinesis 最長保留期間</span></td><td>365 days <span class="zh">365 天</span></td></tr>
+    <tr><td>Firehose minimum buffer interval <span class="zh">Firehose 最小緩衝間隔</span></td><td>60 seconds <span class="zh">60 秒</span></td></tr>
+    <tr><td>CloudFront edge locations <span class="zh">CloudFront 邊緣位置</span></td><td>450+</td></tr>
+    <tr><td>Redshift: max nodes per cluster <span class="zh">Redshift：每叢集最大節點數</span></td><td>128 nodes <span class="zh">128 個節點</span></td></tr>
+    <tr><td>Redshift Spectrum: data location <span class="zh">Redshift Spectrum：資料位置</span></td><td>Queries data directly in S3 <span class="zh">直接查詢 S3 中的資料</span></td></tr>
+    <tr><td>Athena: cost model <span class="zh">Athena：成本模型</span></td><td>$5 per TB scanned <span class="zh">每 TB 掃描 $5</span></td></tr>
+    <tr><td>Athena: best format for cost reduction <span class="zh">Athena：降低成本的最佳格式</span></td><td>Columnar (Parquet / ORC) <span class="zh">欄式（Parquet / ORC）</span></td></tr>
+    <tr><td>EMR: node types <span class="zh">EMR：節點類型</span></td><td>Primary, Core, Task <span class="zh">主要、核心、任務</span></td></tr>
+    <tr><td>OpenSearch: successor to <span class="zh">OpenSearch：繼承自</span></td><td>Amazon Elasticsearch Service <span class="zh">Amazon Elasticsearch Service</span></td></tr>
   </table>
 
   <div class="page-break"></div>
   <h2>7. Practice Questions <span class="zh">練習題</span></h2>
 
   <div class="question-block">
-    <div class="question-text">Question 1 &mdash; A security team discovers that an EC2 instance is making unusual API calls and connecting to known malicious IP addresses. The team wants a service that can automatically detect this behavior across all AWS accounts in the organization without installing agents. Which service should the solutions architect enable?
-      <span class="zh">問題 1——安全團隊發現 EC2 執行個體正在進行異常 API 呼叫並連接至已知的惡意 IP 位址。團隊希望有一個服務能自動偵測整個組織所有 AWS 帳號中的此類行為，且無需安裝代理程式。解決方案架構師應啟用哪個服務？</span>
+    <div class="question-text">Question 1 &mdash; A company runs a read-heavy web application backed by an RDS MySQL database. The database is experiencing high CPU utilization due to a large number of repetitive read queries. The application team cannot change the application code significantly. What should a solutions architect recommend?
+      <span class="zh">問題 1——某公司執行以 RDS MySQL 資料庫為後端的讀取密集 Web 應用程式。由於大量重複讀取查詢，資料庫的 CPU 使用率很高。應用程式團隊無法大幅變更應用程式程式碼。解決方案架構師應建議什麼？</span>
     </div>
     <ol class="options" type="A">
-      <li>Amazon Inspector <span class="zh">Amazon Inspector</span></li>
-      <li>AWS Config <span class="zh">AWS Config</span></li>
-      <li>Amazon GuardDuty <span class="zh">Amazon GuardDuty</span></li>
-      <li>AWS Security Hub <span class="zh">AWS Security Hub</span></li>
+      <li>Add RDS Read Replicas and update the application to route reads to the replica endpoint
+        <span class="zh">新增 RDS 唯讀複本並更新應用程式將讀取路由至複本端點</span>
+      </li>
+      <li>Enable RDS Multi-AZ to distribute read traffic to the standby instance
+        <span class="zh">啟用 RDS 多可用區域將讀取流量分配至備用執行個體</span>
+      </li>
+      <li>Deploy an ElastiCache Memcached cluster in front of RDS
+        <span class="zh">在 RDS 前部署 ElastiCache Memcached 叢集</span>
+      </li>
+      <li>Deploy an ElastiCache Redis cluster in front of RDS and use lazy loading
+        <span class="zh">在 RDS 前部署 ElastiCache Redis 叢集並使用延遲載入</span>
+      </li>
     </ol>
-    <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
+    <div class="answer-label">Answer: D <span class="zh">答案：D</span></div>
     <ul class="answer-detail">
-      <li class="correct">C is correct: GuardDuty uses ML to analyze CloudTrail logs, VPC Flow Logs, and DNS logs to detect threats like compromised instances and malicious IP connections. No agents needed; works across the organization.
-        <span class="zh">C 正確：GuardDuty 使用 ML 分析 CloudTrail 日誌、VPC 流量日誌和 DNS 日誌，以偵測遭入侵執行個體和惡意 IP 連線等威脅。無需代理程式；在整個組織中運作。</span>
+      <li class="correct">D is correct: ElastiCache Redis with lazy loading caches frequent read results, dramatically reducing RDS CPU. Redis is preferred for its replication and persistence.
+        <span class="zh">D 正確：ElastiCache Redis 搭配延遲載入快取頻繁讀取結果，大幅降低 RDS CPU。Redis 因其複寫和持久性而更受青睞。</span>
       </li>
-      <li class="wrong">A is wrong: Inspector scans for vulnerabilities and misconfigurations, not active runtime threats or network behavior.
-        <span class="zh">A 錯誤：Inspector 掃描弱點和設定錯誤，而非主動執行時期威脅或網路行為。</span>
+      <li class="wrong">A is wrong: Read Replicas still hit the database for every query &mdash; repetitive queries are not cached.
+        <span class="zh">A 錯誤：唯讀複本對每個查詢仍存取資料庫——重複查詢不會被快取。</span>
       </li>
-      <li class="wrong">B is wrong: Config tracks resource configuration changes for compliance, not active threat detection.
-        <span class="zh">B 錯誤：Config 追蹤資源設定變更以符合合規，而非主動威脅偵測。</span>
+      <li class="wrong">B is wrong: Multi-AZ standby is not readable. It exists only for failover.
+        <span class="zh">B 錯誤：多可用區域備用執行個體無法讀取。它僅用於容錯移轉。</span>
       </li>
-      <li class="wrong">D is wrong: Security Hub aggregates findings from GuardDuty and others but does not detect threats on its own.
-        <span class="zh">D 錯誤：Security Hub 彙總來自 GuardDuty 和其他服務的調查結果，但本身不偵測威脅。</span>
+      <li class="wrong">C is wrong: Memcached could work but lacks replication and persistence. Redis is the better default for production caching.
+        <span class="zh">C 錯誤：Memcached 可以運作，但缺乏複寫和持久性。Redis 是生產快取的更好預設選擇。</span>
       </li>
     </ul>
   </div>
 
   <div class="question-block">
-    <div class="question-text">Question 2 &mdash; A company stores sensitive customer PII in S3. They need to ensure all objects are encrypted with a key they control, all key usage is audited, and objects cannot be uploaded without encryption. What should the solutions architect configure?
-      <span class="zh">問題 2——某公司在 S3 中儲存敏感的客戶個人識別資訊。他們需要確保所有物件都使用他們控制的金鑰加密、所有金鑰使用都受到稽核，且物件不得在未加密的情況下上傳。解決方案架構師應設定什麼？</span>
+    <div class="question-text">Question 2 &mdash; A machine learning team needs to train a model on a 50 TB dataset stored in S3. Training jobs run on a cluster of EC2 P4d instances. The training requires extremely high throughput I/O and low latency access to the dataset. What storage solution should a solutions architect recommend?
+      <span class="zh">問題 2——機器學習團隊需要在儲存於 S3 的 50 TB 資料集上訓練模型。訓練工作在 EC2 P4d 執行個體叢集上執行。訓練需要極高輸送量 I/O 和對資料集的低延遲存取。解決方案架構師應建議什麼儲存方案？</span>
     </div>
     <ol class="options" type="A">
-      <li>Enable SSE-S3 as default encryption and add a bucket policy to deny unencrypted uploads
-        <span class="zh">啟用 SSE-S3 作為預設加密，並新增儲存貯體政策以拒絕未加密的上傳</span>
+      <li>Mount the S3 bucket directly using S3 File Gateway on each instance
+        <span class="zh">在每個執行個體上使用 S3 File Gateway 直接掛載 S3 儲存貯體</span>
       </li>
-      <li>Enable SSE-KMS with a customer-managed CMK, add a bucket policy denying uploads without the KMS header, and enable CloudTrail
-        <span class="zh">使用客戶受管 CMK 啟用 SSE-KMS，新增拒絕不含 KMS 標頭上傳的儲存貯體政策，並啟用 CloudTrail</span>
+      <li>Copy the dataset to EBS gp3 volumes attached to each instance
+        <span class="zh">將資料集複製到連接至每個執行個體的 EBS gp3 磁碟區</span>
       </li>
-      <li>Use client-side encryption and upload pre-encrypted objects to S3
-        <span class="zh">使用用戶端加密並將預先加密的物件上傳至 S3</span>
+      <li>Use Amazon FSx for Lustre linked to the S3 bucket
+        <span class="zh">使用連結至 S3 儲存貯體的 Amazon FSx for Lustre</span>
       </li>
-      <li>Enable SSE-C and require the client to provide the encryption key on every request
-        <span class="zh">啟用 SSE-C 並要求用戶端在每次請求時提供加密金鑰</span>
+      <li>Use Amazon EFS with Max I/O performance mode
+        <span class="zh">使用最大 I/O 效能模式的 Amazon EFS</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
+    <ul class="answer-detail">
+      <li class="correct">C is correct: FSx for Lustre provides sub-millisecond latency and hundreds of GB/s throughput with native S3 integration. Designed exactly for HPC/ML workloads.
+        <span class="zh">C 正確：FSx for Lustre 提供毫秒以下延遲和數百 GB/s 輸送量，並具有原生 S3 整合。專為 HPC/ML 工作負載設計。</span>
+      </li>
+      <li class="wrong">A is wrong: S3 File Gateway adds latency and is meant for hybrid on-premises scenarios.
+        <span class="zh">A 錯誤：S3 File Gateway 增加延遲，適用於混合本地端場景。</span>
+      </li>
+      <li class="wrong">B is wrong: EBS volumes are per-instance. Copying 50 TB to each instance is impractical and doesn&rsquo;t support shared access.
+        <span class="zh">B 錯誤：EBS 磁碟區是每個執行個體專屬的。將 50 TB 複製到每個執行個體不切實際，且不支援共用存取。</span>
+      </li>
+      <li class="wrong">D is wrong: EFS Max I/O has higher latency than FSx for Lustre and lower aggregate throughput. Not designed for this scale.
+        <span class="zh">D 錯誤：EFS 最大 I/O 的延遲高於 FSx for Lustre，彙總輸送量也較低。不是為此規模而設計的。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 3 &mdash; A company has a DynamoDB table that serves a leaderboard for a gaming application. As the game grew, read latency has increased to 5&ndash;8 ms, causing visible lag in the UI. The team needs microsecond read latency. What should the solutions architect recommend?
+      <span class="zh">問題 3——某公司有一個 DynamoDB 資料表，為遊戲應用程式提供排行榜。隨著遊戲成長，讀取延遲已增加至 5–8 毫秒，導致 UI 出現明顯延遲。團隊需要微秒讀取延遲。解決方案架構師應建議什麼？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Add a Global Secondary Index to the DynamoDB table
+        <span class="zh">在 DynamoDB 資料表中新增全域次要索引</span>
+      </li>
+      <li>Switch to DynamoDB on-demand capacity mode
+        <span class="zh">切換至 DynamoDB 隨需容量模式</span>
+      </li>
+      <li>Deploy Amazon DynamoDB Accelerator (DAX) in front of the table
+        <span class="zh">在資料表前部署 Amazon DynamoDB Accelerator（DAX）</span>
+      </li>
+      <li>Add an ElastiCache Redis cluster and implement a cache-aside pattern
+        <span class="zh">新增 ElastiCache Redis 叢集並實作旁路快取模式</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
+    <ul class="answer-detail">
+      <li class="correct">C is correct: DAX is purpose-built for DynamoDB and provides microsecond read latency. API-compatible with DynamoDB, so minimal code changes are required.
+        <span class="zh">C 正確：DAX 專為 DynamoDB 建置，提供微秒讀取延遲。與 DynamoDB API 相容，因此只需最少程式碼變更。</span>
+      </li>
+      <li class="wrong">A is wrong: A GSI improves query flexibility, not read latency. It doesn&rsquo;t cache anything.
+        <span class="zh">A 錯誤：全域次要索引提升查詢彈性，而非讀取延遲。它不快取任何內容。</span>
+      </li>
+      <li class="wrong">B is wrong: On-demand mode adjusts capacity, not latency. The bottleneck is latency, not throughput.
+        <span class="zh">B 錯誤：隨需模式調整容量，而非延遲。瓶頸是延遲，而非輸送量。</span>
+      </li>
+      <li class="wrong">D is wrong: ElastiCache Redis requires significant application code changes. DAX is the simpler, purpose-built solution.
+        <span class="zh">D 錯誤：ElastiCache Redis 需要大量應用程式程式碼變更。DAX 是更簡單的專用解決方案。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 4 &mdash; A media company streams video content to users worldwide. Videos are stored in S3 in us-east-1. Users in Asia and Europe are experiencing long load times. The company wants to reduce latency with minimal code changes. What should the solutions architect recommend?
+      <span class="zh">問題 4——某媒體公司向全球使用者串流視訊內容。影片儲存在 us-east-1 的 S3 中。亞洲和歐洲的使用者遭遇較長的載入時間。公司希望以最少程式碼變更降低延遲。解決方案架構師應建議什麼？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Enable S3 Transfer Acceleration on the bucket
+        <span class="zh">在儲存貯體上啟用 S3 傳輸加速</span>
+      </li>
+      <li>Use Amazon CloudFront with an S3 origin
+        <span class="zh">使用以 S3 為來源的 Amazon CloudFront</span>
+      </li>
+      <li>Use AWS Global Accelerator pointing to the S3 bucket
+        <span class="zh">使用指向 S3 儲存貯體的 AWS 全球加速器</span>
+      </li>
+      <li>Replicate the S3 bucket to regions in Asia and Europe using S3 CRR
+        <span class="zh">使用 S3 CRR 將 S3 儲存貯體複寫至亞洲和歐洲的區域</span>
       </li>
     </ol>
     <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
     <ul class="answer-detail">
-      <li class="correct">B is correct: SSE-KMS with a customer-managed CMK gives full key control. CloudTrail logs every KMS API call. The bucket policy enforces encryption on all uploads. Meets all three requirements.
-        <span class="zh">B 正確：具有客戶受管 CMK 的 SSE-KMS 提供完整金鑰控制。CloudTrail 記錄每個 KMS API 呼叫。儲存貯體政策對所有上傳強制執行加密。符合所有三個需求。</span>
+      <li class="correct">B is correct: CloudFront caches video content at 450+ edge locations globally. Users are served from the nearest edge, dramatically reducing load times.
+        <span class="zh">B 正確：CloudFront 在全球 450 個以上邊緣位置快取視訊內容。使用者從最近的邊緣提供服務，大幅降低載入時間。</span>
       </li>
-      <li class="wrong">A is wrong: SSE-S3 uses AWS-managed keys &mdash; no customer control and no per-use audit trail in KMS.
-        <span class="zh">A 錯誤：SSE-S3 使用 AWS 受管金鑰——無客戶控制，KMS 中也無每次使用的稽核追蹤。</span>
+      <li class="wrong">A is wrong: S3 Transfer Acceleration speeds up uploads to S3, not downloads to end users.
+        <span class="zh">A 錯誤：S3 傳輸加速加快上傳至 S3 的速度，而非向終端使用者的下載速度。</span>
       </li>
-      <li class="wrong">C is wrong: Client-side encryption adds application complexity and doesn&rsquo;t provide centralized KMS auditing.
-        <span class="zh">C 錯誤：用戶端加密增加應用程式複雜性，且不提供集中式 KMS 稽核。</span>
+      <li class="wrong">C is wrong: Global Accelerator doesn&rsquo;t cache content. The origin still serves every request.
+        <span class="zh">C 錯誤：全球加速器不快取內容。來源仍然服務每個請求。</span>
       </li>
-      <li class="wrong">D is wrong: SSE-C requires the customer to manage and transmit keys with every request &mdash; high operational burden without centralized audit.
-        <span class="zh">D 錯誤：SSE-C 要求客戶在每次請求時管理和傳輸金鑰——高營運負擔且無集中式稽核。</span>
+      <li class="wrong">D is wrong: CRR adds operational complexity and cost. CloudFront achieves the same goal with a single bucket.
+        <span class="zh">D 錯誤：CRR 增加營運複雜性和成本。CloudFront 以單一儲存貯體達到相同目標。</span>
       </li>
     </ul>
   </div>
 
   <div class="question-block">
-    <div class="question-text">Question 3 &mdash; A company&rsquo;s application runs on EC2 in a private subnet and needs to access a database password stored in AWS Secrets Manager. The security team requires that this traffic never traverse the public internet. What should the solutions architect configure?
-      <span class="zh">問題 3——某公司的應用程式在私有子網路的 EC2 上執行，需要存取儲存在 AWS Secrets Manager 中的資料庫密碼。安全團隊要求此流量絕不得穿越公共網際網路。解決方案架構師應設定什麼？</span>
+    <div class="question-text">Question 5 &mdash; A company processes clickstream events from its website. Multiple downstream systems need to process the same events independently &mdash; a real-time dashboard, a fraud detection system, and a data archiving pipeline. Events must be processed in order and replay must be possible. What should a solutions architect recommend?
+      <span class="zh">問題 5——某公司處理來自其網站的點擊串流事件。多個下游系統需要獨立處理相同事件——即時儀表板、詐欺偵測系統和資料封存管道。事件必須按順序處理，且必須可以重播。解決方案架構師應建議什麼？</span>
     </div>
     <ol class="options" type="A">
-      <li>Assign a public IP to the EC2 instance and use IAM roles for access
-        <span class="zh">為 EC2 執行個體指派公有 IP 並使用 IAM 角色進行存取</span>
+      <li>Use Amazon SQS Standard queues with one queue per consumer
+        <span class="zh">使用每個消費者一個佇列的 Amazon SQS 標準佇列</span>
       </li>
-      <li>Create a NAT Gateway in a public subnet to allow the EC2 instance to reach Secrets Manager
-        <span class="zh">在公有子網路中建立 NAT 閘道，以允許 EC2 執行個體存取 Secrets Manager</span>
+      <li>Use Amazon SNS with three SQS queues as subscribers
+        <span class="zh">使用 Amazon SNS 搭配三個 SQS 佇列作為訂閱者</span>
       </li>
-      <li>Create a VPC Interface Endpoint for Secrets Manager in the private subnet
-        <span class="zh">在私有子網路中為 Secrets Manager 建立 VPC 介面端點</span>
+      <li>Use Amazon Kinesis Data Streams with Enhanced Fan-Out enabled
+        <span class="zh">使用啟用增強型展開的 Amazon Kinesis Data Streams</span>
       </li>
-      <li>Store the password in S3 and use a VPC Gateway Endpoint to retrieve it
-        <span class="zh">將密碼儲存在 S3 中並使用 VPC 閘道端點擷取</span>
+      <li>Use Amazon EventBridge with three separate rules and targets
+        <span class="zh">使用具有三個獨立規則和目標的 Amazon EventBridge</span>
       </li>
     </ol>
     <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
     <ul class="answer-detail">
-      <li class="correct">C is correct: A VPC Interface Endpoint (PrivateLink) for Secrets Manager creates a private ENI in the subnet. Traffic flows entirely within the AWS network, never touching the public internet.
-        <span class="zh">C 正確：Secrets Manager 的 VPC 介面端點（PrivateLink）在子網路中建立私有 ENI。流量完全在 AWS 網路內流動，永遠不接觸公共網際網路。</span>
+      <li class="correct">C is correct: Kinesis Data Streams preserves order within a shard, supports replay, and Enhanced Fan-Out gives each consumer dedicated 2 MB/s per shard. Perfect for multi-consumer ordered replayable streaming.
+        <span class="zh">C 正確：Kinesis Data Streams 在分片內保留順序、支援重播，增強型展開給每個消費者每個分片專用 2 MB/s。完美適用於多消費者有序可重播串流。</span>
       </li>
-      <li class="wrong">A is wrong: A public IP still routes traffic over the internet to reach Secrets Manager&rsquo;s public endpoint.
-        <span class="zh">A 錯誤：公有 IP 仍透過網際網路路由流量以到達 Secrets Manager 的公共端點。</span>
+      <li class="wrong">A is wrong: A message consumed from one SQS queue is not available to others. Duplicating events to multiple queues is an anti-pattern.
+        <span class="zh">A 錯誤：從一個 SQS 佇列消費的訊息無法供其他人使用。將事件複製到多個佇列是反模式。</span>
       </li>
-      <li class="wrong">B is wrong: NAT Gateway routes outbound traffic to the internet &mdash; traffic still leaves the AWS private network.
-        <span class="zh">B 錯誤：NAT 閘道將輸出流量路由至網際網路——流量仍離開 AWS 私有網路。</span>
+      <li class="wrong">B is wrong: SNS + SQS fanout distributes events but SQS doesn&rsquo;t guarantee order and doesn&rsquo;t support replay.
+        <span class="zh">B 錯誤：SNS + SQS 展開分配事件，但 SQS 不保證順序且不支援重播。</span>
       </li>
-      <li class="wrong">D is wrong: S3 Gateway Endpoints only work for S3 and DynamoDB, not Secrets Manager. Also, storing secrets in S3 is an anti-pattern.
-        <span class="zh">D 錯誤：S3 閘道端點僅適用於 S3 和 DynamoDB，不適用於 Secrets Manager。而且，將秘密儲存在 S3 中是反模式。</span>
-      </li>
-    </ul>
-  </div>
-
-  <div class="question-block">
-    <div class="question-text">Question 4 &mdash; A large enterprise uses AWS Organizations with dozens of accounts. The security team wants to ensure that no account in the organization can disable AWS CloudTrail, regardless of what IAM administrators in those accounts do. What is the most effective solution?
-      <span class="zh">問題 4——某大型企業使用具有數十個帳號的 AWS Organizations。安全團隊希望確保組織中的任何帳號都無法停用 AWS CloudTrail，無論這些帳號中的 IAM 管理員做什麼。最有效的解決方案是什麼？</span>
-    </div>
-    <ol class="options" type="A">
-      <li>Create an IAM policy in each account denying cloudtrail:DeleteTrail and attach it to all users
-        <span class="zh">在每個帳號中建立拒絕 cloudtrail:DeleteTrail 的 IAM 政策並附加至所有使用者</span>
-      </li>
-      <li>Enable AWS Config rules in each account to detect and re-enable CloudTrail if disabled
-        <span class="zh">在每個帳號中啟用 AWS Config 規則，以在 CloudTrail 停用時偵測並重新啟用</span>
-      </li>
-      <li>Create a Service Control Policy (SCP) denying cloudtrail:DeleteTrail and cloudtrail:StopLogging and attach it to the root OU
-        <span class="zh">建立拒絕 cloudtrail:DeleteTrail 和 cloudtrail:StopLogging 的服務控制政策（SCP）並附加至根組織單位</span>
-      </li>
-      <li>Use IAM Permission Boundaries on all admin roles to prevent CloudTrail changes
-        <span class="zh">在所有管理員角色上使用 IAM 許可界限以防止 CloudTrail 變更</span>
-      </li>
-    </ol>
-    <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
-    <ul class="answer-detail">
-      <li class="correct">C is correct: SCPs attached to the root OU apply to all member accounts and cannot be overridden by any IAM policy within those accounts. No IAM administrator in any member account can override an SCP deny.
-        <span class="zh">C 正確：附加至根組織單位的 SCP 套用至所有成員帳號，且無法被這些帳號中的任何 IAM 政策覆寫。任何成員帳號中的 IAM 管理員都無法覆寫 SCP 拒絕。</span>
-      </li>
-      <li class="wrong">A is wrong: IAM administrators in each account could remove or modify those policies &mdash; not tamper-proof.
-        <span class="zh">A 錯誤：每個帳號中的 IAM 管理員可以移除或修改這些政策——不防篡改。</span>
-      </li>
-      <li class="wrong">B is wrong: Config detects drift reactively &mdash; there&rsquo;s a window where CloudTrail is disabled. This is not preventive.
-        <span class="zh">B 錯誤：Config 被動式偵測漂移——存在 CloudTrail 停用的時間窗口。這不是預防性的。</span>
-      </li>
-      <li class="wrong">D is wrong: Permission Boundaries constrain a specific role, and the boundary itself can be modified by someone with iam:PutRolePermissionsBoundary. Not an org-wide guardrail.
-        <span class="zh">D 錯誤：許可界限限制特定角色，且界限本身可被具有 iam:PutRolePermissionsBoundary 的人修改。這不是整個組織的護欄。</span>
+      <li class="wrong">D is wrong: EventBridge is excellent for event routing but does not support ordered processing or stream replay.
+        <span class="zh">D 錯誤：EventBridge 非常適合事件路由，但不支援有序處理或串流重播。</span>
       </li>
     </ul>
   </div>
 
   <div class="question-block">
-    <div class="question-text">Question 5 &mdash; A mobile application needs to allow users to sign in with their email and password, and then directly read from a DynamoDB table that contains their personal data. What combination of services should the solutions architect use?
-      <span class="zh">問題 5——行動應用程式需要允許使用者使用電子郵件和密碼登入，然後直接從包含其個人資料的 DynamoDB 資料表讀取。解決方案架構師應使用哪種服務組合？</span>
+    <div class="question-text">Question 6 &mdash; A retail company has a 10 TB data warehouse in Amazon Redshift holding 3 years of sales history. The analytics team also needs to run ad-hoc SQL queries against an additional 500 TB of raw data stored in S3 (Parquet format) without loading it into Redshift. What should the solutions architect use?
+      <span class="zh">問題 6——某零售公司在 Amazon Redshift 中擁有一個 10 TB 的資料倉儲，儲存了 3 年的銷售歷史記錄。分析團隊還需要對儲存在 S3 中（Parquet 格式）的額外 500 TB 原始資料執行特定 SQL 查詢，而無需將其載入 Redshift。解決方案架構師應使用什麼？</span>
     </div>
     <ol class="options" type="A">
-      <li>IAM users for each app user with DynamoDB read permissions
-        <span class="zh">為每個應用程式使用者建立具有 DynamoDB 讀取許可的 IAM 使用者</span>
+      <li>Copy all 500 TB from S3 into Redshift using COPY command
+        <span class="zh">使用 COPY 命令將所有 500 TB 從 S3 複製到 Redshift</span>
       </li>
-      <li>Cognito User Pool for authentication and Cognito Identity Pool for temporary AWS credentials
-        <span class="zh">Cognito 使用者集區用於驗證，Cognito 身分識別集區用於暫時 AWS 憑證</span>
+      <li>Use Amazon Redshift Spectrum to query the S3 data directly from Redshift
+        <span class="zh">使用 Amazon Redshift Spectrum 直接從 Redshift 查詢 S3 資料</span>
       </li>
-      <li>Cognito User Pool only &mdash; issue JWT tokens that the app uses to query DynamoDB
-        <span class="zh">僅使用 Cognito 使用者集區——發出應用程式用於查詢 DynamoDB 的 JWT 權杖</span>
+      <li>Use Amazon Athena to query all data, including the Redshift warehouse
+        <span class="zh">使用 Amazon Athena 查詢所有資料，包括 Redshift 倉儲</span>
       </li>
-      <li>IAM Identity Center with a DynamoDB resource policy granting access
-        <span class="zh">IAM Identity Center 搭配授予存取權的 DynamoDB 資源政策</span>
+      <li>Use Amazon EMR with Spark to query both Redshift and S3 simultaneously
+        <span class="zh">使用 Amazon EMR 搭配 Spark 同時查詢 Redshift 和 S3</span>
       </li>
     </ol>
     <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
     <ul class="answer-detail">
-      <li class="correct">B is correct: Cognito User Pool handles sign-in and issues JWT tokens. The Identity Pool exchanges those JWTs for temporary AWS credentials via STS, scoped to allow DynamoDB reads. This is the standard pattern for mobile apps accessing AWS services directly.
-        <span class="zh">B 正確：Cognito 使用者集區處理登入並發出 JWT 權杖。身分識別集區透過 STS 將這些 JWT 兌換為暫時 AWS 憑證，範圍限定為允許 DynamoDB 讀取。這是行動應用程式直接存取 AWS 服務的標準模式。</span>
+      <li class="correct">B is correct: Redshift Spectrum allows Redshift to query data in S3 directly (using external tables in the Glue Data Catalog) without ingesting it. The analyst writes standard SQL in Redshift, and Spectrum transparently pushes computation down to S3.
+        <span class="zh">B 正確：Redshift Spectrum 允許 Redshift 直接查詢 S3 中的資料（使用 Glue 資料目錄中的外部資料表）而無需擷取。分析師在 Redshift 中撰寫標準 SQL，Spectrum 透明地將計算推送至 S3。</span>
       </li>
-      <li class="wrong">A is wrong: Creating an IAM user per app user is unscalable, insecure, and not how end-user authentication is handled.
-        <span class="zh">A 錯誤：為每個應用程式使用者建立 IAM 使用者不具可擴展性、不安全，且不是處理終端使用者驗證的方式。</span>
+      <li class="wrong">A is wrong: Copying 500 TB into Redshift is expensive, time-consuming, and defeats the purpose of keeping raw data in S3 as a cost-efficient data lake.
+        <span class="zh">A 錯誤：將 500 TB 複製到 Redshift 成本高昂、耗時，且違背了將原始資料保留在 S3 中作為經濟高效資料湖的目的。</span>
       </li>
-      <li class="wrong">C is wrong: DynamoDB does not accept JWT tokens &mdash; it requires AWS SigV4-signed requests. JWTs alone cannot authenticate to DynamoDB.
-        <span class="zh">C 錯誤：DynamoDB 不接受 JWT 權杖——它需要 AWS SigV4 簽署的請求。僅憑 JWT 無法向 DynamoDB 驗證。</span>
+      <li class="wrong">C is wrong: Athena queries S3 but cannot query Redshift warehouse data directly. It's a separate query engine with no Redshift integration.
+        <span class="zh">C 錯誤：Athena 查詢 S3，但無法直接查詢 Redshift 倉儲資料。它是一個獨立的查詢引擎，與 Redshift 沒有整合。</span>
       </li>
-      <li class="wrong">D is wrong: IAM Identity Center is designed for workforce SSO across AWS accounts, not for mobile app end-user authentication.
-        <span class="zh">D 錯誤：IAM Identity Center 是為跨 AWS 帳號的員工 SSO 而設計的，不適用於行動應用程式終端使用者驗證。</span>
+      <li class="wrong">D is wrong: EMR adds unnecessary complexity. Redshift Spectrum is the native, purpose-built solution for this exact use case.
+        <span class="zh">D 錯誤：EMR 增加了不必要的複雜性。Redshift Spectrum 是針對這個確切使用案例的原生專用解決方案。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 7 &mdash; A company stores application logs in S3. The security team wants to run full-text searches and visualize log patterns to investigate security incidents. Data is ingested via Kinesis Data Firehose. Which service best satisfies this requirement?
+      <span class="zh">問題 7——某公司將應用程式日誌儲存在 S3 中。安全團隊希望執行全文搜索並視覺化日誌模式以調查安全事件。資料透過 Kinesis Data Firehose 擷取。哪個服務最能滿足此需求？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Amazon Redshift with COPY from S3 <span class="zh">Amazon Redshift 搭配從 S3 COPY</span></li>
+      <li>Amazon Athena with partitioned tables in S3 <span class="zh">Amazon Athena 搭配 S3 中的分區資料表</span></li>
+      <li>Amazon OpenSearch Service with Kibana dashboards <span class="zh">Amazon OpenSearch Service 搭配 Kibana 儀表板</span></li>
+      <li>Amazon RDS with full-text index on log columns <span class="zh">Amazon RDS 搭配日誌欄位的全文索引</span></li>
+    </ol>
+    <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
+    <ul class="answer-detail">
+      <li class="correct">C is correct: Amazon OpenSearch Service is purpose-built for full-text search and log analytics. Kinesis Data Firehose natively delivers to OpenSearch, and the built-in Kibana (OpenSearch Dashboards) provides real-time visualization of log patterns and security events.
+        <span class="zh">C 正確：Amazon OpenSearch Service 專為全文搜索和日誌分析而建置。Kinesis Data Firehose 原生傳遞至 OpenSearch，內建的 Kibana（OpenSearch Dashboards）提供日誌模式和安全事件的即時視覺化。</span>
+      </li>
+      <li class="wrong">A is wrong: Redshift is an OLAP data warehouse optimized for structured analytics (SQL aggregations), not free-form full-text log search or keyword-in-context visualization.
+        <span class="zh">A 錯誤：Redshift 是為結構化分析（SQL 聚合）最佳化的 OLAP 資料倉儲，而非自由格式全文日誌搜索或關鍵字上下文視覺化。</span>
+      </li>
+      <li class="wrong">B is wrong: Athena supports SQL queries on S3 but is not designed for real-time full-text search or near-real-time log dashboards.
+        <span class="zh">B 錯誤：Athena 支援在 S3 上的 SQL 查詢，但不是為即時全文搜索或近即時日誌儀表板而設計的。</span>
+      </li>
+      <li class="wrong">D is wrong: RDS is a transactional database. Its full-text search is limited and not designed for the scale or query patterns of log analytics.
+        <span class="zh">D 錯誤：RDS 是一個交易資料庫。其全文搜索功能有限，並非為日誌分析的規模或查詢模式而設計。</span>
       </li>
     </ul>
   </div>

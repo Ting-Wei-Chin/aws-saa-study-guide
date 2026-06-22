@@ -3,708 +3,994 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SAA-C03 Domain 2: Design High-Performing Architectures</title>
+  <title>SAA-C03 Domain 2: Design Resilient Architectures</title>
   <style>
-    body { font-family: Georgia, serif; font-size: 13px; line-height: 1.6; color: #1a1a1a; max-width: 900px; margin: 0 auto; padding: 30px 40px; }
-    h1 { font-size: 22px; border-bottom: 3px solid #232f3e; padding-bottom: 10px; color: #232f3e; margin-bottom: 6px; }
-    .subtitle { font-size: 13px; color: #555; margin-bottom: 30px; }
-    h2 { font-size: 16px; background-color: #232f3e; color: #ffffff; padding: 6px 12px; margin-top: 30px; margin-bottom: 10px; border-radius: 3px; }
-    h3 { font-size: 14px; color: #232f3e; margin-top: 16px; margin-bottom: 6px; border-left: 4px solid #ff9900; padding-left: 8px; }
-    h4 { font-size: 13px; font-weight: bold; margin-top: 12px; margin-bottom: 4px; }
-    ul, ol { padding-left: 20px; margin: 6px 0; }
-    li { margin-bottom: 4px; }
-    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; }
-    th { background-color: #232f3e; color: white; padding: 6px 10px; text-align: left; }
-    td { padding: 5px 10px; border-bottom: 1px solid #ddd; }
-    tr:nth-child(even) td { background-color: #f7f7f7; }
-    .question-block { background: #f9f9f9; border: 1px solid #ddd; border-left: 4px solid #ff9900; padding: 14px 16px; margin: 16px 0; border-radius: 3px; page-break-inside: avoid; }
-    .question-text { font-weight: bold; margin-bottom: 10px; }
-    .options { padding-left: 16px; margin: 8px 0; }
-    .options li { margin-bottom: 4px; }
-    .answer-label { font-weight: bold; color: #232f3e; margin-top: 12px; }
-    .answer-detail { margin-top: 6px; padding-left: 12px; font-size: 12px; }
-    .answer-detail li { margin-bottom: 4px; }
-    .correct { color: #1a7340; font-weight: bold; }
-    .wrong { color: #8b0000; }
-    .page-break { page-break-before: always; }
-    .zh { display: block; color: #777; font-size: 0.88em; font-style: italic; margin-top: 2px; padding-left: 6px; border-left: 2px solid #ff9900; line-height: 1.5; }
-    h1 .zh, h2 .zh { font-size: 0.82em; font-weight: normal; font-style: normal; color: #ffcc80; border: none; padding-left: 0; margin-top: 3px; }
-    h3 .zh, h4 .zh { font-size: 0.82em; font-weight: normal; font-style: normal; color: #888; border: none; padding-left: 0; margin-top: 3px; }
-    .subtitle .zh { border: none; padding: 0; font-style: normal; color: #888; }
-    td .zh, th .zh { border: none; padding: 0; color: #999; font-style: italic; }
-    .question-text .zh { font-weight: normal; color: #666; margin-top: 4px; }
-    .back-link { display: inline-block; margin-bottom: 20px; color: #232f3e; text-decoration: none; font-size: 12px; border: 1px solid #232f3e; padding: 4px 10px; border-radius: 3px; }
+    body {
+      font-family: Georgia, serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #1a1a1a;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px 40px;
+    }
+
+    h1 {
+      font-size: 22px;
+      border-bottom: 3px solid #232f3e;
+      padding-bottom: 10px;
+      color: #232f3e;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      font-size: 16px;
+      background-color: #232f3e;
+      color: #ffffff;
+      padding: 6px 12px;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      border-radius: 3px;
+    }
+
+    h3 {
+      font-size: 14px;
+      color: #232f3e;
+      margin-top: 16px;
+      margin-bottom: 6px;
+      border-left: 4px solid #ff9900;
+      padding-left: 8px;
+    }
+
+    h4 {
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 12px;
+      margin-bottom: 4px;
+    }
+
+    ul, ol {
+      padding-left: 20px;
+      margin: 6px 0;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 12px;
+    }
+
+    th {
+      background-color: #232f3e;
+      color: white;
+      padding: 6px 10px;
+      text-align: left;
+    }
+
+    td {
+      padding: 5px 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f7f7f7;
+    }
+
+    .question-block {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-left: 4px solid #ff9900;
+      padding: 14px 16px;
+      margin: 16px 0;
+      border-radius: 3px;
+      page-break-inside: avoid;
+    }
+
+    .question-text {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .options {
+      padding-left: 16px;
+      margin: 8px 0;
+    }
+
+    .options li {
+      margin-bottom: 4px;
+    }
+
+    .answer-label {
+      font-weight: bold;
+      color: #232f3e;
+      margin-top: 12px;
+    }
+
+    .answer-detail {
+      margin-top: 6px;
+      padding-left: 12px;
+      font-size: 12px;
+    }
+
+    .answer-detail li {
+      margin-bottom: 4px;
+    }
+
+    .correct {
+      color: #1a7340;
+      font-weight: bold;
+    }
+
+    .wrong {
+      color: #8b0000;
+    }
+
+    code {
+      background: #f0f0f0;
+      padding: 1px 4px;
+      border-radius: 2px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* Bilingual styles */
+    .zh {
+      display: block;
+      color: #777;
+      font-size: 0.88em;
+      font-style: italic;
+      margin-top: 2px;
+      padding-left: 6px;
+      border-left: 2px solid #ff9900;
+      line-height: 1.5;
+    }
+
+    h1 .zh, h2 .zh, h3 .zh, h4 .zh {
+      font-size: 0.82em;
+      font-weight: normal;
+      font-style: normal;
+      color: #ffcc80;
+      border: none;
+      padding-left: 0;
+      margin-top: 3px;
+    }
+
+    h3 .zh { color: #888; }
+    h4 .zh { color: #888; }
+
+    .subtitle .zh {
+      border: none;
+      padding: 0;
+      font-style: normal;
+      color: #888;
+    }
+
+    td .zh, th .zh {
+      border: none;
+      padding: 0;
+      color: #999;
+      font-style: italic;
+    }
+
+    .question-text .zh {
+      font-weight: normal;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #232f3e;
+      text-decoration: none;
+      font-size: 12px;
+      border: 1px solid #232f3e;
+      padding: 4px 10px;
+      border-radius: 3px;
+    }
     .back-link:hover { background: #232f3e; color: white; }
-    @media print { body { padding: 15px 20px; } h2 { -webkit-print-color-adjust: exact; print-color-adjust: exact; } th { -webkit-print-color-adjust: exact; print-color-adjust: exact; } .question-block { page-break-inside: avoid; } }
+
+    @media print {
+      body { padding: 15px 20px; }
+      h2 { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .question-block { page-break-inside: avoid; }
+    }
   </style>
 </head>
 <body>
 
   <a class="back-link" href="index.html">&larr; Back to Index 返回目錄</a>
 
-  <h1>SAA-C03 &mdash; Domain 2: Design High-Performing Architectures
-    <span class="zh">領域 2：設計高效能架構</span>
+  <h1>SAA-C03 &mdash; Domain 2: Design Resilient Architectures
+    <span class="zh">領域 2：設計具彈性的架構</span>
   </h1>
-  <div class="subtitle">AWS Certified Solutions Architect &ndash; Associate &nbsp;|&nbsp; Deep-Dive Study Guide &nbsp;|&nbsp; 24% of Exam
-    <span class="zh">AWS 認證解決方案架構師 – 助理 &nbsp;|&nbsp; 深度學習指南 &nbsp;|&nbsp; 占考試 24%</span>
+  <div class="subtitle">AWS Certified Solutions Architect &ndash; Associate &nbsp;|&nbsp; Deep-Dive Study Guide &nbsp;|&nbsp; 26% of Exam
+    <span class="zh">AWS 認證解決方案架構師 – 助理 &nbsp;|&nbsp; 深度學習指南 &nbsp;|&nbsp; 占考試 26%</span>
   </div>
 
+  <!-- SECTION 1 -->
   <h2>1. Domain Overview <span class="zh">領域概覽</span></h2>
-  <p>Domain 2 tests your ability to select services and configurations that maximize speed, throughput, and scalability. The exam focuses on <strong>matching the right performance tool to the workload</strong> &mdash; choosing the correct EBS type, caching layer, compute family, or network accelerator based on specific requirements like IOPS, latency targets, or data access patterns.</p>
-  <p class="zh">領域 2 測試您選擇服務和設定以最大化速度、輸送量和擴展性的能力。考試重點在於<strong>為工作負載配對正確的效能工具</strong>——根據 IOPS、延遲目標或資料存取模式等特定需求，選擇正確的 EBS 類型、快取層、運算系列或網路加速器。</p>
+  <p>Domain 2 tests your ability to select AWS services and configurations that keep applications running through failures, traffic spikes, and disasters. The exam focuses on <strong>which combination of services achieves a specific resilience requirement</strong> &mdash; not just that HA exists, but knowing when Multi-AZ vs. Multi-Region vs. Auto Scaling is the right tool, and at what cost.</p>
+  <p class="zh">領域 2 測試您選擇 AWS 服務和設定的能力，以確保應用程式在故障、流量激增和災難情況下持續運作。考試重點在於<strong>哪種服務組合能達到特定的彈性需求</strong>——不只是知道高可用性的存在，而是要了解何時應使用多可用區域、多區域或 Auto Scaling，以及各自的成本考量。</p>
 
+  <!-- SECTION 2 -->
   <h2>2. Key AWS Services <span class="zh">主要 AWS 服務</span></h2>
 
   <h3>Compute <span class="zh">運算</span></h3>
 
-  <h4>EC2 Instance Families <span class="zh">EC2 執行個體系列</span></h4>
+  <h4>EC2</h4>
   <ul>
-    <li><strong>C-series</strong> (c6i, c7g): Compute-optimized; CPU-bound workloads, batch processing, web servers
-      <span class="zh"><strong>C 系列</strong>（c6i, c7g）：運算最佳化；CPU 密集工作負載、批次處理、Web 伺服器</span>
+    <li>Backbone of most resilience architectures on the exam
+      <span class="zh">考試中大多數彈性架構的核心服務</span>
     </li>
-    <li><strong>R/X-series</strong> (r6i, x2idn): Memory-optimized; in-memory databases, real-time big data, SAP HANA
-      <span class="zh"><strong>R/X 系列</strong>（r6i, x2idn）：記憶體最佳化；記憶體內資料庫、即時大數據、SAP HANA</span>
+    <li>Key exam configs: placement groups (Cluster vs. Spread vs. Partition), instance store vs. EBS, and Spot interruption handling
+      <span class="zh">關鍵考試設定：置放群組（叢集 vs. 分散 vs. 分割）、執行個體存放區 vs. EBS，以及 Spot 中斷處理</span>
     </li>
-    <li><strong>I/D-series</strong> (i4i, d3): Storage-optimized; high sequential I/O, data warehousing, Hadoop
-      <span class="zh"><strong>I/D 系列</strong>（i4i, d3）：儲存最佳化；高循序 I/O、資料倉儲、Hadoop</span>
-    </li>
-    <li><strong>P/G/Inf-series</strong>: Accelerated computing; ML training (P), GPU graphics (G), ML inference (Inf)
-      <span class="zh"><strong>P/G/Inf 系列</strong>：加速運算；ML 訓練（P）、GPU 圖形（G）、ML 推論（Inf）</span>
-    </li>
-    <li><strong>Exam rule:</strong> match instance family to bottleneck &mdash; CPU-bound &rarr; C; memory-bound &rarr; R; IOPS-bound &rarr; I; ML &rarr; P/Inf
-      <span class="zh"><strong>考試規則：</strong>將執行個體系列對應至瓶頸——CPU 密集 → C；記憶體密集 → R；IOPS 密集 → I；ML → P/Inf</span>
+    <li>Spread placement group = max <strong>7 instances per AZ</strong> per group &mdash; exam loves this limit
+      <span class="zh">分散置放群組 = 每個群組每個可用區域最多 <strong>7 個執行個體</strong>——考試常考此限制</span>
     </li>
   </ul>
 
-  <h4>Enhanced Networking <span class="zh">增強型網路</span></h4>
+  <h4>Auto Scaling Groups (ASG) <span class="zh">Auto Scaling 群組</span></h4>
   <ul>
-    <li><strong>ENA</strong> (Elastic Network Adapter): up to 100 Gbps, lower latency, lower jitter &mdash; available on most modern instance types
-      <span class="zh"><strong>ENA</strong>（彈性網路轉接器）：最高 100 Gbps、較低延遲、較低抖動——適用於大多數現代執行個體類型</span>
+    <li>Automatically replaces unhealthy instances; scales in/out based on policies
+      <span class="zh">自動取代狀況不佳的執行個體；根據政策水平擴展或縮減</span>
     </li>
-    <li><strong>EFA</strong> (Elastic Fabric Adapter): HPC and ML workloads requiring tightly coupled node communication (MPI); only on supported instances
-      <span class="zh"><strong>EFA</strong>（彈性網路結構轉接器）：需要緊密耦合節點通訊（MPI）的 HPC 和 ML 工作負載；僅限支援的執行個體</span>
+    <li>Use with <strong>ELB health checks</strong> (not just EC2 health checks) to replace instances that fail at the app layer, not just the OS layer
+      <span class="zh">搭配 <strong>ELB 運作狀態檢查</strong>（而非僅 EC2 運作狀態檢查），以取代應用程式層故障的執行個體，而非僅限於作業系統層</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;HPC cluster with inter-node communication&rdquo; &rarr; EFA; general high bandwidth &rarr; ENA
-      <span class="zh"><strong>考試規則：</strong>「具有節點間通訊的 HPC 叢集」→ EFA；一般高頻寬 → ENA</span>
+    <li>Key number: default cooldown period = <strong>300 seconds</strong>
+      <span class="zh">關鍵數字：預設冷卻期間 = <strong>300 秒</strong></span>
     </li>
   </ul>
 
-  <h4>Lambda</h4>
+  <h4>EC2 Instance Store <span class="zh">EC2 執行個體存放區</span></h4>
   <ul>
-    <li>Memory allocation (128 MB &ndash; 10,240 MB) also scales CPU proportionally
-      <span class="zh">記憶體配置（128 MB – 10,240 MB）也按比例擴展 CPU</span>
+    <li>Ephemeral &mdash; data lost on stop/terminate/hardware failure
+      <span class="zh">暫時性存放區——執行個體停止、終止或硬體故障時資料將遺失</span>
     </li>
-    <li><strong>Provisioned Concurrency</strong>: pre-warms execution environments &mdash; eliminates cold starts for latency-sensitive workloads
-      <span class="zh"><strong>佈建並行</strong>：預先暖機執行環境——消除對延遲敏感工作負載的冷啟動</span>
-    </li>
-    <li>Max timeout: 15 minutes &nbsp;|&nbsp; Max memory: 10,240 MB
-      <span class="zh">最長逾時：15 分鐘 | 最大記憶體：10,240 MB</span>
-    </li>
-    <li>Default concurrency limit: 1,000 per region (soft limit, can be raised)
-      <span class="zh">預設並行限制：每個區域 1,000（軟性限制，可提高）</span>
-    </li>
-    <li><strong>Exam trap:</strong> &ldquo;Lambda takes too long on first request&rdquo; &rarr; Provisioned Concurrency, not increasing memory
-      <span class="zh"><strong>考試陷阱：</strong>「Lambda 在第一個請求時花費太長時間」→ 佈建並行，而非增加記憶體</span>
+    <li>Exam trap: high IOPS workload &rarr; instance store looks right, but if durability is required, it&rsquo;s wrong
+      <span class="zh">考試陷阱：高 IOPS 工作負載 → 執行個體存放區看似正確，但若需要持久性則為錯誤答案</span>
     </li>
   </ul>
 
-  <h4>ECS / EKS / Fargate</h4>
+  <h3>Load Balancing <span class="zh">負載平衡</span></h3>
+
+  <h4>Application Load Balancer (ALB) <span class="zh">應用程式負載平衡器</span></h4>
   <ul>
-    <li>ECS: AWS-native container orchestration
-      <span class="zh">ECS：AWS 原生容器協調</span>
+    <li>Layer 7; routes by path, host, headers, query strings
+      <span class="zh">第 7 層；依路徑、主機、標頭、查詢字串路由</span>
     </li>
-    <li>EKS: Kubernetes; use when team already uses K8s or needs K8s ecosystem
-      <span class="zh">EKS：Kubernetes；當團隊已使用 K8s 或需要 K8s 生態系統時使用</span>
-    </li>
-    <li>Fargate: serverless compute for containers (no EC2 management)
-      <span class="zh">Fargate：容器的無伺服器運算（無需管理 EC2）</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;no server management for containers&rdquo; &rarr; Fargate; &ldquo;K8s required&rdquo; &rarr; EKS; &ldquo;AWS-native containers&rdquo; &rarr; ECS
-      <span class="zh"><strong>考試規則：</strong>「容器無需伺服器管理」→ Fargate；「需要 K8s」→ EKS；「AWS 原生容器」→ ECS</span>
+    <li>Use for HTTP/HTTPS microservices, containerized apps, WebSocket
+      <span class="zh">適用於 HTTP/HTTPS 微服務、容器化應用程式、WebSocket</span>
     </li>
   </ul>
 
-  <h3>Storage <span class="zh">儲存</span></h3>
-
-  <h4>EBS Volume Types <span class="zh">EBS 磁碟區類型</span></h4>
-  <table>
-    <tr>
-      <th>Type <span class="zh">類型</span></th>
-      <th>Use Case <span class="zh">使用案例</span></th>
-      <th>Max IOPS <span class="zh">最大 IOPS</span></th>
-      <th>Max Throughput <span class="zh">最大輸送量</span></th>
-    </tr>
-    <tr><td>gp3</td><td>General purpose (default choice) <span class="zh">一般用途（預設選擇）</span></td><td>16,000</td><td>1,000 MB/s</td></tr>
-    <tr><td>gp2</td><td>Legacy general purpose <span class="zh">舊版一般用途</span></td><td>16,000</td><td>250 MB/s</td></tr>
-    <tr><td>io2</td><td>Mission-critical, consistent IOPS <span class="zh">關鍵任務、一致 IOPS</span></td><td>64,000</td><td>1,000 MB/s</td></tr>
-    <tr><td>io2 Block Express</td><td>Highest performance (SAP/Oracle) <span class="zh">最高效能（SAP/Oracle）</span></td><td>256,000</td><td>4,000 MB/s</td></tr>
-    <tr><td>st1</td><td>Throughput-optimized HDD (big data, logs) <span class="zh">輸送量最佳化 HDD（大數據、日誌）</span></td><td>500</td><td>500 MB/s</td></tr>
-    <tr><td>sc1</td><td>Cold HDD (infrequent access, archival) <span class="zh">冷 HDD（不頻繁存取、封存）</span></td><td>250</td><td>250 MB/s</td></tr>
-  </table>
+  <h4>Network Load Balancer (NLB) <span class="zh">網路負載平衡器</span></h4>
   <ul>
-    <li><strong>gp2 vs gp3:</strong> gp3 delivers 3,000 IOPS baseline regardless of volume size; gp2 ties IOPS to size (3 IOPS/GB). gp3 is cheaper and more predictable &mdash; default choice.
-      <span class="zh"><strong>gp2 vs gp3：</strong>gp3 無論磁碟區大小均提供 3,000 IOPS 基準；gp2 將 IOPS 與大小掛鉤（3 IOPS/GB）。gp3 更便宜且更可預測——預設選擇。</span>
+    <li>Layer 4; ultra-low latency, handles millions of requests/second
+      <span class="zh">第 4 層；超低延遲，可處理每秒數百萬個請求</span>
     </li>
-    <li><strong>Exam rule:</strong> need &gt;16,000 IOPS &rarr; io2; sequential reads (Hadoop, logs) &rarr; st1; general DB &rarr; gp3; st1/sc1 cannot be boot volumes
-      <span class="zh"><strong>考試規則：</strong>需要 &gt;16,000 IOPS → io2；循序讀取（Hadoop、日誌）→ st1；一般資料庫 → gp3；st1/sc1 不能作為開機磁碟區</span>
+    <li>Use when: static IP required, TCP/UDP traffic, extreme performance needed
+      <span class="zh">適用場景：需要靜態 IP、TCP/UDP 流量、需要極高效能</span>
+    </li>
+    <li>Only ELB type that supports Elastic IP assignment
+      <span class="zh">唯一支援彈性 IP 指派的 ELB 類型</span>
     </li>
   </ul>
 
-  <h4>S3 Performance <span class="zh">S3 效能</span></h4>
+  <h4>Gateway Load Balancer (GWLB) <span class="zh">閘道負載平衡器</span></h4>
   <ul>
-    <li>Default: <strong>3,500 PUT/COPY/POST/DELETE</strong> and <strong>5,500 GET/HEAD</strong> per second <strong>per prefix</strong>
-      <span class="zh">預設：每個<strong>字首</strong>每秒 <strong>3,500 PUT/COPY/POST/DELETE</strong> 和 <strong>5,500 GET/HEAD</strong></span>
+    <li>Used specifically for inline network appliances (firewalls, IDS/IPS)
+      <span class="zh">專門用於串聯式網路設備（防火牆、入侵偵測/防護系統）</span>
     </li>
-    <li>Add prefixes to scale horizontally (distribute objects across partitions)
-      <span class="zh">新增字首以水平擴展（跨分割區分配物件）</span>
-    </li>
-    <li><strong>Multipart Upload:</strong> recommended for &gt;100 MB, required for &gt;5 GB
-      <span class="zh"><strong>多部分上傳：</strong>建議用於 &gt;100 MB，&gt;5 GB 時必須使用</span>
-    </li>
-    <li><strong>S3 Transfer Acceleration:</strong> routes uploads through CloudFront edge locations &mdash; use for long-distance uploads
-      <span class="zh"><strong>S3 傳輸加速：</strong>透過 CloudFront 邊緣位置路由上傳——用於長距離上傳</span>
-    </li>
-    <li><strong>S3 Byte-Range Fetches:</strong> parallel downloads of object parts &mdash; improves GET throughput
-      <span class="zh"><strong>S3 位元組範圍擷取：</strong>平行下載物件部分——提升 GET 輸送量</span>
+    <li>Exam: &ldquo;third-party virtual appliance&rdquo; &rarr; GWLB, not ALB/NLB
+      <span class="zh">考試：「第三方虛擬設備」→ GWLB，非 ALB/NLB</span>
     </li>
   </ul>
 
-  <h4>EFS (Elastic File System) <span class="zh">EFS（彈性檔案系統）</span></h4>
+  <h4>Classic Load Balancer <span class="zh">傳統負載平衡器</span></h4>
   <ul>
-    <li><strong>Bursting:</strong> throughput scales with storage size
-      <span class="zh"><strong>爆量：</strong>輸送量隨儲存大小擴展</span>
-    </li>
-    <li><strong>Provisioned:</strong> set throughput independently of storage &mdash; use when workload needs more than storage tier provides
-      <span class="zh"><strong>佈建：</strong>獨立於儲存設定輸送量——當工作負載需求超過儲存層提供時使用</span>
-    </li>
-    <li><strong>Elastic:</strong> auto-scales throughput up/down; best for unpredictable workloads (recommended default)
-      <span class="zh"><strong>彈性：</strong>自動向上/向下擴展輸送量；最適合無法預測的工作負載（建議預設）</span>
-    </li>
-    <li><strong>Max I/O mode:</strong> higher aggregate throughput, higher latency &mdash; only for massively parallel workloads (10,000+ clients)
-      <span class="zh"><strong>最大 I/O 模式：</strong>更高的彙總輸送量、更高延遲——僅用於大量平行工作負載（10,000 個以上用戶端）</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;NFS shared file system for Linux&rdquo; &rarr; EFS; &ldquo;unpredictable throughput&rdquo; &rarr; Elastic mode
-      <span class="zh"><strong>考試規則：</strong>「Linux 的 NFS 共用檔案系統」→ EFS；「無法預測的輸送量」→ 彈性模式</span>
+    <li>Legacy &mdash; only appears on exam when the answer is &ldquo;migrate away from it&rdquo;
+      <span class="zh">舊版——考試中只有在答案是「遷移離開」時才會出現</span>
     </li>
   </ul>
 
-  <h4>FSx for Windows File Server <span class="zh">FSx for Windows 檔案伺服器</span></h4>
+  <h3>Database Resilience <span class="zh">資料庫彈性</span></h3>
+
+  <h4>RDS Multi-AZ <span class="zh">RDS 多可用區域</span></h4>
   <ul>
-    <li>SMB protocol, NTFS, Active Directory integration
-      <span class="zh">SMB 通訊協定、NTFS、Active Directory 整合</span>
+    <li>Synchronous replication to standby in another AZ
+      <span class="zh">同步複寫至另一個可用區域的備用執行個體</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;Windows workloads needing shared file storage&rdquo; or &ldquo;SMB protocol&rdquo; &rarr; FSx for Windows
-      <span class="zh"><strong>考試規則：</strong>「需要共用檔案儲存的 Windows 工作負載」或「SMB 通訊協定」→ FSx for Windows</span>
+    <li>Standby is <strong>NOT readable</strong> &mdash; it&rsquo;s only for failover
+      <span class="zh">備用執行個體<strong>無法讀取</strong>——僅用於容錯移轉</span>
     </li>
-  </ul>
-
-  <h4>FSx for Lustre</h4>
-  <ul>
-    <li>High-performance parallel file system; sub-millisecond latency; hundreds of GB/s throughput
-      <span class="zh">高效能平行檔案系統；毫秒以下延遲；數百 GB/s 輸送量</span>
+    <li>Failover takes 1&ndash;2 minutes; DNS endpoint automatically redirects
+      <span class="zh">容錯移轉需要 1–2 分鐘；DNS 端點自動重新導向</span>
     </li>
-    <li>Integrates natively with S3 &mdash; read/write S3 as a filesystem
-      <span class="zh">與 S3 原生整合——以檔案系統方式讀寫 S3</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;HPC&rdquo;, &ldquo;ML training with large datasets&rdquo;, &ldquo;high-throughput compute&rdquo; &rarr; FSx for Lustre
-      <span class="zh"><strong>考試規則：</strong>「HPC」、「使用大型資料集的 ML 訓練」、「高輸送量運算」→ FSx for Lustre</span>
-    </li>
-  </ul>
-
-  <h3>Database Performance <span class="zh">資料庫效能</span></h3>
-
-  <h4>ElastiCache: Redis vs. Memcached</h4>
-  <table>
-    <tr>
-      <th>Feature <span class="zh">功能</span></th>
-      <th>Redis</th>
-      <th>Memcached</th>
-    </tr>
-    <tr><td>Data structures <span class="zh">資料結構</span></td><td>Complex (lists, sets, sorted sets, hashes) <span class="zh">複雜（清單、集合、有序集合、雜湊）</span></td><td>Simple key-value only <span class="zh">僅簡單鍵值</span></td></tr>
-    <tr><td>Persistence <span class="zh">持久性</span></td><td>Yes (RDB snapshots, AOF) <span class="zh">是（RDB 快照、AOF）</span></td><td>No <span class="zh">否</span></td></tr>
-    <tr><td>Replication / Multi-AZ <span class="zh">複寫 / 多可用區域</span></td><td>Yes <span class="zh">是</span></td><td>No <span class="zh">否</span></td></tr>
-    <tr><td>Pub/Sub</td><td>Yes <span class="zh">是</span></td><td>No <span class="zh">否</span></td></tr>
-    <tr><td>Multi-threaded <span class="zh">多執行緒</span></td><td>No (single-threaded) <span class="zh">否（單執行緒）</span></td><td>Yes <span class="zh">是</span></td></tr>
-    <tr><td>Horizontal scaling <span class="zh">水平擴展</span></td><td>Cluster mode <span class="zh">叢集模式</span></td><td>Native sharding <span class="zh">原生分片</span></td></tr>
-  </table>
-  <p><strong>Exam rule:</strong> need persistence, replication, complex data types, or pub/sub &rarr; Redis; pure horizontal scaling with simple caching &rarr; Memcached</p>
-  <p class="zh"><strong>考試規則：</strong>需要持久性、複寫、複雜資料類型或 Pub/Sub → Redis；純水平擴展搭配簡單快取 → Memcached</p>
-
-  <h4>DynamoDB Accelerator (DAX) <span class="zh">DynamoDB 加速器</span></h4>
-  <ul>
-    <li>In-memory cache purpose-built for DynamoDB; <strong>microsecond</strong> read latency
-      <span class="zh">專為 DynamoDB 建置的記憶體快取；<strong>微秒</strong>讀取延遲</span>
-    </li>
-    <li>Write-through cache; API-compatible with DynamoDB (minimal code change)
-      <span class="zh">寫入穿透快取；與 DynamoDB API 相容（最少程式碼變更）</span>
-    </li>
-    <li>Does NOT help with write-heavy workloads or strongly consistent reads
-      <span class="zh">對寫入密集工作負載或強一致性讀取<strong>無幫助</strong></span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;DynamoDB reads are too slow&rdquo; or &ldquo;microsecond latency for DynamoDB&rdquo; &rarr; DAX
-      <span class="zh"><strong>考試規則：</strong>「DynamoDB 讀取太慢」或「DynamoDB 需要微秒延遲」→ DAX</span>
+    <li>Exam trap: &ldquo;read performance&rdquo; &rarr; Multi-AZ is wrong, Read Replica is right
+      <span class="zh">考試陷阱：「讀取效能」→ 多可用區域為錯誤，唯讀複本才正確</span>
     </li>
   </ul>
 
   <h4>RDS Read Replicas <span class="zh">RDS 唯讀複本</span></h4>
   <ul>
-    <li>Asynchronous replication; offloads read traffic from primary
-      <span class="zh">非同步複寫；從主要執行個體分擔讀取流量</span>
+    <li>Asynchronous replication; replicas ARE readable
+      <span class="zh">非同步複寫；複本可供讀取</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;read-heavy workload causing performance issues on RDS&rdquo; &rarr; add read replicas
-      <span class="zh"><strong>考試規則：</strong>「讀取密集工作負載導致 RDS 效能問題」→ 新增唯讀複本</span>
+    <li>Can be promoted to standalone DB (used in DR scenarios)
+      <span class="zh">可升級為獨立資料庫（用於災難復原場景）</span>
+    </li>
+    <li>Can be in a different region (cross-region read replica)
+      <span class="zh">可位於不同區域（跨區域唯讀複本）</span>
     </li>
   </ul>
 
-  <h3>Networking &amp; Content Delivery <span class="zh">網路與內容交付</span></h3>
-
-  <h4>CloudFront</h4>
+  <h4>Aurora</h4>
   <ul>
-    <li>Global CDN with 450+ edge locations; caches static and dynamic content
-      <span class="zh">擁有 450 個以上邊緣位置的全球 CDN；快取靜態和動態內容</span>
+    <li>6 copies of data across 3 AZs automatically
+      <span class="zh">自動在 3 個可用區域儲存 6 份資料副本</span>
     </li>
-    <li>Origins: S3, ALB, EC2, API Gateway, custom HTTP
-      <span class="zh">來源：S3、ALB、EC2、API Gateway、自訂 HTTP</span>
+    <li>Up to 15 read replicas; failover to replica in ~30 seconds (vs. RDS ~60&ndash;120s)
+      <span class="zh">最多 15 個唯讀複本；容錯移轉至複本約需 30 秒（相較 RDS 約 60–120 秒）</span>
     </li>
-    <li><strong>Origin Shield:</strong> extra caching layer between edges and origin &mdash; reduces origin load
-      <span class="zh"><strong>來源防護：</strong>邊緣與來源之間的額外快取層——減少來源負載</span>
+    <li>Aurora Global Database: replication to secondary region in &lt;1 second; RPO ~1s, RTO &lt;1 min
+      <span class="zh">Aurora 全球資料庫：複寫至次要區域時間 &lt;1 秒；RPO 約 1 秒，RTO &lt;1 分鐘</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;reduce latency for global users for HTTP/HTTPS content&rdquo; &rarr; CloudFront
-      <span class="zh"><strong>考試規則：</strong>「降低全球使用者的 HTTP/HTTPS 內容延遲」→ CloudFront</span>
+    <li>Exam: &ldquo;fastest RDS failover&rdquo; &rarr; Aurora; &ldquo;global low-latency reads&rdquo; &rarr; Aurora Global
+      <span class="zh">考試：「最快 RDS 容錯移轉」→ Aurora；「全球低延遲讀取」→ Aurora 全球資料庫</span>
     </li>
   </ul>
 
-  <h4>Global Accelerator <span class="zh">全球加速器</span></h4>
+  <h4>DynamoDB</h4>
   <ul>
-    <li>Routes traffic over AWS backbone to optimal endpoints using anycast IP
-      <span class="zh">使用任播 IP 透過 AWS 骨幹網路將流量路由至最佳端點</span>
+    <li>Multi-AZ by default (within a region)
+      <span class="zh">預設多可用區域（在單一區域內）</span>
     </li>
-    <li>Provides 2 static global IPs &mdash; no DNS propagation delay on failover
-      <span class="zh">提供 2 個靜態全球 IP——容錯移轉時無 DNS 傳播延遲</span>
+    <li>Global Tables: multi-region, multi-active replication (active-active, not active-passive)
+      <span class="zh">全球資料表：多區域、多主動複寫（主動-主動，非主動-被動）</span>
     </li>
-    <li>Works for TCP/UDP (not HTTP-specific like CloudFront)
-      <span class="zh">適用於 TCP/UDP（不像 CloudFront 那樣特定於 HTTP）</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;static IP for global routing&rdquo; or &ldquo;non-HTTP protocol&rdquo; &rarr; Global Accelerator; &ldquo;HTTP content caching&rdquo; &rarr; CloudFront
-      <span class="zh"><strong>考試規則：</strong>「全球路由的靜態 IP」或「非 HTTP 通訊協定」→ 全球加速器；「HTTP 內容快取」→ CloudFront</span>
+    <li>On-demand mode = resilience against unpredictable traffic spikes without capacity planning
+      <span class="zh">隨需模式 = 無需容量規劃，即可因應無法預測的流量激增</span>
     </li>
   </ul>
 
-  <h4>VPC Endpoints <span class="zh">VPC 端點</span></h4>
+  <h3>Storage <span class="zh">儲存</span></h3>
+
+  <h4>S3</h4>
   <ul>
-    <li><strong>Interface Endpoint</strong> (PrivateLink): ENI in subnet; supports most AWS services; costs money per hour
-      <span class="zh"><strong>介面端點</strong>（PrivateLink）：子網路中的 ENI；支援大多數 AWS 服務；按小時收費</span>
+    <li>11 nines durability, replicated across minimum 3 AZs (except S3 One Zone-IA)
+      <span class="zh">11 個 9 的持久性，至少跨 3 個可用區域複寫（S3 單一可用區域-IA 除外）</span>
     </li>
-    <li><strong>Gateway Endpoint:</strong> adds route to route table; only S3 and DynamoDB; <strong>free</strong>
-      <span class="zh"><strong>閘道端點：</strong>在路由表中新增路由；僅限 S3 和 DynamoDB；<strong>免費</strong></span>
+    <li>Versioning + MFA Delete = protection against accidental deletion
+      <span class="zh">版本控制 + MFA 刪除 = 防止意外刪除的保護措施</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;EC2 accessing S3 without internet&rdquo; &rarr; Gateway Endpoint (free); anything else &rarr; Interface Endpoint
-      <span class="zh"><strong>考試規則：</strong>「EC2 不經網際網路存取 S3」→ 閘道端點（免費）；其他情況 → 介面端點</span>
+    <li>Cross-Region Replication (CRR): requires versioning enabled on both buckets; does <strong>NOT</strong> retroactively replicate existing objects
+      <span class="zh">跨區域複寫（CRR）：需在兩個儲存貯體啟用版本控制；<strong>不會</strong>追溯複寫現有物件</span>
+    </li>
+    <li>S3 One Zone-IA: exam trap &mdash; &ldquo;cost-optimize infrequently accessed data&rdquo; &rarr; S3-IA; &ldquo;can tolerate AZ loss&rdquo; is required for One Zone-IA
+      <span class="zh">S3 單一可用區域-IA：考試陷阱——「成本最佳化不常存取的資料」→ S3-IA；選用單一可用區域-IA 的前提是「可承受可用區域損失」</span>
     </li>
   </ul>
 
-  <h4>Direct Connect <span class="zh">專線連線</span></h4>
+  <h4>EBS <span class="zh">彈性區塊存放區</span></h4>
   <ul>
-    <li>Dedicated private network connection from on-premises to AWS
-      <span class="zh">從本地端到 AWS 的專用私有網路連線</span>
+    <li>Tied to a single AZ &mdash; cannot directly attach to an instance in another AZ
+      <span class="zh">繫結至單一可用區域——無法直接連接至另一個可用區域的執行個體</span>
     </li>
-    <li>Consistent latency, higher bandwidth, lower per-GB cost than internet VPN
-      <span class="zh">一致延遲、更高頻寬、比網際網路 VPN 更低的每 GB 費用</span>
+    <li>Snapshots go to S3 (durable, cross-AZ); can be copied cross-region
+      <span class="zh">快照儲存至 S3（持久、跨可用區域）；可跨區域複製</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;consistent network performance to AWS&rdquo; or &ldquo;high-throughput hybrid connectivity&rdquo; &rarr; Direct Connect
-      <span class="zh"><strong>考試規則：</strong>「對 AWS 一致的網路效能」或「高輸送量混合連線」→ Direct Connect</span>
+    <li>io2 Block Express: highest durability (99.999%) and IOPS
+      <span class="zh">io2 Block Express：最高持久性（99.999%）和 IOPS</span>
     </li>
   </ul>
 
-  <h3>Streaming &amp; Messaging <span class="zh">串流與訊息傳遞</span></h3>
-
-  <h4>Kinesis Data Streams <span class="zh">Kinesis 資料串流</span></h4>
+  <h4>EFS <span class="zh">彈性檔案系統</span></h4>
   <ul>
-    <li>Real-time streaming; ordered within a shard; retention up to 365 days
-      <span class="zh">即時串流；在分片內有序；保留期最長 365 天</span>
+    <li>Multi-AZ by default (Regional); automatically accessible from multiple AZs
+      <span class="zh">預設多可用區域（區域性）；可從多個可用區域自動存取</span>
     </li>
-    <li>Each shard = 1 MB/s write, 2 MB/s read
-      <span class="zh">每個分片 = 1 MB/s 寫入、2 MB/s 讀取</span>
-    </li>
-    <li><strong>Enhanced Fan-Out:</strong> dedicated 2 MB/s per consumer per shard &mdash; eliminates consumer competition
-      <span class="zh"><strong>增強型展開：</strong>每個消費者每個分片專用 2 MB/s——消除消費者競爭</span>
+    <li>EFS One Zone: single AZ, cheaper, less resilient &mdash; exam trap for cost questions
+      <span class="zh">EFS 單一可用區域：單一可用區域、成本較低、彈性較差——成本問題的考試陷阱</span>
     </li>
   </ul>
 
-  <h4>Kinesis Data Firehose <span class="zh">Kinesis Data Firehose</span></h4>
+  <h3>Networking <span class="zh">網路</span></h3>
+
+  <h4>Elastic IP (EIP) <span class="zh">彈性 IP</span></h4>
   <ul>
-    <li>Managed delivery to S3, Redshift, OpenSearch, Splunk; no shards to manage
-      <span class="zh">受管交付至 S3、Redshift、OpenSearch、Splunk；無需管理分片</span>
+    <li>Static public IP that can be remapped to another instance during failover
+      <span class="zh">可在容錯移轉期間重新對應至另一個執行個體的靜態公有 IP</span>
     </li>
-    <li>Near-real-time (60-second buffer minimum)
-      <span class="zh">接近即時（最少 60 秒緩衝）</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;stream data to S3/Redshift without managing infrastructure&rdquo; &rarr; Firehose; &ldquo;real-time processing with custom consumers&rdquo; &rarr; Data Streams
-      <span class="zh"><strong>考試規則：</strong>「無需管理基礎設施即可將資料串流至 S3/Redshift」→ Firehose；「使用自訂消費者的即時處理」→ Data Streams</span>
+    <li>Exam: manual failover pattern = EIP reassignment; automated = Route 53 health checks
+      <span class="zh">考試：手動容錯移轉模式 = EIP 重新指派；自動化 = Route 53 運作狀態檢查</span>
     </li>
   </ul>
 
+  <h4>Route 53</h4>
+  <ul>
+    <li><strong>Failover</strong>: active-passive; routes to secondary when primary health check fails
+      <span class="zh"><strong>容錯移轉</strong>：主動-被動；當主要端點運作狀態檢查失敗時路由至次要端點</span>
+    </li>
+    <li><strong>Latency</strong>: routes to lowest-latency region
+      <span class="zh"><strong>延遲</strong>：路由至延遲最低的區域</span>
+    </li>
+    <li><strong>Weighted</strong>: gradual traffic shifting (used in blue/green deployments)
+      <span class="zh"><strong>加權</strong>：漸進式流量轉移（用於藍/綠部署）</span>
+    </li>
+    <li><strong>Multivalue Answer</strong>: returns multiple healthy IPs (client-side load balancing &mdash; NOT a replacement for ELB)
+      <span class="zh"><strong>多值答案</strong>：傳回多個健康 IP（用戶端負載平衡——非 ELB 的替代方案）</span>
+    </li>
+    <li>Health checks can monitor endpoints, other health checks (calculated), and CloudWatch alarms
+      <span class="zh">運作狀態檢查可監控端點、其他運作狀態檢查（計算型）及 CloudWatch 警示</span>
+    </li>
+  </ul>
+
+  <h4>VPC <span class="zh">虛擬私有雲端</span></h4>
+  <ul>
+    <li>Subnets are AZ-scoped &mdash; always deploy across at least 2 AZs for HA
+      <span class="zh">子網路限定於可用區域——高可用性需跨至少 2 個可用區域部署</span>
+    </li>
+    <li>Internet Gateway is itself HA (AWS-managed)
+      <span class="zh">網際網路閘道本身具有高可用性（由 AWS 管理）</span>
+    </li>
+  </ul>
+
+  <h3>Messaging &amp; Event-Driven Services <span class="zh">訊息傳遞與事件驅動服務</span></h3>
+
+  <h4>SNS (Simple Notification Service) <span class="zh">簡單通知服務</span></h4>
+  <ul>
+    <li>Pub/Sub messaging: one message published to a topic is delivered to <strong>all subscribers simultaneously</strong> (fan-out)
+      <span class="zh">發佈/訂閱訊息傳遞：發佈至主題的一則訊息<strong>同時傳遞給所有訂閱者</strong>（展開）</span>
+    </li>
+    <li>Subscribers: SQS queues, Lambda, HTTP/HTTPS endpoints, email, SMS, mobile push
+      <span class="zh">訂閱者：SQS 佇列、Lambda、HTTP/HTTPS 端點、電子郵件、簡訊、行動推播</span>
+    </li>
+    <li><strong>SNS + SQS Fan-out Pattern:</strong> SNS topic &rarr; multiple SQS queues; each queue is processed independently; decouples one event from multiple downstream consumers
+      <span class="zh"><strong>SNS + SQS 展開模式：</strong>SNS 主題 → 多個 SQS 佇列；每個佇列獨立處理；將一個事件與多個下游消費者解耦</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;one event needs to trigger multiple independent downstream systems&rdquo; &rarr; SNS fan-out to multiple SQS queues; &ldquo;simple one-to-one queue&rdquo; &rarr; SQS alone
+      <span class="zh"><strong>考試規則：</strong>「一個事件需要觸發多個獨立的下游系統」→ SNS 展開至多個 SQS 佇列；「簡單一對一佇列」→ 單獨使用 SQS</span>
+    </li>
+  </ul>
+
+  <h4>Amazon EventBridge <span class="zh">Amazon EventBridge（事件橋接器）</span></h4>
+  <ul>
+    <li>Serverless event bus; routes events from AWS services, custom apps, and SaaS to targets (Lambda, SQS, SNS, Step Functions, API Gateway)
+      <span class="zh">無伺服器事件匯流排；將來自 AWS 服務、自訂應用程式和 SaaS 的事件路由至目標（Lambda、SQS、SNS、Step Functions、API Gateway）</span>
+    </li>
+    <li><strong>Event Rules:</strong> filter events by content (event pattern matching); also supports scheduled rules (cron/rate) &mdash; replaces CloudWatch Events
+      <span class="zh"><strong>事件規則：</strong>依內容篩選事件（事件模式比對）；也支援排程規則（cron/rate）——取代 CloudWatch Events</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;trigger Lambda when an EC2 state changes&rdquo; &rarr; EventBridge; &ldquo;detect config change and auto-remediate via Lambda&rdquo; &rarr; AWS Config + EventBridge + Lambda; &ldquo;scheduled cron job without a server&rdquo; &rarr; EventBridge scheduled rule &rarr; Lambda
+      <span class="zh"><strong>考試規則：</strong>「EC2 狀態變更時觸發 Lambda」→ EventBridge；「偵測設定變更並透過 Lambda 自動修復」→ AWS Config + EventBridge + Lambda；「無伺服器排程 cron 工作」→ EventBridge 排程規則 → Lambda</span>
+    </li>
+  </ul>
+
+  <h4>AWS Step Functions <span class="zh">AWS Step Functions（步驟函數）</span></h4>
+  <ul>
+    <li>Serverless workflow orchestration; coordinates Lambda, ECS, DynamoDB, SNS, and other services into visual state machines with built-in retry and error handling
+      <span class="zh">無伺服器工作流程協調；將 Lambda、ECS、DynamoDB、SNS 和其他服務協調為具有內建重試和錯誤處理的視覺化狀態機</span>
+    </li>
+    <li><strong>Standard Workflows:</strong> exactly-once execution; max 1 year; full execution history; for long-running processes
+      <span class="zh"><strong>標準工作流程：</strong>恰好一次執行；最長 1 年；完整執行歷程；用於長時間執行的流程</span>
+    </li>
+    <li><strong>Express Workflows:</strong> at-least-once; max 5 minutes; high throughput (100,000/s); lower cost; for high-volume event processing
+      <span class="zh"><strong>快速工作流程：</strong>至少一次；最長 5 分鐘；高輸送量（100,000/秒）；成本較低；用於高量事件處理</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;orchestrate a multi-step workflow with error handling and retries&rdquo; &rarr; Step Functions; &ldquo;chain multiple Lambda functions with conditional logic&rdquo; &rarr; Step Functions
+      <span class="zh"><strong>考試規則：</strong>「協調具有錯誤處理和重試的多步驟工作流程」→ Step Functions；「使用條件邏輯鏈接多個 Lambda 函數」→ Step Functions</span>
+    </li>
+  </ul>
+
+  <h4>AWS Backup <span class="zh">AWS 備份</span></h4>
+  <ul>
+    <li>Centralized, fully managed backup service; creates and manages backup jobs across EC2, EBS, RDS, DynamoDB, EFS, FSx, S3, and Aurora from a single console
+      <span class="zh">集中式、完全受管的備份服務；從單一主控台跨 EC2、EBS、RDS、DynamoDB、EFS、FSx、S3 和 Aurora 建立和管理備份工作</span>
+    </li>
+    <li><strong>Backup Plans:</strong> define frequency, retention period, lifecycle (transition to cold storage), and cross-region/cross-account copy rules
+      <span class="zh"><strong>備份計畫：</strong>定義頻率、保留期間、生命週期（轉換至冷儲存）和跨區域/跨帳號複製規則</span>
+    </li>
+    <li>Cross-region and cross-account backups protect against regional disasters and accidental deletion at the account level
+      <span class="zh">跨區域和跨帳號備份防止區域性災難和帳號層級的意外刪除</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;centralized backup policy for all AWS resources and accounts&rdquo; or &ldquo;enforce backup compliance across the org&rdquo; &rarr; AWS Backup; single-service backup (e.g., RDS automated backup) &rarr; use service-native backup
+      <span class="zh"><strong>考試規則：</strong>「所有 AWS 資源和帳號的集中式備份政策」或「在整個組織強制執行備份合規」→ AWS Backup；單一服務備份（例如 RDS 自動備份）→ 使用服務原生備份</span>
+    </li>
+  </ul>
+
+  <!-- SECTION 3 -->
   <div class="page-break"></div>
   <h2>3. Architecture Patterns <span class="zh">架構模式</span></h2>
 
-  <h3>Pattern 1: Read-Heavy Application with Caching
-    <span class="zh">模式 1：使用快取的讀取密集應用程式</span>
+  <h3>Pattern 1: Multi-AZ Web Application (Classic HA)
+    <span class="zh">模式 1：多可用區域 Web 應用程式（傳統高可用性）</span>
   </h3>
-  <p><strong>Services:</strong> Route 53 &rarr; ALB &rarr; EC2 ASG &rarr; ElastiCache Redis &rarr; RDS</p>
-  <p class="zh"><strong>服務：</strong>Route 53 → ALB → EC2 ASG → ElastiCache Redis → RDS</p>
-  <p><strong>Why it works:</strong> Read requests hit ElastiCache first (sub-millisecond). Only cache misses hit RDS. Dramatically reduces DB load and response time.</p>
-  <p class="zh"><strong>為何有效：</strong>讀取請求先命中 ElastiCache（毫秒以下）。僅快取未命中才存取 RDS。大幅降低資料庫負載和回應時間。</p>
-  <p><strong>Exam signal:</strong> &ldquo;database is a bottleneck&rdquo;, &ldquo;reduce read latency&rdquo;, &ldquo;high read-to-write ratio&rdquo; &rarr; add ElastiCache in front of RDS.</p>
-  <p class="zh"><strong>考試信號：</strong>「資料庫是瓶頸」、「降低讀取延遲」、「高讀寫比例」→ 在 RDS 前新增 ElastiCache。</p>
+  <p><strong>Services:</strong> Route 53 &rarr; ALB &rarr; ASG (EC2 across 2+ AZs) &rarr; RDS Multi-AZ</p>
+  <p class="zh"><strong>服務：</strong>Route 53 → ALB（應用程式負載平衡器）→ ASG（跨 2 個以上可用區域的 EC2）→ RDS 多可用區域</p>
+  <p><strong>Why it works:</strong> ALB distributes across AZs; ASG replaces failed instances; RDS Multi-AZ handles DB failover automatically.</p>
+  <p class="zh"><strong>為何有效：</strong>ALB 跨可用區域分配流量；ASG 取代故障執行個體；RDS 多可用區域自動處理資料庫容錯移轉。</p>
+  <p><strong>Exam signal:</strong> &ldquo;highly available&rdquo;, &ldquo;survive AZ failure&rdquo;, &ldquo;no single point of failure&rdquo; &rarr; this pattern.</p>
+  <p class="zh"><strong>考試信號：</strong>「高可用性」、「承受可用區域故障」、「無單點故障」→ 此架構模式。</p>
 
-  <h3>Pattern 2: High-Throughput Data Ingestion Pipeline
-    <span class="zh">模式 2：高輸送量資料擷取管道</span>
+  <h3>Pattern 2: Multi-Region Active-Passive DR
+    <span class="zh">模式 2：多區域主動-被動災難復原</span>
   </h3>
-  <p><strong>Services:</strong> Producers &rarr; Kinesis Data Streams &rarr; Lambda / EC2 consumers &rarr; S3 / DynamoDB / Redshift</p>
-  <p class="zh"><strong>服務：</strong>生產者 → Kinesis Data Streams → Lambda/EC2 消費者 → S3/DynamoDB/Redshift</p>
-  <p><strong>Why it works:</strong> Kinesis buffers high-volume real-time data; multiple consumers independently process the same stream; replay is possible.</p>
-  <p class="zh"><strong>為何有效：</strong>Kinesis 緩衝大量即時資料；多個消費者獨立處理同一串流；可重播。</p>
-  <p><strong>Exam signal:</strong> &ldquo;ingest millions of events per second&rdquo;, &ldquo;multiple downstream systems need the same data&rdquo;, &ldquo;real-time processing&rdquo; &rarr; Kinesis Data Streams.</p>
-  <p class="zh"><strong>考試信號：</strong>「每秒擷取數百萬個事件」、「多個下游系統需要相同資料」、「即時處理」→ Kinesis Data Streams。</p>
+  <p><strong>Services:</strong> Route 53 Failover routing &rarr; Primary Region + Secondary Region</p>
+  <p class="zh"><strong>服務：</strong>Route 53 容錯移轉路由 → 主要區域 + 次要區域</p>
+  <table>
+    <tr>
+      <th>Strategy <span class="zh">策略</span></th>
+      <th>RTO</th>
+      <th>RPO</th>
+      <th>Cost <span class="zh">成本</span></th>
+    </tr>
+    <tr>
+      <td>Backup &amp; Restore <span class="zh">備份與還原</span></td>
+      <td>Hours <span class="zh">數小時</span></td>
+      <td>Hours <span class="zh">數小時</span></td>
+      <td>Lowest <span class="zh">最低</span></td>
+    </tr>
+    <tr>
+      <td>Pilot Light <span class="zh">引燃</span></td>
+      <td>10s of minutes <span class="zh">數十分鐘</span></td>
+      <td>Minutes <span class="zh">數分鐘</span></td>
+      <td>Low <span class="zh">低</span></td>
+    </tr>
+    <tr>
+      <td>Warm Standby <span class="zh">暖備援</span></td>
+      <td>Minutes <span class="zh">數分鐘</span></td>
+      <td>Seconds&ndash;minutes <span class="zh">數秒至數分鐘</span></td>
+      <td>Medium <span class="zh">中等</span></td>
+    </tr>
+    <tr>
+      <td>Multi-site Active-Active <span class="zh">多站台主動-主動</span></td>
+      <td>Near-zero <span class="zh">接近零</span></td>
+      <td>Near-zero <span class="zh">接近零</span></td>
+      <td>Highest <span class="zh">最高</span></td>
+    </tr>
+  </table>
 
-  <h3>Pattern 3: Global API Acceleration
-    <span class="zh">模式 3：全球 API 加速</span>
+  <h3>Pattern 3: Decoupled Architecture with SQS
+    <span class="zh">模式 3：使用 SQS 的解耦架構</span>
   </h3>
-  <p><strong>Services:</strong> Route 53 &rarr; Global Accelerator &rarr; ALB in multiple regions &rarr; EC2/Lambda</p>
-  <p class="zh"><strong>服務：</strong>Route 53 → 全球加速器 → 多個區域的 ALB → EC2/Lambda</p>
-  <p><strong>Why it works:</strong> Traffic enters AWS network at nearest edge, then travels the optimized AWS backbone. Reduces latency vs. public internet routing.</p>
-  <p class="zh"><strong>為何有效：</strong>流量在最近的邊緣進入 AWS 網路，然後透過最佳化的 AWS 骨幹傳輸。相較於公共網際網路路由降低延遲。</p>
-  <p><strong>Exam signal:</strong> &ldquo;global users experiencing high latency&rdquo;, &ldquo;non-HTTP application&rdquo;, &ldquo;need static IP for global routing&rdquo; &rarr; Global Accelerator.</p>
-  <p class="zh"><strong>考試信號：</strong>「全球使用者遭遇高延遲」、「非 HTTP 應用程式」、「需要全球路由的靜態 IP」→ 全球加速器。</p>
+  <p><strong>Services:</strong> Producer &rarr; SQS &rarr; Consumer ASG</p>
+  <p class="zh"><strong>服務：</strong>生產者 → SQS（簡單佇列服務）→ 消費者 ASG</p>
+  <p><strong>Why it works:</strong> Queue absorbs traffic spikes; consumers scale independently; if consumers fail, messages stay in queue (not lost).</p>
+  <p class="zh"><strong>為何有效：</strong>佇列吸收流量激增；消費者獨立擴展；消費者故障時，訊息保留在佇列中（不遺失）。</p>
+  <p><strong>Exam signal:</strong> &ldquo;component failure should not cause data loss&rdquo;, &ldquo;spiky workload&rdquo;, &ldquo;decouple producer from consumer&rdquo; &rarr; SQS.</p>
+  <p class="zh"><strong>考試信號：</strong>「元件故障不應導致資料遺失」、「尖峰工作負載」、「解耦生產者與消費者」→ SQS。</p>
+  <ul>
+    <li>Standard queue: at-least-once delivery, best-effort ordering
+      <span class="zh">標準佇列：至少一次交付、盡力排序</span>
+    </li>
+    <li>FIFO queue: exactly-once processing, strict ordering, 3,000 msg/s with batching
+      <span class="zh">FIFO 佇列：恰好一次處理、嚴格排序，批次處理可達 3,000 則訊息/秒</span>
+    </li>
+    <li>Visibility timeout default: 30 seconds &nbsp;|&nbsp; Max retention: 14 days
+      <span class="zh">可見性逾時預設值：30 秒 | 最長保留期間：14 天</span>
+    </li>
+  </ul>
 
-  <h3>Pattern 4: HPC / ML Training Architecture
-    <span class="zh">模式 4：HPC / ML 訓練架構</span>
+  <h3>Pattern 4: S3 Static Site with CloudFront
+    <span class="zh">模式 4：搭配 CloudFront 的 S3 靜態網站</span>
   </h3>
-  <p><strong>Services:</strong> EC2 P/G/Inf instances + EFA &rarr; FSx for Lustre (linked to S3) &rarr; S3</p>
-  <p class="zh"><strong>服務：</strong>EC2 P/G/Inf 執行個體 + EFA → FSx for Lustre（連結至 S3）→ S3</p>
-  <p><strong>Why it works:</strong> EFA enables low-latency inter-node communication. FSx for Lustre provides high-throughput shared storage. S3 feeds training data into FSx.</p>
-  <p class="zh"><strong>為何有效：</strong>EFA 啟用低延遲節點間通訊。FSx for Lustre 提供高輸送量共用儲存。S3 將訓練資料饋入 FSx。</p>
-  <p><strong>Exam signal:</strong> &ldquo;ML training&rdquo;, &ldquo;HPC cluster&rdquo;, &ldquo;hundreds of GB/s storage throughput&rdquo; &rarr; FSx for Lustre + EFA-enabled instances.</p>
-  <p class="zh"><strong>考試信號：</strong>「ML 訓練」、「HPC 叢集」、「數百 GB/s 儲存輸送量」→ FSx for Lustre + 啟用 EFA 的執行個體。</p>
+  <p><strong>Services:</strong> S3 (static hosting) + CloudFront + Route 53</p>
+  <p class="zh"><strong>服務：</strong>S3（靜態託管）+ CloudFront + Route 53</p>
+  <p><strong>Exam signal:</strong> &ldquo;highly available static website with lowest operational overhead&rdquo; &rarr; S3 + CloudFront.</p>
+  <p class="zh"><strong>考試信號：</strong>「具最低營運負荷的高可用性靜態網站」→ S3 + CloudFront。</p>
 
-  <h3>Pattern 5: Serverless High-Performance API
-    <span class="zh">模式 5：無伺服器高效能 API</span>
+  <h3>Pattern 5: Aurora Global Database for Global Resilience
+    <span class="zh">模式 5：Aurora 全球資料庫提供全球彈性</span>
   </h3>
-  <p><strong>Services:</strong> API Gateway &rarr; Lambda (Provisioned Concurrency) &rarr; DynamoDB + DAX</p>
-  <p class="zh"><strong>服務：</strong>API Gateway → Lambda（佈建並行）→ DynamoDB + DAX</p>
-  <p><strong>Why it works:</strong> Provisioned Concurrency eliminates cold starts. DAX provides microsecond DynamoDB reads. No servers to scale.</p>
-  <p class="zh"><strong>為何有效：</strong>佈建並行消除冷啟動。DAX 提供微秒 DynamoDB 讀取。無需擴展伺服器。</p>
-  <p><strong>Exam signal:</strong> &ldquo;serverless API with consistent sub-10ms response time&rdquo; &rarr; Lambda + Provisioned Concurrency + DAX.</p>
-  <p class="zh"><strong>考試信號：</strong>「具一致性 10 毫秒以下回應時間的無伺服器 API」→ Lambda + 佈建並行 + DAX。</p>
+  <p><strong>Services:</strong> Aurora Primary Region &rarr; Aurora Global Database &rarr; Secondary Region(s)</p>
+  <p class="zh"><strong>服務：</strong>Aurora 主要區域 → Aurora 全球資料庫 → 次要區域</p>
+  <p><strong>Exam signal:</strong> &ldquo;global users with low read latency&rdquo; OR &ldquo;RPO of seconds, RTO under 1 minute for cross-region DR&rdquo; &rarr; Aurora Global.</p>
+  <p class="zh"><strong>考試信號：</strong>「全球使用者需要低讀取延遲」或「跨區域 DR 的 RPO 為秒級、RTO 在 1 分鐘內」→ Aurora 全球資料庫。</p>
 
+  <!-- SECTION 4 -->
   <h2>4. Service Comparisons <span class="zh">服務比較</span></h2>
 
-  <h4>CloudFront vs. Global Accelerator</h4>
-  <ul>
-    <li>CloudFront = HTTP/HTTPS CDN, caches content at edge, reduces origin load
-      <span class="zh">CloudFront = HTTP/HTTPS CDN，在邊緣快取內容，減少來源負載</span>
-    </li>
-    <li>Global Accelerator = TCP/UDP routing over AWS backbone, no caching, static IPs
-      <span class="zh">全球加速器 = 透過 AWS 骨幹的 TCP/UDP 路由，無快取，靜態 IP</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;cache assets globally&rdquo; or &ldquo;HTTP API latency&rdquo; &rarr; CloudFront; &ldquo;static IPs&rdquo; or &ldquo;non-HTTP&rdquo; &rarr; Global Accelerator
-      <span class="zh"><strong>考試規則：</strong>「全球快取資產」或「HTTP API 延遲」→ CloudFront；「靜態 IP」或「非 HTTP」→ 全球加速器</span>
-    </li>
-  </ul>
-
-  <h4>ElastiCache Redis vs. Memcached</h4>
-  <ul>
-    <li>Redis = persistence, replication, complex data types, Multi-AZ, pub/sub
-      <span class="zh">Redis = 持久性、複寫、複雜資料類型、多可用區域、Pub/Sub</span>
-    </li>
-    <li>Memcached = simple key-value, multi-threaded, pure horizontal scaling
-      <span class="zh">Memcached = 簡單鍵值、多執行緒、純水平擴展</span>
-    </li>
-    <li><strong>Exam rule:</strong> &ldquo;sorted leaderboard&rdquo;, &ldquo;session persistence&rdquo;, &ldquo;pub/sub&rdquo;, &ldquo;Multi-AZ cache&rdquo; &rarr; Redis; &ldquo;simple scalable cache&rdquo; &rarr; Memcached
-      <span class="zh"><strong>考試規則：</strong>「排序排行榜」、「工作階段持久性」、「Pub/Sub」、「多可用區域快取」→ Redis；「簡單可擴展快取」→ Memcached</span>
-    </li>
-  </ul>
-
-  <h4>gp3 vs. io2 EBS</h4>
-  <ul>
-    <li>gp3 = 3,000&ndash;16,000 IOPS, cost-effective general purpose
-      <span class="zh">gp3 = 3,000–16,000 IOPS，符合成本效益的一般用途</span>
-    </li>
-    <li>io2 = up to 64,000 IOPS, consistent sub-ms latency, 99.999% durability
-      <span class="zh">io2 = 最高 64,000 IOPS、一致的毫秒以下延遲、99.999% 持久性</span>
-    </li>
-    <li><strong>Exam rule:</strong> &gt;16,000 IOPS or &ldquo;mission-critical consistent latency&rdquo; &rarr; io2; everything else &rarr; gp3
-      <span class="zh"><strong>考試規則：</strong>&gt;16,000 IOPS 或「關鍵任務一致延遲」→ io2；其他情況 → gp3</span>
-    </li>
-  </ul>
-
-  <h4>Kinesis Data Streams vs. Kinesis Firehose
-    <span class="zh">Kinesis Data Streams vs. Kinesis Firehose</span>
+  <h4>RDS Multi-AZ vs. RDS Read Replica
+    <span class="zh">RDS 多可用區域 vs. RDS 唯讀複本</span>
   </h4>
   <ul>
-    <li>Data Streams = real-time, custom consumers, ordered per shard, replay, code required
-      <span class="zh">Data Streams = 即時、自訂消費者、每個分片有序、可重播、需要程式碼</span>
+    <li>Multi-AZ = automatic failover, standby not readable
+      <span class="zh">多可用區域 = 自動容錯移轉，備用執行個體無法讀取</span>
     </li>
-    <li>Firehose = near-real-time, managed delivery to destinations, no code needed
-      <span class="zh">Firehose = 接近即時、受管交付至目的地、無需程式碼</span>
+    <li>Read Replica = improves read performance, manual failover to standalone
+      <span class="zh">唯讀複本 = 提升讀取效能，手動容錯移轉至獨立執行個體</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;real-time processing with custom logic&rdquo; &rarr; Data Streams; &ldquo;load to S3/Redshift automatically&rdquo; &rarr; Firehose
-      <span class="zh"><strong>考試規則：</strong>「使用自訂邏輯的即時處理」→ Data Streams；「自動載入至 S3/Redshift」→ Firehose</span>
+    <li><strong>Exam rule:</strong> &ldquo;high availability&rdquo; &rarr; Multi-AZ; &ldquo;read performance&rdquo; &rarr; Read Replica; both needed &rarr; use both
+      <span class="zh"><strong>考試規則：</strong>「高可用性」→ 多可用區域；「讀取效能」→ 唯讀複本；兩者皆需 → 同時使用</span>
     </li>
   </ul>
 
-  <h4>EFS vs. FSx for Lustre</h4>
+  <h4>SQS Standard vs. FIFO
+    <span class="zh">SQS 標準佇列 vs. FIFO 佇列</span>
+  </h4>
   <ul>
-    <li>EFS = general-purpose Linux shared file system, multi-AZ, POSIX-compliant
-      <span class="zh">EFS = 一般用途 Linux 共用檔案系統、多可用區域、POSIX 相容</span>
+    <li>Standard = higher throughput, possible duplicates, no order guarantee
+      <span class="zh">標準 = 更高輸送量、可能重複、無順序保證</span>
     </li>
-    <li>FSx for Lustre = HPC-grade throughput, S3 integration, sub-millisecond latency
-      <span class="zh">FSx for Lustre = HPC 等級輸送量、S3 整合、毫秒以下延遲</span>
+    <li>FIFO = ordered, exactly-once, lower throughput (3,000/s with batching)
+      <span class="zh">FIFO = 有序、恰好一次、較低輸送量（批次處理 3,000/秒）</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;shared file storage for general Linux workloads&rdquo; &rarr; EFS; &ldquo;HPC or ML needing maximum throughput&rdquo; &rarr; FSx for Lustre
-      <span class="zh"><strong>考試規則：</strong>「一般 Linux 工作負載的共用檔案儲存」→ EFS；「需要最大輸送量的 HPC 或 ML」→ FSx for Lustre</span>
+    <li><strong>Exam rule:</strong> &ldquo;order matters&rdquo; or &ldquo;exactly once&rdquo; &rarr; FIFO; otherwise Standard
+      <span class="zh"><strong>考試規則：</strong>「順序重要」或「恰好一次」→ FIFO；否則使用標準</span>
     </li>
   </ul>
 
-  <h4>DAX vs. ElastiCache for DynamoDB</h4>
+  <h4>ALB vs. NLB</h4>
   <ul>
-    <li>DAX = purpose-built for DynamoDB, drop-in replacement, API-compatible, read-through/write-through
-      <span class="zh">DAX = 專為 DynamoDB 建置、即插即用替換、API 相容、讀取穿透/寫入穿透</span>
+    <li>ALB = Layer 7, content-based routing, flexible
+      <span class="zh">ALB = 第 7 層、內容型路由、彈性高</span>
     </li>
-    <li>ElastiCache = general-purpose cache, requires application-level cache logic
-      <span class="zh">ElastiCache = 一般用途快取，需要應用程式層級的快取邏輯</span>
+    <li>NLB = Layer 4, static IP, extreme performance
+      <span class="zh">NLB = 第 4 層、靜態 IP、極高效能</span>
     </li>
-    <li><strong>Exam rule:</strong> &ldquo;speed up DynamoDB reads with minimal code change&rdquo; &rarr; DAX; &ldquo;cache data from multiple sources&rdquo; &rarr; ElastiCache
-      <span class="zh"><strong>考試規則：</strong>「以最少程式碼變更加速 DynamoDB 讀取」→ DAX；「快取來自多個來源的資料」→ ElastiCache</span>
+    <li><strong>Exam rule:</strong> &ldquo;static IP required&rdquo; or &ldquo;millions of requests/second&rdquo; &rarr; NLB; HTTP traffic &rarr; ALB
+      <span class="zh"><strong>考試規則：</strong>「需要靜態 IP」或「每秒數百萬個請求」→ NLB；HTTP 流量 → ALB</span>
     </li>
   </ul>
 
+  <h4>S3 Standard vs. S3 One Zone-IA
+    <span class="zh">S3 標準 vs. S3 單一可用區域-IA</span>
+  </h4>
+  <ul>
+    <li>Standard = 3+ AZ replication, full durability
+      <span class="zh">標準 = 跨 3 個以上可用區域複寫、完整持久性</span>
+    </li>
+    <li>One Zone-IA = single AZ, 20% cheaper, data lost if AZ fails
+      <span class="zh">單一可用區域-IA = 單一可用區域、便宜 20%、可用區域故障時資料遺失</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;reproducible data&rdquo; &rarr; One Zone-IA acceptable; &ldquo;cannot be recreated&rdquo; &rarr; never One Zone-IA
+      <span class="zh"><strong>考試規則：</strong>「可重新產生的資料」→ 單一可用區域-IA 可接受；「無法重新建立」→ 絕不使用單一可用區域-IA</span>
+    </li>
+  </ul>
+
+  <h4>Aurora vs. RDS</h4>
+  <ul>
+    <li>Aurora = faster failover (~30s), more replicas (15), Global Database option
+      <span class="zh">Aurora = 更快容錯移轉（約 30 秒）、更多複本（15 個）、全球資料庫選項</span>
+    </li>
+    <li>RDS = broader engine support (Oracle, SQL Server)
+      <span class="zh">RDS = 更廣泛的資料庫引擎支援（Oracle、SQL Server）</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;fastest failover&rdquo; or &ldquo;cross-region low RPO&rdquo; &rarr; Aurora; &ldquo;Oracle/SQL Server&rdquo; &rarr; RDS
+      <span class="zh"><strong>考試規則：</strong>「最快容錯移轉」或「跨區域低 RPO」→ Aurora；「Oracle/SQL Server」→ RDS</span>
+    </li>
+  </ul>
+
+  <h4>Route 53 Failover vs. Multivalue Answer
+    <span class="zh">Route 53 容錯移轉 vs. 多值答案</span>
+  </h4>
+  <ul>
+    <li>Failover = active-passive, requires health checks, clean DR pattern
+      <span class="zh">容錯移轉 = 主動-被動、需要運作狀態檢查、乾淨的 DR 模式</span>
+    </li>
+    <li>Multivalue = returns up to 8 healthy IPs; NOT a load balancer replacement
+      <span class="zh">多值答案 = 最多傳回 8 個健康 IP；非負載平衡器的替代方案</span>
+    </li>
+    <li><strong>Exam rule:</strong> &ldquo;active-passive failover&rdquo; &rarr; Failover routing; don&rsquo;t confuse Multivalue with ELB
+      <span class="zh"><strong>考試規則：</strong>「主動-被動容錯移轉」→ 容錯移轉路由；勿將多值答案與 ELB 混淆</span>
+    </li>
+  </ul>
+
+  <!-- SECTION 5 -->
   <div class="page-break"></div>
   <h2>5. Exam Traps &amp; Gotchas <span class="zh">考試陷阱與注意事項</span></h2>
   <ol>
-    <li><strong>Lambda cold starts vs. memory.</strong> Increasing memory speeds up execution but does NOT eliminate cold starts. Cold starts require Provisioned Concurrency.
-      <span class="zh"><strong>Lambda 冷啟動 vs. 記憶體。</strong>增加記憶體可加快執行速度，但不能消除冷啟動。消除冷啟動需要佈建並行。</span>
+    <li><strong>RDS Multi-AZ standby is not a read replica.</strong> Multi-AZ alone doesn&rsquo;t help with read scaling. You need read replicas too.
+      <span class="zh"><strong>RDS 多可用區域備用執行個體不是唯讀複本。</strong>單獨使用多可用區域對讀取擴展無幫助，還需要唯讀複本。</span>
     </li>
-    <li><strong>gp2 IOPS tied to volume size; gp3 is not.</strong> A 100 GB gp2 gets only 300 IOPS baseline. A 100 GB gp3 gets 3,000 IOPS. Small volumes needing high IOPS &rarr; gp3 or io2.
-      <span class="zh"><strong>gp2 的 IOPS 與磁碟區大小掛鉤；gp3 則不然。</strong>100 GB gp2 僅有 300 IOPS 基準。100 GB gp3 有 3,000 IOPS。需要高 IOPS 的小型磁碟區 → gp3 或 io2。</span>
+    <li><strong>EBS snapshots don&rsquo;t move EBS volumes cross-AZ.</strong> Create a snapshot, then create a new volume in the target AZ. EBS itself stays AZ-locked.
+      <span class="zh"><strong>EBS 快照不會跨可用區域移動 EBS 磁碟區。</strong>需建立快照，再於目標可用區域建立新磁碟區。EBS 本身仍鎖定於可用區域。</span>
     </li>
-    <li><strong>DAX does not help write performance.</strong> DAX caches reads. Write-heavy DynamoDB workloads don&rsquo;t benefit from DAX.
-      <span class="zh"><strong>DAX 對寫入效能無幫助。</strong>DAX 快取讀取。寫入密集的 DynamoDB 工作負載無法從 DAX 受益。</span>
+    <li><strong>S3 CRR does not replicate existing objects.</strong> Only objects created after replication is enabled. For existing objects &rarr; S3 Batch Replication.
+      <span class="zh"><strong>S3 CRR 不複寫現有物件。</strong>僅複寫啟用複寫後建立的物件。現有物件需使用 S3 批次複寫。</span>
     </li>
-    <li><strong>S3 performance is per prefix, not per bucket.</strong> All objects under one prefix = limited to 5,500 GET/s. Distribute across multiple prefixes to multiply throughput.
-      <span class="zh"><strong>S3 效能按字首計算，而非按儲存貯體計算。</strong>同一字首下的所有物件 = 限制為 5,500 GET/秒。跨多個字首分佈以倍增輸送量。</span>
+    <li><strong>EC2 health checks vs. ELB health checks in ASG.</strong> Default EC2 health checks only replace terminated/stopped instances. If the app crashes but the instance stays running, configure ELB health checks.
+      <span class="zh"><strong>ASG 中的 EC2 運作狀態檢查 vs. ELB 運作狀態檢查。</strong>預設 EC2 運作狀態檢查僅取代已終止/停止的執行個體。若應用程式當機但執行個體仍在運作，需設定 ELB 運作狀態檢查。</span>
     </li>
-    <li><strong>Kinesis Enhanced Fan-Out vs. standard GetRecords.</strong> Standard polling shares 2 MB/s per shard across all consumers. Enhanced Fan-Out gives each consumer dedicated 2 MB/s. &ldquo;Multiple consumers with high lag&rdquo; &rarr; Enable Enhanced Fan-Out.
-      <span class="zh"><strong>Kinesis 增強型展開 vs. 標準 GetRecords。</strong>標準輪詢跨所有消費者共享每分片 2 MB/s。增強型展開給每個消費者專用 2 MB/s。「多個消費者延遲高」→ 啟用增強型展開。</span>
+    <li><strong>Spot Instances and resilience.</strong> Spot is interruptible. &ldquo;Cost-optimize a fault-tolerant batch job&rdquo; &rarr; Spot is fine. &ldquo;Never go down&rdquo; &rarr; never pure Spot.
+      <span class="zh"><strong>Spot 執行個體與彈性。</strong>Spot 可被中斷。「成本最佳化容錯批次作業」→ 適合 Spot。「永不停機」→ 絕不使用純 Spot。</span>
     </li>
-    <li><strong>Global Accelerator does not cache.</strong> It only routes traffic faster. If the question mentions caching or content delivery, CloudFront is the answer.
-      <span class="zh"><strong>全球加速器不快取。</strong>它只是更快地路由流量。若問題提到快取或內容交付，CloudFront 才是答案。</span>
+    <li><strong>Route 53 Multivalue is not a load balancer.</strong> Returns multiple IPs; client chooses randomly. No awareness of server load.
+      <span class="zh"><strong>Route 53 多值答案不是負載平衡器。</strong>傳回多個 IP；用戶端隨機選擇。不感知伺服器負載。</span>
     </li>
-    <li><strong>EFS Max I/O has higher latency.</strong> Not a performance upgrade for all workloads. Only for massively parallel workloads (10,000+ clients).
-      <span class="zh"><strong>EFS 最大 I/O 有更高延遲。</strong>並非所有工作負載的效能升級。僅適用於大量平行工作負載（10,000 個以上用戶端）。</span>
+    <li><strong>Aurora Serverless v1 vs. v2.</strong> v1 has cold start latency (scales to zero). v2 scales faster, no cold start. &ldquo;Sporadic traffic&rdquo; &rarr; Serverless v2.
+      <span class="zh"><strong>Aurora Serverless v1 vs. v2。</strong>v1 有冷啟動延遲（可縮減至零）。v2 擴展更快、無冷啟動。「零星流量」→ Serverless v2。</span>
     </li>
-    <li><strong>st1 and sc1 cannot be boot volumes.</strong> Only gp2, gp3, io1, io2 can be root/boot volumes.
-      <span class="zh"><strong>st1 和 sc1 不能作為開機磁碟區。</strong>只有 gp2、gp3、io1、io2 可以作為根/開機磁碟區。</span>
+    <li><strong>EFS One Zone vs. EFS Regional.</strong> EFS Regional is multi-AZ by default. EFS One Zone loses data if the AZ fails &mdash; only use for non-critical data.
+      <span class="zh"><strong>EFS 單一可用區域 vs. EFS 區域性。</strong>EFS 區域性預設為多可用區域。EFS 單一可用區域在可用區域故障時會遺失資料——僅用於非關鍵資料。</span>
     </li>
   </ol>
 
+  <!-- SECTION 6 -->
   <h2>6. Key Numbers to Remember <span class="zh">重要數字記憶</span></h2>
   <table>
-    <tr><th>Service / Feature <span class="zh">服務 / 功能</span></th><th>Value <span class="zh">數值</span></th></tr>
-    <tr><td>Lambda max timeout <span class="zh">Lambda 最長逾時</span></td><td>15 minutes <span class="zh">15 分鐘</span></td></tr>
-    <tr><td>Lambda max memory <span class="zh">Lambda 最大記憶體</span></td><td>10,240 MB</td></tr>
-    <tr><td>Lambda default concurrency limit (per region) <span class="zh">Lambda 預設並行限制（每個區域）</span></td><td>1,000 (soft limit) <span class="zh">1,000（軟性限制）</span></td></tr>
-    <tr><td>EBS gp3 baseline IOPS <span class="zh">EBS gp3 基準 IOPS</span></td><td>3,000</td></tr>
-    <tr><td>EBS gp3 max IOPS <span class="zh">EBS gp3 最大 IOPS</span></td><td>16,000</td></tr>
-    <tr><td>EBS gp2 IOPS rate <span class="zh">EBS gp2 IOPS 速率</span></td><td>3 IOPS/GB, burst to 3,000 <span class="zh">3 IOPS/GB，爆量至 3,000</span></td></tr>
-    <tr><td>EBS io2 max IOPS <span class="zh">EBS io2 最大 IOPS</span></td><td>64,000</td></tr>
-    <tr><td>EBS io2 Block Express max IOPS</td><td>256,000</td></tr>
-    <tr><td>S3 PUT/DELETE per prefix per second <span class="zh">S3 每字首每秒 PUT/DELETE</span></td><td>3,500</td></tr>
-    <tr><td>S3 GET/HEAD per prefix per second <span class="zh">S3 每字首每秒 GET/HEAD</span></td><td>5,500</td></tr>
-    <tr><td>S3 multipart upload recommended threshold <span class="zh">S3 多部分上傳建議閾值</span></td><td>100 MB</td></tr>
-    <tr><td>S3 multipart upload required threshold <span class="zh">S3 多部分上傳必要閾值</span></td><td>5 GB</td></tr>
-    <tr><td>Kinesis shard write throughput <span class="zh">Kinesis 分片寫入輸送量</span></td><td>1 MB/s</td></tr>
-    <tr><td>Kinesis shard read throughput (standard) <span class="zh">Kinesis 分片讀取輸送量（標準）</span></td><td>2 MB/s shared <span class="zh">2 MB/s 共享</span></td></tr>
-    <tr><td>Kinesis Enhanced Fan-Out per consumer <span class="zh">Kinesis 增強型展開每消費者</span></td><td>2 MB/s dedicated <span class="zh">2 MB/s 專用</span></td></tr>
-    <tr><td>Kinesis max retention <span class="zh">Kinesis 最長保留期間</span></td><td>365 days <span class="zh">365 天</span></td></tr>
-    <tr><td>Firehose minimum buffer interval <span class="zh">Firehose 最小緩衝間隔</span></td><td>60 seconds <span class="zh">60 秒</span></td></tr>
-    <tr><td>CloudFront edge locations <span class="zh">CloudFront 邊緣位置</span></td><td>450+</td></tr>
+    <tr>
+      <th>Service / Feature <span class="zh">服務 / 功能</span></th>
+      <th>Value <span class="zh">數值</span></th>
+    </tr>
+    <tr><td>RDS Multi-AZ failover time <span class="zh">RDS 多可用區域容錯移轉時間</span></td><td>1&ndash;2 minutes <span class="zh">1–2 分鐘</span></td></tr>
+    <tr><td>Aurora failover time <span class="zh">Aurora 容錯移轉時間</span></td><td>~30 seconds <span class="zh">約 30 秒</span></td></tr>
+    <tr><td>Aurora Global DB replication lag <span class="zh">Aurora 全球資料庫複寫延遲</span></td><td>&lt;1 second <span class="zh">&lt;1 秒</span></td></tr>
+    <tr><td>Aurora Global DB RTO <span class="zh">Aurora 全球資料庫 RTO</span></td><td>&lt;1 minute <span class="zh">&lt;1 分鐘</span></td></tr>
+    <tr><td>Aurora read replicas (max) <span class="zh">Aurora 唯讀複本（最大數）</span></td><td>15</td></tr>
+    <tr><td>RDS read replicas (max, MySQL/PostgreSQL) <span class="zh">RDS 唯讀複本（最大數）</span></td><td>5</td></tr>
+    <tr><td>S3 durability <span class="zh">S3 持久性</span></td><td>11 nines (99.999999999%)</td></tr>
+    <tr><td>SQS max retention <span class="zh">SQS 最長保留期間</span></td><td>14 days <span class="zh">14 天</span></td></tr>
+    <tr><td>SQS visibility timeout (default) <span class="zh">SQS 可見性逾時（預設）</span></td><td>30 seconds <span class="zh">30 秒</span></td></tr>
+    <tr><td>SQS FIFO throughput (with batching) <span class="zh">SQS FIFO 輸送量（批次）</span></td><td>3,000 msg/s <span class="zh">3,000 則/秒</span></td></tr>
+    <tr><td>ASG default cooldown <span class="zh">ASG 預設冷卻期間</span></td><td>300 seconds <span class="zh">300 秒</span></td></tr>
+    <tr><td>EC2 Spread placement group max per AZ <span class="zh">EC2 分散置放群組每可用區域上限</span></td><td>7 instances <span class="zh">7 個執行個體</span></td></tr>
+    <tr><td>Route 53 Multivalue Answer max IPs returned <span class="zh">Route 53 多值答案最大傳回 IP 數</span></td><td>8</td></tr>
+    <tr><td>EBS io2 durability <span class="zh">EBS io2 持久性</span></td><td>99.999%</td></tr>
+    <tr><td>SNS max message size <span class="zh">SNS 最大訊息大小</span></td><td>256 KB</td></tr>
+    <tr><td>SNS max subscriptions per topic <span class="zh">SNS 每個主題最大訂閱數</span></td><td>12,500,000</td></tr>
+    <tr><td>EventBridge event bus rule limit (default) <span class="zh">EventBridge 事件匯流排規則限制（預設）</span></td><td>300 rules per bus <span class="zh">每個匯流排 300 條規則</span></td></tr>
+    <tr><td>Step Functions Standard Workflow max duration <span class="zh">Step Functions 標準工作流程最長持續時間</span></td><td>1 year <span class="zh">1 年</span></td></tr>
+    <tr><td>Step Functions Express Workflow max duration <span class="zh">Step Functions Express 工作流程最長持續時間</span></td><td>5 minutes <span class="zh">5 分鐘</span></td></tr>
+    <tr><td>AWS Backup: cross-region copy support <span class="zh">AWS Backup：跨區域複製支援</span></td><td>Yes &mdash; configured in Backup Plan <span class="zh">是——在 Backup 計劃中設定</span></td></tr>
   </table>
 
+  <!-- SECTION 7 -->
   <div class="page-break"></div>
   <h2>7. Practice Questions <span class="zh">練習題</span></h2>
 
   <div class="question-block">
-    <div class="question-text">Question 1 &mdash; A company runs a read-heavy web application backed by an RDS MySQL database. The database is experiencing high CPU utilization due to a large number of repetitive read queries. The application team cannot change the application code significantly. What should a solutions architect recommend?
-      <span class="zh">問題 1——某公司執行以 RDS MySQL 資料庫為後端的讀取密集 Web 應用程式。由於大量重複讀取查詢，資料庫的 CPU 使用率很高。應用程式團隊無法大幅變更應用程式程式碼。解決方案架構師應建議什麼？</span>
+    <div class="question-text">Question 1 &mdash; A company runs a three-tier web application on EC2. The database tier uses a single RDS MySQL instance. The application must remain available if a database instance fails, and the read workload is increasing as the user base grows. What should a solutions architect recommend?
+      <span class="zh">問題 1——某公司在 EC2 上執行三層 Web 應用程式。資料庫層使用單一 RDS MySQL 執行個體。若資料庫執行個體故障，應用程式必須維持可用，且隨著使用者增加，讀取工作負載也在增加。解決方案架構師應建議什麼？</span>
     </div>
     <ol class="options" type="A">
-      <li>Add RDS Read Replicas and update the application to route reads to the replica endpoint
-        <span class="zh">新增 RDS 唯讀複本並更新應用程式將讀取路由至複本端點</span>
+      <li>Enable RDS Multi-AZ and create a read replica in the same AZ
+        <span class="zh">啟用 RDS 多可用區域並在同一可用區域建立唯讀複本</span>
       </li>
-      <li>Enable RDS Multi-AZ to distribute read traffic to the standby instance
-        <span class="zh">啟用 RDS 多可用區域將讀取流量分配至備用執行個體</span>
+      <li>Enable RDS Multi-AZ and create one or more read replicas
+        <span class="zh">啟用 RDS 多可用區域並建立一個或多個唯讀複本</span>
       </li>
-      <li>Deploy an ElastiCache Memcached cluster in front of RDS
-        <span class="zh">在 RDS 前部署 ElastiCache Memcached 叢集</span>
+      <li>Create a read replica and configure the application to use it for all queries
+        <span class="zh">建立唯讀複本並設定應用程式對所有查詢使用它</span>
       </li>
-      <li>Deploy an ElastiCache Redis cluster in front of RDS and use lazy loading
-        <span class="zh">在 RDS 前部署 ElastiCache Redis 叢集並使用延遲載入</span>
-      </li>
-    </ol>
-    <div class="answer-label">Answer: D <span class="zh">答案：D</span></div>
-    <ul class="answer-detail">
-      <li class="correct">D is correct: ElastiCache Redis with lazy loading caches frequent read results, dramatically reducing RDS CPU. Redis is preferred for its replication and persistence.
-        <span class="zh">D 正確：ElastiCache Redis 搭配延遲載入快取頻繁讀取結果，大幅降低 RDS CPU。Redis 因其複寫和持久性而更受青睞。</span>
-      </li>
-      <li class="wrong">A is wrong: Read Replicas still hit the database for every query &mdash; repetitive queries are not cached.
-        <span class="zh">A 錯誤：唯讀複本對每個查詢仍存取資料庫——重複查詢不會被快取。</span>
-      </li>
-      <li class="wrong">B is wrong: Multi-AZ standby is not readable. It exists only for failover.
-        <span class="zh">B 錯誤：多可用區域備用執行個體無法讀取。它僅用於容錯移轉。</span>
-      </li>
-      <li class="wrong">C is wrong: Memcached could work but lacks replication and persistence. Redis is the better default for production caching.
-        <span class="zh">C 錯誤：Memcached 可以運作，但缺乏複寫和持久性。Redis 是生產快取的更好預設選擇。</span>
-      </li>
-    </ul>
-  </div>
-
-  <div class="question-block">
-    <div class="question-text">Question 2 &mdash; A machine learning team needs to train a model on a 50 TB dataset stored in S3. Training jobs run on a cluster of EC2 P4d instances. The training requires extremely high throughput I/O and low latency access to the dataset. What storage solution should a solutions architect recommend?
-      <span class="zh">問題 2——機器學習團隊需要在儲存於 S3 的 50 TB 資料集上訓練模型。訓練工作在 EC2 P4d 執行個體叢集上執行。訓練需要極高輸送量 I/O 和對資料集的低延遲存取。解決方案架構師應建議什麼儲存方案？</span>
-    </div>
-    <ol class="options" type="A">
-      <li>Mount the S3 bucket directly using S3 File Gateway on each instance
-        <span class="zh">在每個執行個體上使用 S3 File Gateway 直接掛載 S3 儲存貯體</span>
-      </li>
-      <li>Copy the dataset to EBS gp3 volumes attached to each instance
-        <span class="zh">將資料集複製到連接至每個執行個體的 EBS gp3 磁碟區</span>
-      </li>
-      <li>Use Amazon FSx for Lustre linked to the S3 bucket
-        <span class="zh">使用連結至 S3 儲存貯體的 Amazon FSx for Lustre</span>
-      </li>
-      <li>Use Amazon EFS with Max I/O performance mode
-        <span class="zh">使用最大 I/O 效能模式的 Amazon EFS</span>
-      </li>
-    </ol>
-    <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
-    <ul class="answer-detail">
-      <li class="correct">C is correct: FSx for Lustre provides sub-millisecond latency and hundreds of GB/s throughput with native S3 integration. Designed exactly for HPC/ML workloads.
-        <span class="zh">C 正確：FSx for Lustre 提供毫秒以下延遲和數百 GB/s 輸送量，並具有原生 S3 整合。專為 HPC/ML 工作負載設計。</span>
-      </li>
-      <li class="wrong">A is wrong: S3 File Gateway adds latency and is meant for hybrid on-premises scenarios.
-        <span class="zh">A 錯誤：S3 File Gateway 增加延遲，適用於混合本地端場景。</span>
-      </li>
-      <li class="wrong">B is wrong: EBS volumes are per-instance. Copying 50 TB to each instance is impractical and doesn&rsquo;t support shared access.
-        <span class="zh">B 錯誤：EBS 磁碟區是每個執行個體專屬的。將 50 TB 複製到每個執行個體不切實際，且不支援共用存取。</span>
-      </li>
-      <li class="wrong">D is wrong: EFS Max I/O has higher latency than FSx for Lustre and lower aggregate throughput. Not designed for this scale.
-        <span class="zh">D 錯誤：EFS 最大 I/O 的延遲高於 FSx for Lustre，彙總輸送量也較低。不是為此規模而設計的。</span>
-      </li>
-    </ul>
-  </div>
-
-  <div class="question-block">
-    <div class="question-text">Question 3 &mdash; A company has a DynamoDB table that serves a leaderboard for a gaming application. As the game grew, read latency has increased to 5&ndash;8 ms, causing visible lag in the UI. The team needs microsecond read latency. What should the solutions architect recommend?
-      <span class="zh">問題 3——某公司有一個 DynamoDB 資料表，為遊戲應用程式提供排行榜。隨著遊戲成長，讀取延遲已增加至 5–8 毫秒，導致 UI 出現明顯延遲。團隊需要微秒讀取延遲。解決方案架構師應建議什麼？</span>
-    </div>
-    <ol class="options" type="A">
-      <li>Add a Global Secondary Index to the DynamoDB table
-        <span class="zh">在 DynamoDB 資料表中新增全域次要索引</span>
-      </li>
-      <li>Switch to DynamoDB on-demand capacity mode
-        <span class="zh">切換至 DynamoDB 隨需容量模式</span>
-      </li>
-      <li>Deploy Amazon DynamoDB Accelerator (DAX) in front of the table
-        <span class="zh">在資料表前部署 Amazon DynamoDB Accelerator（DAX）</span>
-      </li>
-      <li>Add an ElastiCache Redis cluster and implement a cache-aside pattern
-        <span class="zh">新增 ElastiCache Redis 叢集並實作旁路快取模式</span>
-      </li>
-    </ol>
-    <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
-    <ul class="answer-detail">
-      <li class="correct">C is correct: DAX is purpose-built for DynamoDB and provides microsecond read latency. API-compatible with DynamoDB, so minimal code changes are required.
-        <span class="zh">C 正確：DAX 專為 DynamoDB 建置，提供微秒讀取延遲。與 DynamoDB API 相容，因此只需最少程式碼變更。</span>
-      </li>
-      <li class="wrong">A is wrong: A GSI improves query flexibility, not read latency. It doesn&rsquo;t cache anything.
-        <span class="zh">A 錯誤：全域次要索引提升查詢彈性，而非讀取延遲。它不快取任何內容。</span>
-      </li>
-      <li class="wrong">B is wrong: On-demand mode adjusts capacity, not latency. The bottleneck is latency, not throughput.
-        <span class="zh">B 錯誤：隨需模式調整容量，而非延遲。瓶頸是延遲，而非輸送量。</span>
-      </li>
-      <li class="wrong">D is wrong: ElastiCache Redis requires significant application code changes. DAX is the simpler, purpose-built solution.
-        <span class="zh">D 錯誤：ElastiCache Redis 需要大量應用程式程式碼變更。DAX 是更簡單的專用解決方案。</span>
-      </li>
-    </ul>
-  </div>
-
-  <div class="question-block">
-    <div class="question-text">Question 4 &mdash; A media company streams video content to users worldwide. Videos are stored in S3 in us-east-1. Users in Asia and Europe are experiencing long load times. The company wants to reduce latency with minimal code changes. What should the solutions architect recommend?
-      <span class="zh">問題 4——某媒體公司向全球使用者串流視訊內容。影片儲存在 us-east-1 的 S3 中。亞洲和歐洲的使用者遭遇較長的載入時間。公司希望以最少程式碼變更降低延遲。解決方案架構師應建議什麼？</span>
-    </div>
-    <ol class="options" type="A">
-      <li>Enable S3 Transfer Acceleration on the bucket
-        <span class="zh">在儲存貯體上啟用 S3 傳輸加速</span>
-      </li>
-      <li>Use Amazon CloudFront with an S3 origin
-        <span class="zh">使用以 S3 為來源的 Amazon CloudFront</span>
-      </li>
-      <li>Use AWS Global Accelerator pointing to the S3 bucket
-        <span class="zh">使用指向 S3 儲存貯體的 AWS 全球加速器</span>
-      </li>
-      <li>Replicate the S3 bucket to regions in Asia and Europe using S3 CRR
-        <span class="zh">使用 S3 CRR 將 S3 儲存貯體複寫至亞洲和歐洲的區域</span>
+      <li>Enable automatic backups and increase the RDS instance size
+        <span class="zh">啟用自動備份並增加 RDS 執行個體大小</span>
       </li>
     </ol>
     <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
     <ul class="answer-detail">
-      <li class="correct">B is correct: CloudFront caches video content at 450+ edge locations globally. Users are served from the nearest edge, dramatically reducing load times.
-        <span class="zh">B 正確：CloudFront 在全球 450 個以上邊緣位置快取視訊內容。使用者從最近的邊緣提供服務，大幅降低載入時間。</span>
+      <li class="correct">B is correct: Multi-AZ provides automatic failover (HA), and read replicas offload read traffic. These solve different problems and are used together.
+        <span class="zh">B 正確：多可用區域提供自動容錯移轉（高可用性），唯讀複本分擔讀取流量。這兩者解決不同問題，應同時使用。</span>
       </li>
-      <li class="wrong">A is wrong: S3 Transfer Acceleration speeds up uploads to S3, not downloads to end users.
-        <span class="zh">A 錯誤：S3 傳輸加速加快上傳至 S3 的速度，而非向終端使用者的下載速度。</span>
+      <li class="wrong">A is wrong: Creating the read replica in the same AZ defeats the purpose &mdash; it&rsquo;s unavailable if that AZ fails.
+        <span class="zh">A 錯誤：在同一可用區域建立唯讀複本失去意義——該可用區域故障時仍不可用。</span>
       </li>
-      <li class="wrong">C is wrong: Global Accelerator doesn&rsquo;t cache content. The origin still serves every request.
-        <span class="zh">C 錯誤：全球加速器不快取內容。來源仍然服務每個請求。</span>
+      <li class="wrong">C is wrong: A read replica alone doesn&rsquo;t provide automatic failover. It requires manual promotion.
+        <span class="zh">C 錯誤：單獨使用唯讀複本不提供自動容錯移轉，需要手動升級。</span>
       </li>
-      <li class="wrong">D is wrong: CRR adds operational complexity and cost. CloudFront achieves the same goal with a single bucket.
-        <span class="zh">D 錯誤：CRR 增加營運複雜性和成本。CloudFront 以單一儲存貯體達到相同目標。</span>
+      <li class="wrong">D is wrong: Automatic backups don&rsquo;t provide HA; scaling up doesn&rsquo;t prevent failure.
+        <span class="zh">D 錯誤：自動備份不提供高可用性；垂直擴展無法防止故障。</span>
       </li>
     </ul>
   </div>
 
   <div class="question-block">
-    <div class="question-text">Question 5 &mdash; A company processes clickstream events from its website. Multiple downstream systems need to process the same events independently &mdash; a real-time dashboard, a fraud detection system, and a data archiving pipeline. Events must be processed in order and replay must be possible. What should a solutions architect recommend?
-      <span class="zh">問題 5——某公司處理來自其網站的點擊串流事件。多個下游系統需要獨立處理相同事件——即時儀表板、詐欺偵測系統和資料封存管道。事件必須按順序處理，且必須可以重播。解決方案架構師應建議什麼？</span>
+    <div class="question-text">Question 2 &mdash; A company needs to process orders from an e-commerce platform. During peak events, the order rate increases 10x. The processing service takes 30 seconds per order. The company cannot afford to lose any orders, even if the processing service goes down temporarily. What architecture should a solutions architect recommend?
+      <span class="zh">問題 2——某公司需要處理電商平台的訂單。在尖峰活動期間，訂單速率增加 10 倍。處理服務每筆訂單需要 30 秒。即使處理服務暫時停機，公司也無法承受任何訂單遺失。解決方案架構師應建議什麼架構？</span>
     </div>
     <ol class="options" type="A">
-      <li>Use Amazon SQS Standard queues with one queue per consumer
-        <span class="zh">使用每個消費者一個佇列的 Amazon SQS 標準佇列</span>
+      <li>Use an ALB to distribute orders to an Auto Scaling Group of processing EC2 instances
+        <span class="zh">使用 ALB 將訂單分配至處理 EC2 執行個體的 Auto Scaling 群組</span>
       </li>
-      <li>Use Amazon SNS with three SQS queues as subscribers
-        <span class="zh">使用 Amazon SNS 搭配三個 SQS 佇列作為訂閱者</span>
+      <li>Write orders directly to an RDS database and have the processing service poll the database
+        <span class="zh">將訂單直接寫入 RDS 資料庫，讓處理服務輪詢資料庫</span>
       </li>
-      <li>Use Amazon Kinesis Data Streams with Enhanced Fan-Out enabled
-        <span class="zh">使用啟用增強型展開的 Amazon Kinesis Data Streams</span>
+      <li>Put orders into an SQS queue and have a consumer ASG process them
+        <span class="zh">將訂單放入 SQS 佇列，並讓消費者 ASG 處理</span>
       </li>
-      <li>Use Amazon EventBridge with three separate rules and targets
-        <span class="zh">使用具有三個獨立規則和目標的 Amazon EventBridge</span>
+      <li>Use Kinesis Data Streams to ingest orders and process them in real time
+        <span class="zh">使用 Kinesis Data Streams 擷取訂單並即時處理</span>
       </li>
     </ol>
     <div class="answer-label">Answer: C <span class="zh">答案：C</span></div>
     <ul class="answer-detail">
-      <li class="correct">C is correct: Kinesis Data Streams preserves order within a shard, supports replay, and Enhanced Fan-Out gives each consumer dedicated 2 MB/s per shard. Perfect for multi-consumer ordered replayable streaming.
-        <span class="zh">C 正確：Kinesis Data Streams 在分片內保留順序、支援重播，增強型展開給每個消費者每個分片專用 2 MB/s。完美適用於多消費者有序可重播串流。</span>
+      <li class="correct">C is correct: SQS decouples ingestion from processing. Messages persist up to 14 days even if consumers fail. ASG scales based on queue depth.
+        <span class="zh">C 正確：SQS 解耦擷取與處理。即使消費者故障，訊息也可保留最多 14 天。ASG 根據佇列深度擴展。</span>
       </li>
-      <li class="wrong">A is wrong: A message consumed from one SQS queue is not available to others. Duplicating events to multiple queues is an anti-pattern.
-        <span class="zh">A 錯誤：從一個 SQS 佇列消費的訊息無法供其他人使用。將事件複製到多個佇列是反模式。</span>
+      <li class="wrong">A is wrong: If processing instances fail, in-flight requests are lost &mdash; no buffer.
+        <span class="zh">A 錯誤：若處理執行個體故障，進行中的請求將遺失——沒有緩衝區。</span>
       </li>
-      <li class="wrong">B is wrong: SNS + SQS fanout distributes events but SQS doesn&rsquo;t guarantee order and doesn&rsquo;t support replay.
-        <span class="zh">B 錯誤：SNS + SQS 展開分配事件，但 SQS 不保證順序且不支援重播。</span>
+      <li class="wrong">B is wrong: Tight coupling, write contention, doesn&rsquo;t buffer spikes cleanly.
+        <span class="zh">B 錯誤：緊耦合、寫入競爭，無法乾淨地緩衝尖峰。</span>
       </li>
-      <li class="wrong">D is wrong: EventBridge is excellent for event routing but does not support ordered processing or stream replay.
-        <span class="zh">D 錯誤：EventBridge 非常適合事件路由，但不支援有序處理或串流重播。</span>
+      <li class="wrong">D is wrong: Kinesis is for real-time streaming/analytics. If consumer is down, data may expire (default 24 hours).
+        <span class="zh">D 錯誤：Kinesis 用於即時串流/分析。消費者停機時，資料可能過期（預設 24 小時）。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 3 &mdash; A company hosts a web application in us-east-1. They want to set up disaster recovery in us-west-2 with an RTO of under 1 minute and an RPO of under 5 seconds. The database is MySQL. What should the solutions architect recommend?
+      <span class="zh">問題 3——某公司在 us-east-1 託管 Web 應用程式。他們想在 us-west-2 建立災難復原，RTO 需在 1 分鐘內，RPO 需在 5 秒內。資料庫為 MySQL。解決方案架構師應建議什麼？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Use RDS MySQL with a cross-region read replica; promote it manually on failover
+        <span class="zh">使用 RDS MySQL 搭配跨區域唯讀複本；容錯移轉時手動升級</span>
+      </li>
+      <li>Use Aurora MySQL with Aurora Global Database; promote the secondary region on failover
+        <span class="zh">使用 Aurora MySQL 搭配 Aurora 全球資料庫；容錯移轉時升級次要區域</span>
+      </li>
+      <li>Use RDS MySQL Multi-AZ; enable automated backups to S3 with cross-region replication
+        <span class="zh">使用 RDS MySQL 多可用區域；啟用自動備份至 S3 並搭配跨區域複寫</span>
+      </li>
+      <li>Use DynamoDB Global Tables with a Lambda-backed read/write API
+        <span class="zh">使用 DynamoDB 全球資料表搭配 Lambda 支援的讀寫 API</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
+    <ul class="answer-detail">
+      <li class="correct">B is correct: Aurora Global Database replicates with &lt;1 second lag (RPO ~1s) and can be promoted in &lt;1 minute. Exactly meets requirements.
+        <span class="zh">B 正確：Aurora 全球資料庫複寫延遲 &lt;1 秒（RPO 約 1 秒），可在 &lt;1 分鐘內升級。完全符合需求。</span>
+      </li>
+      <li class="wrong">A is wrong: RDS cross-region replica uses asynchronous replication with no guaranteed lag. Promotion takes several minutes.
+        <span class="zh">A 錯誤：RDS 跨區域複本使用非同步複寫，無法保證延遲。升級需要數分鐘。</span>
+      </li>
+      <li class="wrong">C is wrong: Multi-AZ operates within a single region only.
+        <span class="zh">C 錯誤：多可用區域僅在單一區域內運作。</span>
+      </li>
+      <li class="wrong">D is wrong: DynamoDB Global Tables is for NoSQL. The database is MySQL &mdash; changing engine is not in scope.
+        <span class="zh">D 錯誤：DynamoDB 全球資料表用於 NoSQL。資料庫為 MySQL——變更資料庫引擎不在範圍內。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 4 &mdash; A solutions architect is designing a static website for a global audience. The site must be highly available, load quickly worldwide, and be resilient to traffic spikes. The company wants minimal operational overhead. Which solution meets these requirements?
+      <span class="zh">問題 4——解決方案架構師正在為全球受眾設計靜態網站。網站必須具有高可用性、在全球快速載入，並能承受流量激增。公司希望將營運負荷降至最低。哪個方案符合這些需求？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Deploy EC2 instances in multiple regions behind Route 53 latency-based routing
+        <span class="zh">在多個區域部署 EC2 執行個體，搭配 Route 53 延遲型路由</span>
+      </li>
+      <li>Host the website on S3 with static website hosting enabled and distribute via CloudFront
+        <span class="zh">在 S3 上啟用靜態網站託管，並透過 CloudFront 分發</span>
+      </li>
+      <li>Use an ALB with an Auto Scaling Group across multiple AZs in a single region
+        <span class="zh">在單一區域的多個可用區域使用 ALB 搭配 Auto Scaling 群組</span>
+      </li>
+      <li>Deploy the website on Elastic Beanstalk with multi-region failover
+        <span class="zh">在 Elastic Beanstalk 上部署網站並搭配多區域容錯移轉</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
+    <ul class="answer-detail">
+      <li class="correct">B is correct: S3 is inherently multi-AZ durable. CloudFront caches at edge locations globally. No servers to manage.
+        <span class="zh">B 正確：S3 本身具有多可用區域持久性。CloudFront 在全球邊緣位置快取。無需管理伺服器。</span>
+      </li>
+      <li class="wrong">A is wrong: EC2 in multiple regions introduces significant operational overhead.
+        <span class="zh">A 錯誤：多個區域的 EC2 引入大量營運負荷。</span>
+      </li>
+      <li class="wrong">C is wrong: Single-region ALB + ASG fails entirely if the region goes down.
+        <span class="zh">C 錯誤：單一區域 ALB + ASG 在區域停機時完全失效。</span>
+      </li>
+      <li class="wrong">D is wrong: Elastic Beanstalk still requires compute management and isn&rsquo;t optimal for static content.
+        <span class="zh">D 錯誤：Elastic Beanstalk 仍需要運算管理，且不適合靜態內容。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 5 &mdash; A company&rsquo;s application uses an Auto Scaling Group behind an ALB. The health check is set to EC2 type. During a recent incident, the application process on an EC2 instance crashed, but the instance remained running. The ALB routed traffic to the crashed instance, causing errors. What should be done to prevent this?
+      <span class="zh">問題 5——某公司的應用程式在 ALB 後方使用 Auto Scaling 群組。運作狀態檢查設定為 EC2 類型。最近一次事故中，EC2 執行個體上的應用程式程序當機，但執行個體仍在運作。ALB 將流量路由至當機的執行個體，導致錯誤。應如何防止此情況？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Enable detailed CloudWatch monitoring on the ASG
+        <span class="zh">在 ASG 上啟用詳細的 CloudWatch 監控</span>
+      </li>
+      <li>Change the ASG health check type to ELB
+        <span class="zh">將 ASG 運作狀態檢查類型變更為 ELB</span>
+      </li>
+      <li>Set the ASG cooldown period to 60 seconds
+        <span class="zh">將 ASG 冷卻期間設定為 60 秒</span>
+      </li>
+      <li>Configure the ALB to use connection draining
+        <span class="zh">設定 ALB 使用連線耗盡</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
+    <ul class="answer-detail">
+      <li class="correct">B is correct: ELB health checks test the application endpoint. When the app crashes but the instance stays up, ELB detects the unhealthy response and the ASG replaces the instance.
+        <span class="zh">B 正確：ELB 運作狀態檢查測試應用程式端點。當應用程式當機但執行個體仍在運作時，ELB 偵測到不健康的回應，ASG 便取代該執行個體。</span>
+      </li>
+      <li class="wrong">A is wrong: CloudWatch monitoring provides metrics visibility but doesn&rsquo;t trigger instance replacement.
+        <span class="zh">A 錯誤：CloudWatch 監控提供指標可見性，但不會觸發執行個體取代。</span>
+      </li>
+      <li class="wrong">C is wrong: Cooldown controls scaling frequency, not health check behavior.
+        <span class="zh">C 錯誤：冷卻控制擴展頻率，而非運作狀態檢查行為。</span>
+      </li>
+      <li class="wrong">D is wrong: Connection draining handles in-flight requests during scale-in, but doesn&rsquo;t detect or remove unhealthy instances.
+        <span class="zh">D 錯誤：連線耗盡處理縮減期間的進行中請求，但不偵測或移除狀況不佳的執行個體。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 6 &mdash; A company processes financial transactions. Each transaction triggers multiple downstream actions: update a database, send a confirmation email, and log to an analytics platform. These actions are independent and must all occur reliably. If one consumer fails, others must not be blocked. What is the most resilient architecture?
+      <span class="zh">問題 6——某公司處理金融交易。每筆交易觸發多個下游動作：更新資料庫、發送確認電子郵件以及記錄至分析平台。這些動作是獨立的，且必須全部可靠地發生。如果一個消費者失敗，其他消費者不得被阻塞。最具彈性的架構是什麼？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>Publish the transaction to a single SQS queue; each consumer polls the same queue
+        <span class="zh">將交易發布至單一 SQS 佇列；每個消費者輪詢同一佇列</span>
+      </li>
+      <li>Publish the transaction to an SNS topic; each downstream service subscribes with its own SQS queue (fan-out pattern)
+        <span class="zh">將交易發布至 SNS 主題；每個下游服務透過自己的 SQS 佇列訂閱（扇出模式）</span>
+      </li>
+      <li>Send the transaction directly to each downstream service via synchronous API calls
+        <span class="zh">透過同步 API 呼叫直接將交易傳送至每個下游服務</span>
+      </li>
+      <li>Write the transaction to S3 and trigger three separate Lambda functions with S3 event notifications
+        <span class="zh">將交易寫入 S3 並透過 S3 事件通知觸發三個獨立的 Lambda 函數</span>
+      </li>
+    </ol>
+    <div class="answer-label">Answer: B <span class="zh">答案：B</span></div>
+    <ul class="answer-detail">
+      <li class="correct">B is correct: The SNS + SQS fan-out pattern decouples producers from consumers. Each consumer gets its own durable SQS queue, so a failure in one consumer does not affect others. Messages are retained in SQS until successfully processed.
+        <span class="zh">B 正確：SNS + SQS 扇出模式將生產者與消費者解耦。每個消費者都有自己的持久 SQS 佇列，因此一個消費者的失敗不會影響其他消費者。訊息保留在 SQS 中，直到成功處理。</span>
+      </li>
+      <li class="wrong">A is wrong: A single queue means only one consumer reads each message &mdash; you cannot fan-out to multiple independent consumers reliably.
+        <span class="zh">A 錯誤：單一佇列意味著只有一個消費者讀取每條訊息——無法可靠地扇出至多個獨立消費者。</span>
+      </li>
+      <li class="wrong">C is wrong: Synchronous calls create tight coupling. If one downstream service is slow or fails, it blocks the transaction and can cause cascading failures.
+        <span class="zh">C 錯誤：同步呼叫建立緊密耦合。如果一個下游服務緩慢或失敗，它會阻塞交易並可能導致串聯故障。</span>
+      </li>
+      <li class="wrong">D is wrong: S3 event notifications can trigger up to 1 notification per event, and the pattern adds unnecessary S3 latency and storage cost for real-time transaction processing.
+        <span class="zh">D 錯誤：S3 事件通知每個事件最多可觸發 1 個通知，且此模式為即時交易處理增加了不必要的 S3 延遲和儲存成本。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="question-block">
+    <div class="question-text">Question 7 &mdash; A company runs a multi-step order fulfillment workflow: validate order, charge payment, reserve inventory, and ship. If any step fails, the entire workflow must roll back. Each step calls a different microservice. Some steps take up to 30 minutes. Which AWS service is best suited for orchestrating this workflow?
+      <span class="zh">問題 7——某公司執行多步驟訂單履行工作流程：驗證訂單、收費付款、預留庫存和出貨。如果任何步驟失敗，整個工作流程必須回滾。每個步驟呼叫不同的微服務。某些步驟最多需要 30 分鐘。哪個 AWS 服務最適合協調此工作流程？</span>
+    </div>
+    <ol class="options" type="A">
+      <li>AWS Step Functions Standard Workflow <span class="zh">AWS Step Functions 標準工作流程</span></li>
+      <li>AWS Step Functions Express Workflow <span class="zh">AWS Step Functions Express 工作流程</span></li>
+      <li>Amazon SQS FIFO queue with a Lambda orchestrator <span class="zh">具有 Lambda 協調器的 Amazon SQS FIFO 佇列</span></li>
+      <li>Amazon EventBridge with multiple rules chained together <span class="zh">多個規則鏈接的 Amazon EventBridge</span></li>
+    </ol>
+    <div class="answer-label">Answer: A <span class="zh">答案：A</span></div>
+    <ul class="answer-detail">
+      <li class="correct">A is correct: Step Functions Standard Workflows support long-running workflows (up to 1 year), guarantee exactly-once execution of each state, support error handling with retry/catch, and can implement saga-pattern rollbacks using compensating transactions.
+        <span class="zh">A 正確：Step Functions 標準工作流程支援長時間執行的工作流程（最長 1 年），保證每個狀態的精確一次執行，支援具有重試/捕捉的錯誤處理，並可使用補償交易實作 saga 模式回滾。</span>
+      </li>
+      <li class="wrong">B is wrong: Express Workflows have a maximum duration of 5 minutes &mdash; too short for steps that can take up to 30 minutes.
+        <span class="zh">B 錯誤：Express 工作流程最長持續時間為 5 分鐘——對於最多需要 30 分鐘的步驟而言太短。</span>
+      </li>
+      <li class="wrong">C is wrong: Building orchestration logic into a Lambda function is brittle, hard to maintain, and lacks built-in state management, retry logic, and visual debugging.
+        <span class="zh">C 錯誤：將協調邏輯建置至 Lambda 函數中很脆弱，難以維護，且缺乏內建狀態管理、重試邏輯和視覺化除錯。</span>
+      </li>
+      <li class="wrong">D is wrong: EventBridge is event-driven routing, not a workflow orchestrator. It cannot track state across multiple steps, handle retries with backoff, or implement rollback logic natively.
+        <span class="zh">D 錯誤：EventBridge 是事件驅動路由，不是工作流程協調器。它無法跨多個步驟追蹤狀態、處理帶退避的重試，或本機實作回滾邏輯。</span>
       </li>
     </ul>
   </div>
